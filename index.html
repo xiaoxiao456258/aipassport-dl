@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 4.9.14<span class="tag">2026-11-20</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 4.9.15<span class="tag">2026-11-20</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 4.9.14 <span class="tag">最新</span></div>
-        <div class="meta">真修「连上一会儿断开一会儿」：关热点不再调 WiFi.mode()（上次只换了写法，<code>softAPdisconnect(true)</code> 内部照样切模式重启驱动）· 开机固定 APSTA · status 加 up/rr 分辨重启还是掉线</div>
+        <div class="name">固件 4.9.15 <span class="tag">最新</span></div>
+        <div class="meta">上一版已经把「连上又断开」修掉了（实测 <code>disc:0</code>，一次都没断）。这版只加诊断：抓取失败时把响应体的头尾各打一段，用来分辨是<b>半截 JSON</b>、<b>风控页</b>还是<b>空数据</b></div>
       </div>
     </div>
-    <a class="btn" data-file="v4.9.14_app.bin" href="./v4.9.14_app.bin" download>v4.9.14_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 71dd9307aacb9118516dfb37946a9305db94c805c0d32780b74c508a02bc07a8</div>
-    <a class="btn ghost" data-file="v4.9.14_full.bin" href="./v4.9.14_full.bin" download>v4.9.14_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 f0fb66b02159541802f3e9b8af29a5dcd473cd233cad0628b263ec65680310eb</div>
+    <a class="btn" data-file="v4.9.15_app.bin" href="./v4.9.15_app.bin" download>v4.9.15_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 673fa1ea619c8242c6b770a00b74eee2106e052c2b202d1f1837cccb3bef16b9</div>
+    <a class="btn ghost" data-file="v4.9.15_full.bin" href="./v4.9.15_full.bin" download>v4.9.15_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 a72a44bce60e350b2489a7daab172953f16a6938103761601f1ad02a37cc7d47</div>
   </div>
 
   <div class="card">
@@ -91,9 +91,9 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@df2647b589b58049c71b8845dc0411523890a220/v4.9.14_app.bin" download>v4.9.14_app.bin（加速 · 手机 OTA 用）</a>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@df2647b589b58049c71b8845dc0411523890a220/v4.9.15_app.bin" download>v4.9.15_app.bin（加速 · 手机 OTA 用）</a>
     <div class="hash">下完核对：1,641,936 字节 · sha256 71dd9307…07a8</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@df2647b589b58049c71b8845dc0411523890a220/v4.9.14_full.bin" download>v4.9.14_full.bin（加速 · 整片）</a>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@df2647b589b58049c71b8845dc0411523890a220/v4.9.15_full.bin" download>v4.9.15_full.bin（加速 · 整片）</a>
     <div class="hash">下完核对：1,707,472 字节 · sha256 f0fb66b0…10eb</div>
   </div>
 
@@ -101,14 +101,14 @@
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 4.9.13（回退备用）</div>
-        <div class="meta">上次的「修复版」：只换了写法，关热点仍会切 WiFi.mode() → STA 每 2 分钟掉一次</div>
+        <div class="name">固件 4.9.14（回退备用）</div>
+        <div class="meta">真修「连上一会儿断开一会儿」的那版：关热点只清 AP 配置、不碰 WiFi.mode()，开机固定 APSTA</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v4.9.13_app.bin" href="./v4.9.13_app.bin" download>v4.9.13_app.bin（1.56 MB）</a>
-    <div class="hash">sha256 5aa4f91c6d14f4ebee7be3494d5b7be90844f74161dd83fd28f0501891d7a6e9</div>
-    <a class="btn ghost" data-file="v4.9.13_full.bin" href="./v4.9.13_full.bin" download>v4.9.13_full.bin（1.62 MB）</a>
-    <div class="hash">sha256 084acf7f8202676ad43c42e0ac1d56c38caeb00610debcb14ce45fe77e2523dc</div>
+    <a class="btn ghost" data-file="v4.9.14_app.bin" href="./v4.9.14_app.bin" download>v4.9.14_app.bin（1.57 MB）</a>
+    <div class="hash">sha256 71dd9307aacb9118516dfb37946a9305db94c805c0d32780b74c508a02bc07a8</div>
+    <a class="btn ghost" data-file="v4.9.14_full.bin" href="./v4.9.14_full.bin" download>v4.9.14_full.bin（1.63 MB）</a>
+    <div class="hash">sha256 f0fb66b02159541802f3e9b8af29a5dcd473cd233cad0628b263ec65680310eb</div>
   </div>
 
   <div class="card">
@@ -162,24 +162,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v4.9.14_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v4.9.15_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v4.9.14_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v4.9.15_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v4.9.14_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v4.9.15_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v4.9.14_full.bin</code>（1.61 MB）。</li>
+      <li>下 <code>v4.9.15_full.bin</code>（1.61 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v4.9.14_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v4.9.15_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -189,10 +189,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v4.9.14_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v4.9.15_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v4.9.14_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v4.9.15_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -217,7 +217,17 @@
   </div>
 
   <div class="card">
-    <h2>固件 4.9.14 改了什么（本次）—— 「连上一会儿断开一会儿」真因</h2>
+    <h2>固件 4.9.15 改了什么（本次）—— 抓取失败时把响应体拍下来</h2>
+    <div class="kv"><span>4.9.14 的修复已验收</span><span>实测回传：<code>disc:0</code>、<code>discR:0</code>、<code>fwMode:3</code>、<code>up:575</code>。日志里 <code>[ap] 关窗（只清 AP 配置，STA 不动）</code> 后面<b>再没有</b> <code>[wifi] STA 断开</code>。<b>「连上又断开」这个话题到此结案</b></span></div>
+    <div class="kv"><span>剩下的真问题</span><span>不是断网，是抓行情时好时坏：日志里成片出现 <code>[emN] 200 但无有效数据 5418B / 5098B / 5367B</code>，成功时是 <code>OK 6404B</code>。HTTP 是 200、字节也收到了，但一只股票都解析不出来</span></div>
+    <div class="kv"><span>为什么以前查不动</span><span>光有「5418B」这一个数字，三种完全不同的原因分辨不出来：① body 被截断（读一半卡住）② 拿到的是风控页/劫持页 ③ 是完整 JSON 但里面没有数据。<b>三种的修法互斥，猜错就是又白改一版</b></span></div>
+    <div class="kv"><span>这版加的东西</span><span>解析失败时把响应体<b>头 80 字节 + 尾 40 字节</b>打进日志（不可打印字符换成 <code>.</code>），并标出首字节。看一眼就能定性</span></div>
+    <div class="kv"><span>判据</span><span>头是 <code>{</code> 且尾是 <code>}</code> → 完整 JSON，问题在口径/停牌<br>头是 <code>{</code> 但尾不是 → <b>半截 JSON</b>，链路或射频把连接掐了<br>头不是 <code>{</code>（常见 <code>&lt;</code>） → 风控页 / 运营商劫持</span></div>
+    <div class="kv"><span>怎么用</span><span>刷完等两三轮抓取，照旧发 <code>/api/v1/log</code>。新增日志形如 <code>[em1] 头[7B] {"rc":0,...</code> 与 <code>[em1] 尾 ...}</code></span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.14 改了什么（上一版）—— 「连上一会儿断开一会儿」真因</h2>
     <div class="kv"><span>上一版为什么没修好</span><span>4.9.13 关窗改成了 <code>WiFi.softAPdisconnect(true)</code>，注释写「只关 AP、不动 STA」。<b>参数 <code>true</code> 恰恰就是"把整个 WiFi 关掉再重开"</b>，动作跟被删掉的 <code>WiFi.mode(WIFI_STA)</code> 完全一样</span></div>
     <div class="kv"><span>源码链路</span><span><code>softAPdisconnect(true)</code> → <code>WiFi.enableAP(false)</code>（WiFiAP.cpp:231）→ <code>mode(APSTA &amp; ~AP) = WIFI_STA</code>（WiFiGeneric.cpp:1348）→ <code>esp_wifi_set_mode()</code>。IDF 在 WiFi 已启动时调 set_mode 会内部 <b>stop → set → start</b>，整个驱动重启</span></div>
     <div class="kv"><span>所以现象是这样来的</span><span>AP 窗口默认 2 分钟，到期关窗 → 驱动重启 → STA 掉线 → 15~25s 重连 → 恢复 → 再开窗/再到期 → 再掉。<b>每 2 分钟自踢一次，完全是代码自己干的</b></span></div>
