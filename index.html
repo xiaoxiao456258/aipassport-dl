@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 4.9.15<span class="tag">2026-11-20</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 4.9.16<span class="tag">2026-11-20</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 4.9.15 <span class="tag">最新</span></div>
-        <div class="meta">上一版已经把「连上又断开」修掉了（实测 <code>disc:0</code>，一次都没断）。这版只加诊断：抓取失败时把响应体的头尾各打一段，用来分辨是<b>半截 JSON</b>、<b>风控页</b>还是<b>空数据</b></div>
+        <div class="name">固件 4.9.16 <span class="tag">最新</span></div>
+        <div class="meta">治「抓一半就断」：响应 6.4 KB <b>大于</b> ESP32-C3 的接收窗口 5.76 KB，每次都会撞窗口边缘，丢在尾巴上又没有 dupACK，快速重传永不触发 → 只能干等服务器重传。这版把响应压到<b>一个窗口内</b>：请求按 secid 去重（池里 80 行有 10 只重复）+ 名称字段不再每次都取</div>
       </div>
     </div>
-    <a class="btn" data-file="v4.9.15_app.bin" href="./v4.9.15_app.bin" download>v4.9.15_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 673fa1ea619c8242c6b770a00b74eee2106e052c2b202d1f1837cccb3bef16b9</div>
-    <a class="btn ghost" data-file="v4.9.15_full.bin" href="./v4.9.15_full.bin" download>v4.9.15_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 a72a44bce60e350b2489a7daab172953f16a6938103761601f1ad02a37cc7d47</div>
+    <a class="btn" data-file="v4.9.16_app.bin" href="./v4.9.16_app.bin" download>v4.9.16_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 9e7e1ec67ecea668fe57fb5acae27dd114ddd8d04b42c032c241ff831cf8e630</div>
+    <a class="btn ghost" data-file="v4.9.16_full.bin" href="./v4.9.16_full.bin" download>v4.9.16_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 e2511cbc153bc3897d6b4320534b1c5c779a7ab7dc307f75c6d1ab25acf84397</div>
   </div>
 
   <div class="card">
@@ -91,24 +91,24 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@afc63eb1c310140346eeb16f7a92dd35d0692c43/v4.9.15_app.bin" download>v4.9.15_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,642,080 字节 · sha256 673fa1ea…16b9</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@afc63eb1c310140346eeb16f7a92dd35d0692c43/v4.9.15_full.bin" download>v4.9.15_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,707,616 字节 · sha256 a72a44bc…7d47</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@afc63eb1c310140346eeb16f7a92dd35d0692c43/v4.9.16_app.bin" download>v4.9.16_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,642,304 字节 · sha256 9e7e1ec6…e630</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@afc63eb1c310140346eeb16f7a92dd35d0692c43/v4.9.16_full.bin" download>v4.9.16_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,707,840 字节 · sha256 e2511cbc…4397</div>
   </div>
 
   <div class="card">
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 4.9.14（回退备用）</div>
-        <div class="meta">真修「连上一会儿断开一会儿」的那版：关热点只清 AP 配置、不碰 WiFi.mode()，开机固定 APSTA</div>
+        <div class="name">固件 4.9.15（回退备用）</div>
+        <div class="meta">修「连上又断开」已验收（<code>disc:0</code>）；这版加了 body 头尾诊断，抓取仍会跨窗口半截</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v4.9.14_app.bin" href="./v4.9.14_app.bin" download>v4.9.14_app.bin（1.57 MB）</a>
-    <div class="hash">sha256 71dd9307aacb9118516dfb37946a9305db94c805c0d32780b74c508a02bc07a8</div>
-    <a class="btn ghost" data-file="v4.9.14_full.bin" href="./v4.9.14_full.bin" download>v4.9.14_full.bin（1.63 MB）</a>
-    <div class="hash">sha256 f0fb66b02159541802f3e9b8af29a5dcd473cd233cad0628b263ec65680310eb</div>
+    <a class="btn ghost" data-file="v4.9.15_app.bin" href="./v4.9.15_app.bin" download>v4.9.15_app.bin（1.57 MB）</a>
+    <div class="hash">sha256 673fa1ea619c8242c6b770a00b74eee2106e052c2b202d1f1837cccb3bef16b9</div>
+    <a class="btn ghost" data-file="v4.9.15_full.bin" href="./v4.9.15_full.bin" download>v4.9.15_full.bin（1.63 MB）</a>
+    <div class="hash">sha256 a72a44bce60e350b2489a7daab172953f16a6938103761601f1ad02a37cc7d47</div>
   </div>
 
   <div class="card">
@@ -162,24 +162,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v4.9.15_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v4.9.16_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v4.9.15_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v4.9.16_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v4.9.15_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v4.9.16_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v4.9.15_full.bin</code>（1.61 MB）。</li>
+      <li>下 <code>v4.9.16_full.bin</code>（1.61 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v4.9.15_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v4.9.16_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -189,10 +189,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v4.9.15_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v4.9.16_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v4.9.15_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v4.9.16_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -217,7 +217,16 @@
   </div>
 
   <div class="card">
-    <h2>固件 4.9.15 改了什么（本次）—— 抓取失败时把响应体拍下来</h2>
+    <h2>固件 4.9.16 改了什么（本次）—— 把响应压进一个 TCP 窗口</h2>
+    <div class="kv"><span>真因（专家定位）</span><span>ESP32-C3 的 lwIP 接收窗口 <code>TCP_WND = 5760 B</code>，而一次抓 80 只的响应是 <code>6404 B</code> + 头 ~350 B = <b>6754 B</b>。<b>响应比窗口还大</b>，所以每次都必须跨窗口：服务器发满 5760 就得停下等我们开窗。一旦第一个窗口里丢了段，缺口后面没有足够的段产生 dupACK，<b>快速重传永不触发</b>，只能等服务器自己的 RTO/persist（几十毫秒起、逐次翻倍）。我们的空闲闸 2500 ms 先到 → 拿到半截 JSON。实测三次截断 <code>5418 / 5367 / 5098</code> 全贴在窗口边缘（5760 − 头 ≈ 5460）下方，正是这个机制。</span></div>
+    <div class="kv"><span>改法 1：请求按 secid 去重</span><span>池子允许「同代码多行」（分批持仓），但行情完全一样。80 行里实际只有 <b>70 个唯一 secid</b>，重复的 10 个纯属白传。请求只发唯一的，解析仍遍历整池，重复行照样各自拿到同一份行情 —— <b>功能零变化</b></span></div>
+    <div class="kv"><span>改法 2：名称字段常态不取</span><span><code>f14</code> 占约 15 B/只。名称池里已经持久化过，没必要每 5 秒重取。改为：<b>任一行名字为空</b>，或<b>距上次全量超过 30 分钟</b>时才带 <code>f14</code>（防改名 / ST）</span></div>
+    <div class="kv"><span>体积变化</span><span>6754 B → <b>约 4.9 KB</b>，小于 5760 B 窗口，<b>一次发完、服务器随即 FIN</b>，不存在“窗口关了在等开窗”的死角</span></div>
+    <div class="kv"><span>刷完怎么看</span><span><code>/api/v1/log</code> 里 <code>[em3] OK</code> 后面的字节数应从 <code>6404B</code> 变成 <code>约 4800~5000B</code>；<code>[emN] 200 但无有效数据</code> 应明显减少。名字若显示不全，等 30 分钟自动补，或断电重启触发首次全量</span></div>
+    <div class="kv"><span>体积</span><span>app 1,642,304 B（sha256 <code>9e7e1ec6…e630</code>）· full 1,707,840 B（<code>e2511cbc…4397</code>）· Flash 93.6%</span></div>
+
+  <div class="card">
+    <h2>固件 4.9.15 改了什么（上一版）—— 抓取失败时把响应体拍下来</h2>
     <div class="kv"><span>4.9.14 的修复已验收</span><span>实测回传：<code>disc:0</code>、<code>discR:0</code>、<code>fwMode:3</code>、<code>up:575</code>。日志里 <code>[ap] 关窗（只清 AP 配置，STA 不动）</code> 后面<b>再没有</b> <code>[wifi] STA 断开</code>。<b>「连上又断开」这个话题到此结案</b></span></div>
     <div class="kv"><span>剩下的真问题</span><span>不是断网，是抓行情时好时坏：日志里成片出现 <code>[emN] 200 但无有效数据 5418B / 5098B / 5367B</code>，成功时是 <code>OK 6404B</code>。HTTP 是 200、字节也收到了，但一只股票都解析不出来</span></div>
     <div class="kv"><span>为什么以前查不动</span><span>光有「5418B」这一个数字，三种完全不同的原因分辨不出来：① body 被截断（读一半卡住）② 拿到的是风控页/劫持页 ③ 是完整 JSON 但里面没有数据。<b>三种的修法互斥，猜错就是又白改一版</b></span></div>
