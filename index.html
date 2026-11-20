@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 4.9.17<span class="tag">2026-11-20</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 4.9.18<span class="tag">2026-11-20</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 4.9.17 <span class="tag">最新</span></div>
-        <div class="meta">一次改全：①<b>半截不再算成功</b>——实收必须等于 Content-Length，否则记账、进熔断；②body 空闲闸 2.5s→6s，覆盖服务器 RTO 补发的秒级恢复；③<b>每轮只打一个源</b>，失败才顺延（失败成本 55s→15s，请求数降到 1/4，别再把 TIME_WAIT 打满）；④<b>彻底去掉 f14</b>，主响应恒定 ~4.5 KB，名称改独立小请求补；⑤看门狗改用软复位，<b>不再每 10s 抹掉熔断</b>；⑥新增覆盖率 cov，<0.8 只算 partial 不算健康</div>
+        <div class="name">固件 4.9.18 <span class="tag">最新</span></div>
+        <div class="meta">架构收敛（不改 4.9.17 的出数逻辑）：①<b>开机自检不再写 flash</b>（守住「只在保存配置/学名时写盘」红线）；②诊断与抓取的跨任务标志加 <code>volatile</code>，避免点诊断时掐断正在抓的 socket；③复位请求收敛为<b>单一入口取最大值</b>，修多条件同帧互相降级；④诊断数据读<b>快照</b>，状态栏不再跨轮混值；⑤诊断 HTML 归位到门户；⑥<code>/status</code> 新增 <code>reason</code> 失败原因码；⑦注释全部订正到真值。<b>裸 socket 重写(W-11)本版降级未做</b>，三套退避仅做低风险收敛。</div>
       </div>
     </div>
-    <a class="btn" data-file="v4.9.17_app.bin" href="./v4.9.17_app.bin" download>v4.9.17_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 eef27ddce86a612a9378328f807ca22ecac457a44977da763ac58936b9d4e4a7</div>
-    <a class="btn ghost" data-file="v4.9.17_full.bin" href="./v4.9.17_full.bin" download>v4.9.17_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 a707fd4af7d9969f8015f139cd474b73f0ac2f928fdc8202d4ca18a8b9104002</div>
+    <a class="btn" data-file="v4.9.18_app.bin" href="./v4.9.18_app.bin" download>v4.9.18_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 42aa9a3a99b24e7d120b489025e46cd8df45e3da3c25aa14af1b5110b8eb2840</div>
+    <a class="btn ghost" data-file="v4.9.18_full.bin" href="./v4.9.18_full.bin" download>v4.9.18_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 52fc48264602db33f7dd5fd9063d926b9601fe2e5805012a22ae54cfb1729f71</div>
   </div>
 
   <div class="card">
@@ -91,24 +91,24 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@aac41536dca57574b57800af0ae39728467d7e19/v4.9.17_app.bin" download>v4.9.17_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,646,720 字节 · sha256 eef27ddc…e4a7</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@aac41536dca57574b57800af0ae39728467d7e19/v4.9.17_full.bin" download>v4.9.17_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,712,256 字节 · sha256 a707fd4a…4002</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PIN_SHA/v4.9.18_app.bin" download>v4.9.18_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,647,520 字节 · sha256 42aa9a3a…b2840</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PIN_SHA/v4.9.18_full.bin" download>v4.9.18_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,713,056 字节 · sha256 52fc4826…9f71</div>
   </div>
 
   <div class="card">
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 4.9.16（回退备用）</div>
-        <div class="meta">把响应压进一个 TCP 窗口（secid 去重 + f14 常态不取），实测约 4.9 KB；但截断仍被当成功，且名称 30 分钟会回弹一次 6.4 KB</div>
+        <div class="name">固件 4.9.17（回退备用）</div>
+        <div class="meta">一次改全：半截不再算成功、每轮只打一个源、彻底去 f14、软复位不抹熔断、新增 cov。若 4.9.18 有兼容问题可退回此版</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v4.9.16_app.bin" href="./v4.9.16_app.bin" download>v4.9.16_app.bin（1.57 MB）</a>
-    <div class="hash">sha256 9e7e1ec67ecea668fe57fb5acae27dd114ddd8d04b42c032c241ff831cf8e630</div>
-    <a class="btn ghost" data-file="v4.9.16_full.bin" href="./v4.9.16_full.bin" download>v4.9.16_full.bin（1.63 MB）</a>
-    <div class="hash">sha256 e2511cbc153bc3897d6b4320534b1c5c779a7ab7dc307f75c6d1ab25acf84397</div>
+    <a class="btn ghost" data-file="v4.9.17_app.bin" href="./v4.9.17_app.bin" download>v4.9.17_app.bin（1.57 MB）</a>
+    <div class="hash">sha256 eef27ddce86a612a9378328f807ca22ecac457a44977da763ac58936b9d4e4a7</div>
+    <a class="btn ghost" data-file="v4.9.17_full.bin" href="./v4.9.17_full.bin" download>v4.9.17_full.bin（1.63 MB）</a>
+    <div class="hash">sha256 a707fd4af7d9969f8015f139cd474b73f0ac2f928fdc8202d4ca18a8b9104002</div>
   </div>
 
   <div class="card">
@@ -162,24 +162,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v4.9.17_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v4.9.18_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v4.9.17_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v4.9.18_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v4.9.17_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v4.9.18_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v4.9.17_full.bin</code>（1.61 MB）。</li>
+      <li>下 <code>v4.9.18_full.bin</code>（1.61 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v4.9.17_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v4.9.18_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -189,10 +189,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v4.9.17_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v4.9.18_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v4.9.17_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v4.9.18_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -217,7 +217,20 @@
   </div>
 
   <div class="card">
-    <h2>固件 4.9.17 改了什么（本次）—— 不再把半截当成功</h2>
+    <h2>固件 4.9.18 改了什么（本次）—— 架构收敛，不动出数逻辑</h2>
+    <div class="kv"><span>定位</span><span>4.9.17 已把「出数」修好，这版只做架构层收敛：<b>修红线违背 + 跨任务竞态 + 契约文档订正</b>，不改四道闸/熔断/f14/单源单发等任何已验证的出数逻辑</span></div>
+    <div class="kv"><span>① 自检不再写盘</span><span>开机导入自检原本每次都 <code>storageSave()</code> 写一次 flash，违反「写盘只在保存配置/学名」的红线。抽出 <code>storageSerialize()</code> 只编码不落盘，自检改用它，串口照样打印但 NVS 一个字节不写</span></div>
+    <div class="kv"><span>② 跨任务标志 volatile</span><span><code>s_getBusy</code>/<code>s_diagBusy</code> 原本是普通 <code>static bool</code>。诊断页在 loop 里读它，一旦读到过期的 false 就会 <code>s_ka.stop()</code> —— 把后台任务正在用的 socket 掐断，表现为点一次诊断就多一条假 <code>rsn=net</code></span></div>
+    <div class="kv"><span>③ 复位单一入口</span><span><code>s_netResetReq</code> 原本在 4 处直接赋值 1/2，同一帧多个条件满足时「最后写的胜出」，该全复位的被降级成软复位。收敛为 <code>fetchRequestReset(level)</code> 内部取最大值</span></div>
+    <div class="kv"><span>④ 诊断读快照</span><span><code>/status</code> 原来逐字段读 <code>g_diag</code>，可能读到「源是新一轮、cov 是旧一轮」的混合值。改为先 <code>memcpy</code> 快照再渲染。业务数据走 <code>s_stage*</code> 双缓冲，不受影响</span></div>
+    <div class="kv"><span>⑤ 诊断归位 + reason</span><span>诊断 HTML 从行情层移到门户层；数据源注册表暴露 getter。<code>/status</code> 新增 <code>reason</code> 失败原因码（截断/无数据/连不上等），排障不用再猜</span></div>
+    <div class="kv"><span>⑥ 契约订正</span><span><code>net.h</code> 的四道闸注释还停在 2000/3000/400/4500、熔断注释停在「3 连败 15s」—— 与真值 3000/6000/6000/15000、5 连败 30s 全部不符。已全部订正。这类「注释比代码还旧」最能误导后续维护</span></div>
+    <div class="kv"><span>本版没做</span><span><b>裸 lwIP socket 重写（W-11）降级</b>：<code>s_ka</code> 被 20+ 处共用、3s connect 真闸要推倒重来、且无法真机验证，收益只是失败判定速度而非成功率 —— 留在后续单独立项。三套退避合并也只做了低风险部分（reason 码落地），三个计数器未合并</span></div>
+    <div class="kv"><span>体积</span><span>app 1,647,520 B（sha256 <code>42aa9a3a…b2840</code>）· full 1,713,056 B（<code>52fc4826…9f71</code>）· Flash 93.6%，余 56 KB</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.17 改了什么（上一版）—— 不再把半截当成功</h2>
     <div class="kv"><span>病根回顾</span><span>4.9.16 把响应压到 ~4.9 KB 塞进一个窗口，但<b>截断仍然被当成健康源</b>：读到多少算多少，HTTP 200 就记账；「200 但一只都没解析出来」连失败都不计。于是熔断、退避、看门狗全都看不见故障 —— 设备一直在重打，一直在拿半截</span></div>
     <div class="kv"><span>① 完整性校验</span><span>body 实收必须等于 <code>Content-Length</code>，否则返回 <code>-3</code>、记入熔断与 <code>tr</code> 计数。<code>Content-Length</code> 改严格解析（<code>strtol</code> 校验），声明长度超出缓冲直接判失败，不再静默截断</span></div>
     <div class="kv"><span>② 闸门算术自洽</span><span>旧值 <code>connect 3s + header 8s + idle 2.5s = 13.5s</code> 已经超过总闸 12s —— 后两道闸等于没写。改为 <code>3 + 6 + 6 = 15s</code>，<b>空闲闸从 2.5s 抬到 6s</b>：窗口边缘丢段后服务器要靠 RTO/persist 补发，那是秒级，2.5s 的闸总在补发之前就把连接砍了</span></div>
