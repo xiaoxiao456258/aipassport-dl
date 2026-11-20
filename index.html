@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A股看板 · App 与固件下载</title>
+<style>
+  :root{
+    --ink:#111418; --sub:#5b6473; --line:#e4e7ec; --paper:#ffffff; --bg:#f5f6f8;
+    --accent:#c0392b; --accent-ink:#ffffff; --ghost:#eef0f3;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --ink:#f2f4f7; --sub:#98a2b3; --line:#252a33; --paper:#15181d; --bg:#0d0f12; --ghost:#1d222a; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.6; padding:20px 16px 40px;
+  }
+  .wrap{max-width:560px;margin:0 auto}
+  h1{font-size:20px;margin:4px 0 2px}
+  .sub{color:var(--sub);font-size:13px;margin-bottom:18px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+  .row{display:flex;align-items:center;gap:12px}
+  .icon{
+    width:46px;height:46px;border-radius:12px;background:var(--accent);color:var(--accent-ink);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex:0 0 auto;
+  }
+  .icon.alt{background:var(--ghost);color:var(--ink);font-size:13px}
+  .name{font-weight:600;font-size:16px}
+  .meta{color:var(--sub);font-size:12.5px}
+  .btn{
+    display:block;text-align:center;text-decoration:none;
+    background:var(--accent);color:var(--accent-ink);
+    padding:14px;border-radius:12px;font-weight:600;font-size:16px;margin-top:14px;
+  }
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-size:15px;padding:12px}
+  .btn:active{opacity:.85}
+  .hash{
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:var(--sub);
+    word-break:break-all;margin-top:10px
+  }
+  h2{font-size:14px;margin:0 0 10px}
+  ol{margin:0;padding-left:20px;font-size:13.5px}
+  li{margin-bottom:8px}
+  .warn{border-left:3px solid var(--accent);padding-left:12px;font-size:13px;color:var(--sub)}
+  .kv{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px dashed var(--line)}
+  .kv:last-child{border-bottom:0}
+  .kv span:last-child{color:var(--sub)}
+  code{background:rgba(127,127,127,.14);padding:1px 5px;border-radius:5px;font-size:12.5px}
+  .tag{display:inline-block;background:var(--ghost);color:var(--sub);border-radius:999px;padding:1px 8px;font-size:11.5px;margin-left:6px;vertical-align:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>A股看板 · App 与固件</h1>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 4.9.14<span class="tag">2026-11-20</span></div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon">A股</div>
+      <div>
+        <div class="name">AipassBoard v0.5.0</div>
+        <div class="meta">20.9 MB · Android 10 及以上 · 双池粘贴 · 自动找设备 · 不静默切 WiFi</div>
+      </div>
+    </div>
+    <a class="btn" data-file="AipassBoard_v0.5.apk" href="./AipassBoard_v0.5.apk" download>AipassBoard_v0.5.apk</a>
+    <div class="hash">sha256 f10d708e610b94918a3b2166c6e7bbcb9eccb1fea40715fe393e3f723c96ba18</div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon alt">FW</div>
+      <div>
+        <div class="name">固件 4.9.14 <span class="tag">最新</span></div>
+        <div class="meta">真修「连上一会儿断开一会儿」：关热点不再调 WiFi.mode()（上次只换了写法，<code>softAPdisconnect(true)</code> 内部照样切模式重启驱动）· 开机固定 APSTA · status 加 up/rr 分辨重启还是掉线</div>
+      </div>
+    </div>
+    <a class="btn" data-file="v4.9.14_app.bin" href="./v4.9.14_app.bin" download>v4.9.14_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 71dd9307aacb9118516dfb37946a9305db94c805c0d32780b74c508a02bc07a8</div>
+    <a class="btn ghost" data-file="v4.9.14_full.bin" href="./v4.9.14_full.bin" download>v4.9.14_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 f0fb66b02159541802f3e9b8af29a5dcd473cd233cad0628b263ec65680310eb</div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon alt">旧</div>
+      <div>
+        <div class="name">固件 4.9.13（回退备用）</div>
+        <div class="meta">上次的「修复版」：只换了写法，关热点仍会切 WiFi.mode() → STA 每 2 分钟掉一次</div>
+      </div>
+    </div>
+    <a class="btn ghost" data-file="v4.9.13_app.bin" href="./v4.9.13_app.bin" download>v4.9.13_app.bin（1.56 MB）</a>
+    <div class="hash">sha256 5aa4f91c6d14f4ebee7be3494d5b7be90844f74161dd83fd28f0501891d7a6e9</div>
+    <a class="btn ghost" data-file="v4.9.13_full.bin" href="./v4.9.13_full.bin" download>v4.9.13_full.bin（1.62 MB）</a>
+    <div class="hash">sha256 084acf7f8202676ad43c42e0ac1d56c38caeb00610debcb14ce45fe77e2523dc</div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon alt">旧</div>
+      <div>
+        <div class="name">固件 4.5.1（回退备用）</div>
+        <div class="meta">抓取后台化 + 超时宽松档 · 但仍是新浪→腾讯→东财三源串行，慢网下成功率不如 4.9</div>
+      </div>
+    </div>
+    <a class="btn ghost" data-file="v4.5.1_app.bin" href="./v4.5.1_app.bin" download>v4.5.1_app.bin（1.56 MB）</a>
+    <a class="btn ghost" data-file="v4.5.1_full.bin" href="./v4.5.1_full.bin" download>v4.5.1_full.bin（1.63 MB）</a>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon alt">旧</div>
+      <div>
+        <div class="name">固件 4.3.1（回退备用）</div>
+        <div class="meta">旧东财/腾讯双源 · 已修停更，但东财域名不可达时仍可能停更</div>
+      </div>
+    </div>
+    <a class="btn ghost" data-file="v4.3.1_app.bin" href="./v4.3.1_app.bin" download>v4.3.1_app.bin（1.56 MB）</a>
+    <a class="btn ghost" data-file="v4.3.1_full.bin" href="./v4.3.1_full.bin" download>v4.3.1_full.bin（1.62 MB）</a>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon alt">旧</div>
+      <div>
+        <div class="name">固件 4.3.0（回退备用）</div>
+        <div class="meta">2A 排版首版 · 连败熔断最长 5 分钟</div>
+      </div>
+    </div>
+    <a class="btn ghost" data-file="v4.3.0_app.bin" href="./v4.3.0_app.bin" download>v4.3.0_app.bin（1.56 MB）</a>
+    <a class="btn ghost" data-file="v4.3.0_full.bin" href="./v4.3.0_full.bin" download>v4.3.0_full.bin（1.62 MB）</a>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon alt">旧</div>
+      <div>
+        <div class="name">固件 3.8.0（回退备用）</div>
+        <div class="meta">18px 中文二值字库 · 深色夜间 · 六行满屏 · 5 秒刷新</div>
+      </div>
+    </div>
+    <a class="btn ghost" data-file="v3.8_app.bin" href="./v3.8_app.bin" download>v3.8_app.bin（1.53 MB）</a>
+    <a class="btn ghost" data-file="v3.8_full.bin" href="./v3.8_full.bin" download>v3.8_full.bin（1.65 MB）</a>
+  </div>
+
+  <div class="card">
+    <h2>最简单的刷法：不用电脑、不用数据线</h2>
+    <ol>
+      <li>先在上面下 <code>v4.9.14_app.bin</code>，存手机里。</li>
+      <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
+      <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
+      <li>点「选择文件」→ 选 <code>v4.9.14_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
+    </ol>
+    <div class="warn" style="margin-top:12px">
+      选文件只能选 <code>v4.9.14_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
+    <ol>
+      <li>下 <code>v4.9.14_full.bin</code>（1.61 MB）。</li>
+      <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
+      <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v4.9.14_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>有电脑时</h2>
+    <ol>
+      <li><code>pip install esptool</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v4.9.14_full.bin</code></li>
+    </ol>
+    <div class="warn" style="margin-top:12px">
+      只想升 app、不动分区表：<code>write_flash 0x10000 v4.9.14_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>安装 App（小米 / HyperOS）</h2>
+    <ol>
+      <li>点上面的按钮下载。若提示「此类型文件可能有害」，选<b>仍然下载</b>。</li>
+      <li>打开下载通知，或去「文件管理 → Download」点该 apk。</li>
+      <li>首次会提示<b>禁止安装未知来源应用</b> → 去设置里允许该浏览器安装 → 返回继续。</li>
+      <li>HyperOS 可能再弹风险扫描，选<b>继续安装</b>（自签包，正常）。</li>
+      <li>若报「签名不一致」：先卸载旧版再装（v0.3 → v0.5 包名没变）。</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>v0.5 改了什么</h2>
+    <div class="kv"><span>双池粘贴（代码池 + 持仓数池）</span><span>新增</span></div>
+    <div class="kv"><span>不再写死 192.168.4.1，自动扫局域网</span><span>新增</span></div>
+    <div class="kv"><span>不静默切手机当前 WiFi</span><span>已修</span></div>
+    <div class="kv"><span>手动填设备 IP</span><span>新增</span></div>
+    <div class="kv"><span>参数面板 / 股票池编辑 / OTA 上传</span><span>沿用</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.14 改了什么（本次）—— 「连上一会儿断开一会儿」真因</h2>
+    <div class="kv"><span>上一版为什么没修好</span><span>4.9.13 关窗改成了 <code>WiFi.softAPdisconnect(true)</code>，注释写「只关 AP、不动 STA」。<b>参数 <code>true</code> 恰恰就是"把整个 WiFi 关掉再重开"</b>，动作跟被删掉的 <code>WiFi.mode(WIFI_STA)</code> 完全一样</span></div>
+    <div class="kv"><span>源码链路</span><span><code>softAPdisconnect(true)</code> → <code>WiFi.enableAP(false)</code>（WiFiAP.cpp:231）→ <code>mode(APSTA &amp; ~AP) = WIFI_STA</code>（WiFiGeneric.cpp:1348）→ <code>esp_wifi_set_mode()</code>。IDF 在 WiFi 已启动时调 set_mode 会内部 <b>stop → set → start</b>，整个驱动重启</span></div>
+    <div class="kv"><span>所以现象是这样来的</span><span>AP 窗口默认 2 分钟，到期关窗 → 驱动重启 → STA 掉线 → 15~25s 重连 → 恢复 → 再开窗/再到期 → 再掉。<b>每 2 分钟自踢一次，完全是代码自己干的</b></span></div>
+    <div class="kv"><span>同款雷还埋在两个地方</span><span><code>WiFi.disconnect(true, false)</code> 的 <code>true</code> → <code>enableSTA(false)</code> → <code>mode(AP)</code>：不但重启驱动，还把 STA 从模式里摘掉，要等下一次 <code>begin()</code> 才补回来 —— 中间那段"怎么都连不上"就是它。改配置、强制重连两处都有</span></div>
+    <div class="kv"><span>修法 1：模式只定一次</span><span>开机 <code>WiFi.mode(WIFI_AP_STA)</code> 固定下来，<b>运行期全程序不再调 WiFi.mode()</b>。开窗 <code>WiFi.softAP()</code> 只改 AP 配置；关窗 <code>softAPdisconnect(false)</code> 只清 AP 配置（<code>wifioff=false</code> 不碰驱动）</span></div>
+    <div class="kv"><span>修法 2：disconnect 全部改 false</span><span>改 WiFi 配置、长时间连不上强制重连，都只断 STA 关联，不动模式、不动 AP 接口</span></div>
+    <div class="kv"><span>修法 3：有客户端不许关窗</span><span>关窗前判 <code>softAPgetStationNum()</code>，手机连着就不关（除非等满 2 分钟强关）。原来主循环直接关，绕过等待队列，正在传的数据全丢</span></div>
+    <div class="kv"><span>新增 up / rr / fwMode</span><span>以前分不清"WiFi 掉线"和"设备重启"——手机上看一模一样。现在 <code>/status</code>：<code>up</code>=开机秒数，<code>rr</code>=复位原因（1 上电 3 软件 4 panic 5 中断看门狗 6 任务看门狗 8 深睡 9 棕断），<code>fwMode</code>=当前 WiFi 模式（应为 3 = APSTA）。<b>up 很小而设备开了很久 = 重启，不是掉线</b></span></div>
+    <div class="kv"><span>日志能看见窗口了</span><span><code>power.cpp</code> 的开窗/关窗原来用 <code>log_i</code>，生产版全被编掉。<b>现在改 <code>DBG_*</code>，<code>/api/v1/log</code> 能直接看到 <code>[power] AP 窗口开启/关闭</code> 与 <code>[ap] 关窗（只清 AP 配置，STA 不动）</code></b></span></div>
+    <div class="kv"><span>怎么验收</span><span><code>/status</code> 里 <code>disc</code> 不再随时间猛涨、<code>fwMode:3</code> 恒定；<code>/log</code> 里若出现 <code>[ap] 关窗</code>，紧跟其后<b>不应再出现</b> <code>[wifi] STA 断开</code></span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.13 改了什么（上一版）—— 「连上一会儿断开一会儿」</h2>
+    <div class="kv"><span>根因</span><span><code>WiFi.mode()</code> 在 ESP32 上是 <b>stop → start 整个 WiFi 驱动</b>，STA 必然掉线重连。而 AP 开关这段代码里有两个地方无条件调它：开窗时 <code>WiFi.mode(WIFI_AP_STA)</code>、关窗时 <code>WiFi.mode(WIFI_STA)</code>。于是每次开/关窗 = STA 掉一次线，日志里只有一句轻描淡写的「[ap] 已关闭」</span></div>
+    <div class="kv"><span>第二个触发点</span><span>「AP 丢了重建」分支：只要 <code>softAPIP()</code> 读到 0 就重跑一遍 <code>WiFi.mode(AP_STA)</code>。STA 刚重连那一刻正是 APIP 还没恢复的时候 → 又踢一次 → 循环</span></div>
+    <div class="kv"><span>修法 1</span><span><code>WiFi.getMode() != WIFI_AP_STA</code> 才切 mode；关窗只做 <code>softAPdisconnect(true)</code>，<b>不动 STA</b></span></div>
+    <div class="kv"><span>修法 2</span><span>抓取失败时不再 <code>WiFi.disconnect()</code>。原来 <code>fetchFailStreak>=4</code> 每 60s 主动断一次重连，数据没恢复、WiFi 还反复掉。现在只在 STA 本身没连上且持续 120s 才重连</span></div>
+    <div class="kv"><span>修法 3</span><span>打开 <code>WiFi.setAutoReconnect(true)</code>，掉线由驱动自己恢复，不靠上层踢</span></div>
+    <div class="kv"><span>新增 disc / discR</span><span>注册 WiFi 事件回调，记录上电以来断开次数与最近一次原因码：15=四次握手超时 · 8=对端（手机热点）踢开 · 200=收不到 beacon · 3=认证超时 · 205=连接失败。<code>/status</code> 直接看，日志有 <code>[wifi] STA 断开 reason=n</code></span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.12 改了什么</h2>
+    <div class="kv"><span>对比结论</span><span>v1.7.7 每请求<strong>新建 socket</strong> + <code>Connection: close</code> + 读循环 10s；4.9.x 复用静态 socket（keep-alive）+ 零字节 900ms 砍 + 头闸 3s + 每口只 3.5~7s。慢链路上这些"优化"全在砍正在到的数据</span></div>
+    <div class="kv"><span>真 bug 1：setTimeout 单位</span><span><code>WiFiClient::setTimeout(seconds)</code> 形参是<strong>秒</strong>。旧代码传 <code>NET_CONNECT_MS=2000</code>，内部变成 2,000,000ms → 连接闸形同虚设，实测一次 connect 卡 18211ms，整轮预算一把烧光（日志那句「整轮预算用尽」就是它）。改用 <code>connect(ip, port, timeout_ms)</code></span></div>
+    <div class="kv"><span>真 bug 2：死连接判不出来</span><span><code>connected()</code> 用 <code>recv(...,MSG_DONTWAIT)</code> 判活，对端发 FIN 时返回 0 且 errno 为空 → 仍返回 true。keep-alive 复用的死 socket 发现不了，第一次尝试必然写进死连接。现在每次 <code>stop()</code> 后新建</span></div>
+    <div class="kv"><span>真 bug 3：请求可能没发完</span><span><code>write()</code> 是 select(20ms)+有限重试，可能只写一部分并静默返回。现在核对写入字节数，短写直接判失败（日志 <code>w=</code> 就是它）</span></div>
+    <div class="kv"><span>闸门重定</span><span>连接 3s（真闸）· 读头 8s · body 空闲 2.5s · 首口 14s / 后续口 12s · 整轮 55s</span></div>
+    <div class="kv"><span>熔断放宽</span><span>3 连败→15s 改成 5 连败→30s。原来等于把四个口轮流打成 OPEN，只剩半开单发探测 —— "偶尔通一下"就是它</span></div>
+    <div class="kv"><span>自愈降频</span><span>连败复位 20s→60s，看门狗 4→6 个间隔。原来每 15s 清一次 DNS 与熔断，退避永远长不起来</span></div>
+    <div class="kv"><span>停用 beacon 拉长</span><span>定量核算：beacon 占空比 1.75%、客户端轮询 0.25%，合计约 2%；6.7KB 响应只需 ~12ms 空口。富余两个数量级 → 4.9.11 的方向不成立，且 600 TU 有让手机掉 AP 的风险</span></div>
+    <div class="kv"><span>日志新增三个数</span><span><code>[em1] … w=1005 n=0 f=-1</code>：w=请求写出的字节 · n=收到的字节 · f=首字节时刻。零回包时靠这三个数区分「请求没发完」和「发完了对端不回」，不用再猜</span></div>
+    <div class="kv"><span>status 加 psReal</span><span>读驱动里真正生效的省电档（<code>esp_wifi_get_ps</code>）。原来的 <code>ps</code> 只是自己记的变量，不能证明驱动接受了</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.11 改了什么</h2>
+    <div class="kv"><span>4.9.10 的实测结果</span><span>同一轮里换了 5 个不同 CDN IP（61.129.129.196 / 47.112.165.11 / 43.144.251.121 / 117.184.40.129 / 115.231.230.218），TCP 全部 33~147ms 通，读响应头全部卡满 2.3~3s、零字节。<b>换 IP 完全无效，IP 假设排除</b></span></div>
+    <div class="kv"><span>真正的规律</span><span>回头翻日志：4.9.9 那次唯一成功 <code>[em1] OK 6450B 392ms</code> 发生在 <code>t=3238</code> —— <b>AP 还没开窗、没有任何 AP 客户端</b>的时刻。一旦手机连上热点看页面（<code>apClients:1</code>），抓取必定零回包</span></div>
+    <div class="kv"><span>机理</span><span>C3 单射频 APSTA 同信道靠分时：AP 每 102.4ms 必须发 beacon 并服务已连客户端，浏览器还在每 2s 轮询 /api/v1/status。STA 的连续 RX 窗口被切碎 —— 握手包能过（我们主动发 SYN，射频正对着 STA），几百字节的 HTTP 响应凑不齐</span></div>
+    <div class="kv"><span>改动</span><span>抓取窗口内把 AP beacon 间隔 100 → 600 TU（6 倍），抓完立刻恢复。客户端不掉线，射频占用大幅下降。<code>[net] 抓取开始 apClients=… ps=…</code> 写日志</span></div>
+    <div class="kv"><span>status 加 apCh</span><span>实际射频信道。<code>ch</code>（STA 信道）与 <code>apCh</code> 不相等 = APSTA 跨信道，收包必碎，是另一种故障</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.10 改了什么</h2>
+    <div class="kv"><span>定案证据</span><span>4.9.9 的 /api/v1/portal 里，东财 <code>58.221.54.26</code> 回了 <code>HTTP/1.1 418</code>、首字节 110ms、写入 151B —— <b>HTTP 回包是真能收到的</b>。同一次启动日志里 <code>[em1] OK 6450B 392ms</code>、<code>fetch-bg OK src=1</code>，行情直接就有了</span></div>
+    <div class="kv"><span>真凶</span><span>push2.eastmoney.com 是 CDN，每次解析给的 IP 不同：117.184.40.129 → 43.144.251.121 → 58.221.54.26。其中有的 IP 的 80 口在听（TCP 78ms 通）、但 HTTP 层被墙（零回包）。而 DNS 缓存<b>没有 TTL、永不重解</b> —— v4.9.4 删掉「每轮 netReset」之后，再没人清缓存。首次撞上黑洞 IP，就永久绑死在它上面：DNS 12ms、TCP 通、永远 0 字节</span></div>
+    <div class="kv"><span>修法 1：缓存加 TTL</span><span>DNS 缓存 5 分钟过期，过期强制重新解析（DNS_TTL_MS）</span></div>
+    <div class="kv"><span>修法 2：失败即丢该域名</span><span>同一 host 连败 2 次 → dnsForget() 丢掉缓存条目，下次真的去问 DNS 换 IP。只在失败时丢，不会退化成 4.9.4 那种每轮清空</span></div>
+    <div class="kv"><span>修法 3：同一次抓取内就换 IP</span><span>第一次零回包立刻 dnsForget + 第二次 attempt 前重解析，拿到新 IP 再连 —— 原来第二次只是「同 IP + HTTP/1.0」，CDN 给黑洞 IP 时换协议救不了</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.9 改了什么</h2>
+    <div class="kv"><span>尾斜杠别名</span><span>WebServer 的 URI 是精确匹配，<code>/api/v1/portal/</code> 不会命中 <code>/api/v1/portal</code>。手输地址多一个斜杠就 404 —— status / scan / diag / portal 四个只读口全部补上别名</span></div>
+    <div class="kv"><span>404 日志现网可见</span><span>原来用的是 log_w，被 CORE_DEBUG_LEVEL=0 编掉了，现网 404 一个字节都看不到。改 DBG_W 写 logBuf，打完错路径后 /api/v1/log 能直接看到 <code>[api] 404 GET /xxx</code></span></div>
+    <div class="kv"><span>portal 探测留痕</span><span>开始与结论都写日志（<code>[portal] 开始探测 gw=…</code> / <code>[portal] verdict=…</code>），接口到底有没有被调用一目了然</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.8 改了什么</h2>
+    <div class="kv"><span>结论先行</span><span>4.9.7 的 ps=2 已证明设备抓取时 WIFI_PS_NONE 生效，回包依然是 0 字节 —— 设备省电不是真凶。DNS（12ms）、TCP 握手（62~102ms）都通，只有 HTTP 载荷回不来，只剩「链路上被截走」这一种解释</span></div>
+    <div class="kv"><span>新增 /api/v1/portal</span><span>对网关自己发 HTTP（网关 80 / 网关 443 / 114DNS:80 / 东财 IP:80），各 2s，整体 8s 给结论</span></div>
+    <div class="kv"><span>verdict 判据</span><span>0 = 有目标回了正常 HTTP（链路通，问题在业务侧）；1 = 网关 80 回 2xx/3xx（未认证的 Portal 网关，去手机浏览器登一次即可）；2 = TCP 全通但 HTTP 全零字节（上级的 VPN/代理把 80 载荷吞进 TUN）</span></div>
+    <div class="kv"><span>HTTP/1.0 自动回退</span><span>第一次 HTTP/1.1 零字节失败后，第二次改用 HTTP/1.0 + Connection: close 重连再试。老式透明代理/旁路审计只放行 1.0，对 1.1 keep-alive 直接丢</span></div>
+    <div class="kv"><span>status 加 portal 字段</span><span>跑过一次 /api/v1/portal 后，结论随 /status 一直带着，不用每次重测（-1 未测）</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.7 改了什么</h2>
+    <div class="kv"><span>抓取窗口强制关 WiFi 省电</span><span>4.9.6 数据：TCP 握手成功、请求写入 96~151B，回包 0 字节；同时 UDP 53 直连公网 DNS 有应答。差别只在"发完包后射频还醒着没有"——MODEM sleep 下 STA 只按 DTIM 醒来，回包被缓冲区吃掉。抓取期间设 WIFI_PS_NONE，抓完立刻恢复原档</span></div>
+    <div class="kv"><span>零回包首字节快断</span><span>一个字节都没收到时 900ms 就断（原来死等 3s），把预算让给重连重试；第二轮不早断，避免误杀慢响应</span></div>
+    <div class="kv"><span>关 Nagle</span><span>100~200B 的 GET 不再被 Nagle 压着等 ACK</span></div>
+    <div class="kv"><span>/diag 给出 fbMs</span><span>第一个字节到达的时刻。fbMs 有值但晚 → 延迟型（省电/DTIM）；fbMs=-1 → 真黑洞</span></div>
+    <div class="kv"><span>/diag 默认不再跑 18s 的两条</span><span>192.0.2.1 / 223.5.5.5:81 已证明 TCP 是真通的，改到 ?full=1 才测</span></div>
+    <div class="kv"><span>status 加 ps / apClients</span><span>ps：0=MIN 1=MAX 2=抓取窗口关省电；apClients&gt;0 说明手机连在设备热点上，射频分时，网络结果要打折看</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.6 改了什么</h2>
+    <div class="kv"><span>UDP 直连公网 DNS（关键）</span><span>对 223.5.5.5 / 119.29.29.29 的 53 端口直接发 DNS 查询，绕过网关本地解析。有应答=公网 UDP 双向通；无应答=只有握手包能过，热点在代答 SYN</span></div>
+    <div class="kv"><span>请求写入字节数 wrote</span><span>区分"请求没发出去"与"发出去了对端不回"，不用抓包</span></div>
+    <div class="kv"><span>加 443 对比</span><span>同一域名再测 443。443 通而 80 不通 → 只拦明文 80，改 HTTPS 源</span></div>
+    <div class="kv"><span>不可达 IP 打假</span><span>192.0.2.1:80（公网永不路由）与 223.5.5.5:81（无服务）若也 tcpOk=true，SYN-ACK 是本地伪造</span></div>
+    <div class="kv"><span>回包 snip 取证</span><span>每行带实际收到的前 40 字节：空 / 认证页 HTML / 乱码，处理方式完全不同</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.5 改了什么</h2>
+    <div class="kv"><span>加 443 对比</span><span>同一批域名再测 443。若 443 通而 80 不通，说明热点/运营商只拦明文 80，方向改成 HTTPS 源</span></div>
+    <div class="kv"><span>给"TCP 能连"打假</span><span>测 192.0.2.1:80（公网永不路由）与 223.5.5.5:81（无服务）。若这两个也 tcpOk=true，SYN-ACK 是热点本地伪造的，TCP 通是假象</span></div>
+    <div class="kv"><span>回包 snip 取证</span><span>/diag 每条带 snip：实际收到的前 40 字节。空 / HTML 认证页 / 乱码，三种病处理完全不同</span></div>
+    <div class="kv"><span>探测项扩到 7 条</span><span>东财 80 · 百度 80 · MIUI 204 · 百度 443 · 192.0.2.1:80 · 223.5.5.5:81 · 223.5.5.5:80</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.4 改了什么</h2>
+    <div class="kv"><span>删掉"每轮失败必 netReset"</span><span>旧补丁每轮清 DNS 缓存 + 清熔断 + 抹掉 dnsForced，导致 4 个域名每轮重新解析、OPEN 永远建不起来，一轮白烧 17 秒</span></div>
+    <div class="kv"><span>新增 /api/v1/diag</span><span>对 5 个目标依次测 DNS→TCP→HTTP，各段耗时与状态码全列出：一眼看出死在"解不出名字 / 连不上 / 连上但不回"</span></div>
+    <div class="kv"><span>同时测两家无关站点</span><span>百度、MIUI 204 探测点，用来判断"是不是只有东财不通"</span></div>
+    <div class="kv"><span>裸 IP 直连</span><span>223.5.5.5 / 119.29.29.29 跳过 DNS 打 80，区分"DNS 被劫持"与"TCP 整体出不去"</span></div>
+    <div class="kv"><span>status 补 lastIp / phDns / phTcp / phHdr</span><span>最近解析到的 IP 与三段耗时，不用抓日志也能定层</span></div>
+    <div class="kv"><span>日志带分段耗时</span><span>[em1] -1 ip=… d=… t=… h=… …ms</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.2 改了什么</h2>
+    <div class="kv"><span>STA 连接永久卡死（真凶）</span><span>staConnecting 只有"连上"才复位，一次 begin 卡住就再也不重试 → 加了 25s 超时自弃</span></div>
+    <div class="kv"><span>新增 /api/v1/scan</span><span>列出附近热点：SSID / RSSI / 信道 / 加密方式，用来确认热点是否 2.4GHz、是否 WPA3</span></div>
+    <div class="kv"><span>status 补字段</span><span>staState（WiFi.status 原值）、wifiTries（重试次数）、cfgSsid（NVS 里存的名称）、cfgPassSet</span></div>
+    <div class="kv"><span>保留 4.9.1</span><span>DNS 兜底与"DNS 失败不计熔断"全部保留</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.1 改了什么</h2>
+    <div class="kv"><span>DNS 兜底</span><span>解析连败 2 次 → 强制改用 223.5.5.5 / 119.29.29.29 再试，手机热点不给 DNS 也能出网</span></div>
+    <div class="kv"><span>DNS 失败不再计熔断</span><span>以前 DNS 一挂，4 个东财口同时被熔断 15s→60s，屏幕长期 --:--:--；现在只重试不熔断</span></div>
+    <div class="kv"><span>状态接口补诊断</span><span>/api/v1/status 新增 ssid、gw、dns、dns2、dnsForced、ch、emFail</span></div>
+    <div class="kv"><span>DNS 日志可见</span><span>改走 DBG 通道（生产版 log_* 被编掉），网页日志能直接看到「DNS 失败 / 已强制公共 DNS」</span></div>
+    <div class="kv"><span>适用现象</span><span>手机蜂窝热点能连上、但设备一直无网、时间显示 --:--:--</span></div>
+    <div class="kv"><span>未改动</span><span>行情解析、渲染、三榜配色、熔断三参数（3 次 / 15s / 60s）全部沿用 4.9.0</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.0 改了什么</h2>
+    <div class="kv"><span>开机画面</span><span>雷达环动画：三环+12 刻度，红绿弧 0.84s 转一圈 +「持股收息」+ 版本号</span></div>
+    <div class="kv"><span>数据源（v4.8.0 大改）</span><span>只走东财四口 push2 / 33 / 23 / push2his，删腾讯、删新浪；成功即粘住，失败顺延</span></div>
+    <div class="kv"><span>字段收敛</span><span>只取 f2/f3/f4/f12/f13/f14/f22 七项，响应 7.2KB → 6.4KB</span></div>
+    <div class="kv"><span>当日盈亏</span><span>改取东财 f4 涨跌额：Σ f4 × 持仓，不再用（现价−昨收）自算</span></div>
+    <div class="kv"><span>超时按口分配</span><span>首口 7s、后续口 3.5s，四口全挂 17.5s 封顶（整轮预算 20s）</span></div>
+    <div class="kv"><span>状态栏源标（v4.8.1）</span><span>1~4 空心圈三态：绿=通且新 / 橘黄=通但过期 / 灰=四口全挂</span></div>
+    <div class="kv"><span>三榜配色（v4.7~4.8.1）</span><span>涨幅红 / 跌幅绿 / 涨速橘黄，标题与数值同色；数值补 + 号与 %</span></div>
+    <div class="kv"><span>字库（v4.6.0）</span><span>6865 字重栅格化为四档抗锯齿；小字仍只有 ASCII，中文一律 18px</span></div>
+    <div class="kv"><span>设置页精简</span><span>9 → 8 项，删「数据源」「最小成交额」（东财四口已自动轮换）</span></div>
+    <div class="kv"><span>刷新慢 / 切页延迟</span><span>沿用 4.5.0：抓取在后台任务，主循环不等网络</span></div>
+  </div>
+
+  <div class="card">
+    <h2>中间版本（v4.5.2 ~ v4.5.3，已被 4.9.0 取代）</h2>
+    <div class="kv"><span>超时回到 v4.4 基线</span><span>总闸 7s / 连接 2s / 读头 3s</span></div>
+    <div class="kv"><span>抓取预算账平</span><span>整轮 20s / 新浪 13s / 腾讯 10s</span></div>
+    <div class="kv"><span>抓取请求跨任务丢失</span><span>已修：单标志拆双标志</span></div>
+    <div class="kv"><span>生产版诊断</span><span>抓取日志带源标与三家连败计数</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.4.0 改了什么</h2>
+    <div class="kv"><span>幅度 18px、去文本正号，红绿降饱和</span><span>2A 主视觉</span></div>
+    <div class="kv"><span>主页焦点框/榜头联动</span><span>已删</span></div>
+    <div class="kv"><span>快讯 12s + 页码进度条 + 通栏线</span><span>新增</span></div>
+    <div class="kv"><span>快讯轮播后状态栏残影</span><span>已修</span></div>
+    <div class="kv"><span>刷几次后停更</span><span>已修（v4.3.1 硬看门狗）</span></div>
+    <div class="kv"><span>数据源顺序</span><span>新浪 → 腾讯 → 东财（v4.4.0）</span></div>
+    <div class="kv"><span>状态栏最右侧源标</span><span>S 新浪 / T 腾讯 / E 东财（v4.4.0）</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 3.8 改了什么</h2>
+    <div class="kv"><span>中文名 18px 二值字库（去掉抗锯齿）</span><span>关键修复</span></div>
+    <div class="kv"><span>股票名 18px / 数字 13px</span><span>不变</span></div>
+    <div class="kv"><span>六行满屏 20+24+6×46</span><span>不变</span></div>
+    <div class="kv"><span>刷新节拍 = 抓完再等满 5 秒</span><span>回到 3.1 手感</span></div>
+    <div class="kv"><span>开机串口打印 <code>#BOOT fw=3.8.0</code></span><span>新增</span></div>
+  </div>
+
+  <div class="card">
+    <h2>两个要注意的</h2>
+    <div class="warn">
+      <b>1. 升级后股票池要重灌。</b>回刷 3.1 时用过老分区表（NVS 只有 20KB），之前存的池子已经被覆盖掉了。用 v0.5 的双池粘贴，一次把 74 只代码灌回去即可。<br><br>
+      <b>2. 刷完把电源拔了再插。</b>只按复位键，屏幕有时会停在旧的一帧，看着像「没变化」，其实已经刷进去了。
+    </div>
+  </div>
+</div>
+<script>
+  // 分享链接带 sharecode，直接点相对路径会丢参数变 403，这里把当前 query 续到每个下载链接
+  (function () {
+    var q = location.search || "";
+    if (!q) return;
+    document.querySelectorAll("a[data-file]").forEach(function (a) {
+      a.href = "./" + a.getAttribute("data-file") + q;
+    });
+  })();
+</script>
+</body>
+</html>
