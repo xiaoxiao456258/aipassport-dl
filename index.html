@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 4.9.18<span class="tag">2026-11-20</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.0.0<span class="tag">2026-11-21</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 4.9.18 <span class="tag">最新</span></div>
-        <div class="meta">架构收敛（不改 4.9.17 的出数逻辑）：①<b>开机自检不再写 flash</b>（守住「只在保存配置/学名时写盘」红线）；②诊断与抓取的跨任务标志加 <code>volatile</code>，避免点诊断时掐断正在抓的 socket；③复位请求收敛为<b>单一入口取最大值</b>，修多条件同帧互相降级；④诊断数据读<b>快照</b>，状态栏不再跨轮混值；⑤诊断 HTML 归位到门户；⑥<code>/status</code> 新增 <code>reason</code> 失败原因码；⑦注释全部订正到真值。<b>裸 socket 重写(W-11)本版降级未做</b>，三套退避仅做低风险收敛。</div>
+        <div class="name">固件 5.0.0 <span class="tag">最新 · v5 批次1</span></div>
+        <div class="meta">①<b>股票名只显 600. 的问题修了</b>：补名超时 8→12s、失败 5s 重试、半截也能用、只比代码；缺名时显示完整 6 位代码；②A1 快讯半截不再连累行情熔断；③B2 行情缓冲 16KB→8KB（省 8KB 内存）；④F1 涨跌停格底金线、F2 大盘温度小竖条、F7 异动扫全池、G2 盈亏变号强调；⑤<code>/status</code> 新增 <code>now/temp/alertN/cpuNow/woke/wokeSleep/txPower</code>。三套退避合一、深睡门禁、UI 批次留待后续。</div>
       </div>
     </div>
-    <a class="btn" data-file="v4.9.18_app.bin" href="./v4.9.18_app.bin" download>v4.9.18_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 42aa9a3a99b24e7d120b489025e46cd8df45e3da3c25aa14af1b5110b8eb2840</div>
-    <a class="btn ghost" data-file="v4.9.18_full.bin" href="./v4.9.18_full.bin" download>v4.9.18_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 52fc48264602db33f7dd5fd9063d926b9601fe2e5805012a22ae54cfb1729f71</div>
+    <a class="btn" data-file="v5.0.0_app.bin" href="./v5.0.0_app.bin" download>v5.0.0_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 69534d9ce51805a318ed564b297c8df636a05c65ec08b6f0c8845d1b3b5d2424</div>
+    <a class="btn ghost" data-file="v5.0.0_full.bin" href="./v5.0.0_full.bin" download>v5.0.0_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 97464f41087e031c2cafbb2320cac1c0b6e1abf2202d019dc71923d022d90e62</div>
   </div>
 
   <div class="card">
@@ -91,24 +91,24 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@75bd0fe31d1e301d64400033bd6b88247740b78d/v4.9.18_app.bin" download>v4.9.18_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,647,520 字节 · sha256 42aa9a3a…b2840</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@75bd0fe31d1e301d64400033bd6b88247740b78d/v4.9.18_full.bin" download>v4.9.18_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,713,056 字节 · sha256 52fc4826…9f71</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.0.0_app.bin" download>v5.0.0_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,649,280 字节 · sha256 69534d9c…2424</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.0.0_full.bin" download>v5.0.0_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,714,816 字节 · sha256 97464f41…90e62</div>
   </div>
 
   <div class="card">
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 4.9.17（回退备用）</div>
-        <div class="meta">一次改全：半截不再算成功、每轮只打一个源、彻底去 f14、软复位不抹熔断、新增 cov。若 4.9.18 有兼容问题可退回此版</div>
+        <div class="name">固件 4.9.18（回退备用）</div>
+        <div class="meta">v4 最终版：架构收敛，自检不写盘、跨任务标志 volatile、复位单一入口、诊断快照、reason 码。若 5.0.0 有兼容问题可退回此版</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v4.9.17_app.bin" href="./v4.9.17_app.bin" download>v4.9.17_app.bin（1.57 MB）</a>
-    <div class="hash">sha256 eef27ddce86a612a9378328f807ca22ecac457a44977da763ac58936b9d4e4a7</div>
-    <a class="btn ghost" data-file="v4.9.17_full.bin" href="./v4.9.17_full.bin" download>v4.9.17_full.bin（1.63 MB）</a>
-    <div class="hash">sha256 a707fd4af7d9969f8015f139cd474b73f0ac2f928fdc8202d4ca18a8b9104002</div>
+    <a class="btn ghost" data-file="v4.9.18_app.bin" href="./v4.9.18_app.bin" download>v4.9.18_app.bin（1.57 MB）</a>
+    <div class="hash">sha256 42aa9a3a99b24e7d120b489025e46cd8df45e3da3c25aa14af1b5110b8eb2840</div>
+    <a class="btn ghost" data-file="v4.9.18_full.bin" href="./v4.9.18_full.bin" download>v4.9.18_full.bin（1.63 MB）</a>
+    <div class="hash">sha256 52fc48264602db33f7dd5fd9063d926b9601fe2e5805012a22ae54cfb1729f71</div>
   </div>
 
   <div class="card">
@@ -162,24 +162,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v4.9.18_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.0.0_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v4.9.18_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.0.0_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v4.9.18_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.0.0_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v4.9.18_full.bin</code>（1.61 MB）。</li>
+      <li>下 <code>v5.0.0_full.bin</code>（1.64 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v4.9.18_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.0.0_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -189,10 +189,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v4.9.18_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.0.0_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v4.9.18_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.0.0_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -217,7 +217,18 @@
   </div>
 
   <div class="card">
-    <h2>固件 4.9.18 改了什么（本次）—— 架构收敛，不动出数逻辑</h2>
+    <h2>固件 5.0.0 改了什么（本次）—— v5 批次 1</h2>
+    <div class="kv"><span>① 股票名只显 600.</span><span>v4.9.17 去掉 f14 后名字靠一条补名请求，旧版总闸 8s、失败要等 30s、还绑着行情成功，弱网下反复失败就长期留空；屏幕把空名 fallback 成代码前 4 位，就成 <code>600.</code>。现总闸 12s、失败 5s 重试、半截也能捞、只比代码，缺名时直接显示完整 6 位代码</span></div>
+    <div class="kv"><span>② A1 快讯半截</span><span>快讯响应常跨 TCP 窗口，旧版半截要记熔断，第 5 次就断更 30s+。现快讯/补名的半截不记失败，也不清零行情攒的连败</span></div>
+    <div class="kv"><span>③ B2 缩缓冲</span><span>行情缓冲 16KB→8KB、补名 3KB→2KB，省约 9KB 内存；80 只主请求约 4.5KB 仍装得下</span></div>
+    <div class="kv"><span>④ 看盘增强</span><span>F1 涨跌停格底金线（主板 10%/创业科创 20%/北交 30%）；F2 状态栏大盘温度小竖条（指数 + 池内涨跌家数）；F7 异动扫全池，不再只扫三榜前 5；G2 盈亏正负变号 2 秒强调色</span></div>
+    <div class="kv"><span>⑤ 观测字段</span><span><code>/status</code> 新增 <code>now</code>（校准 epoch）、<code>temp</code>、<code>alertN</code>、<code>cpuNow</code>、<code>woke</code>、<code>wokeSleep</code>、<code>txPower</code> —— 给 X1 看板验证深睡门禁与运行档位</span></div>
+    <div class="kv"><span>本版没做</span><span>B1 三套退避合一（高风险，碰熔断/解粘/看门狗三条链）、深睡门禁实测、UI 批次（墨水屏/异动播报条/诊断页）—— 分批独立验证，别一次硬塞</span></div>
+    <div class="kv"><span>体积</span><span>app 1,649,280 B（sha256 <code>69534d9c…2424</code>）· full 1,714,816 B（<code>97464f41…90e62</code>）· 比 4.9.18 仅大 1.7 KB</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 4.9.18 改了什么（上一版）—— 架构收敛，不动出数逻辑</h2>
     <div class="kv"><span>定位</span><span>4.9.17 已把「出数」修好，这版只做架构层收敛：<b>修红线违背 + 跨任务竞态 + 契约文档订正</b>，不改四道闸/熔断/f14/单源单发等任何已验证的出数逻辑</span></div>
     <div class="kv"><span>① 自检不再写盘</span><span>开机导入自检原本每次都 <code>storageSave()</code> 写一次 flash，违反「写盘只在保存配置/学名」的红线。抽出 <code>storageSerialize()</code> 只编码不落盘，自检改用它，串口照样打印但 NVS 一个字节不写</span></div>
     <div class="kv"><span>② 跨任务标志 volatile</span><span><code>s_getBusy</code>/<code>s_diagBusy</code> 原本是普通 <code>static bool</code>。诊断页在 loop 里读它，一旦读到过期的 false 就会 <code>s_ka.stop()</code> —— 把后台任务正在用的 socket 掐断，表现为点一次诊断就多一条假 <code>rsn=net</code></span></div>
