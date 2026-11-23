@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.1.2<span class="tag">2026-11-23</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.1.3 验证版<span class="tag">2026-11-23</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.1.2 <span class="tag">最新 · 新增分段耗时埋点</span></div>
-        <div class="meta"><b>排障增强</b>：<code>/status</code> 新增 <code>phBody</code> 字段，直接报告读 body 阶段用时。此前慢轮 96% 时间卡在这里，只能靠 fetchMs 减前三段反推；现在一眼可见。抓取/渲染逻辑与 5.1.1 完全一致，行为不变</div>
+        <div class="name">固件 5.1.3 <span class="tag">临时验证版 · 排查慢抓取</span></div>
+        <div class="meta"><b>只用于验证</b>：把 80 只拆成两批各 40 只分别请求，验证「响应超 TCP 窗口 5760B 导致慢 4 秒」的假说；同时让<b>休市也按 5 秒抓</b>，方便收盘后测试。<b>续航会变差</b>，验证完会出正式版恢复。看 <code>/log</code> 里 <code>BATCH1/2 ... Xms</code> 单批耗时即可判断</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.1.2_app.bin" href="./v5.1.2_app.bin" download>v5.1.2_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 460ffff1876082a2533ea32161703dafd6b53e1d1021d9a2ebdb15fdcde6c7c9</div>
-    <a class="btn ghost" data-file="v5.1.2_full.bin" href="./v5.1.2_full.bin" download>v5.1.2_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 406e9ac0d7416dbf38db16ca3645c4c88d779865b2e810cd2c91ef56a773852a</div>
+    <a class="btn" data-file="v5.1.3_app.bin" href="./v5.1.3_app.bin" download>v5.1.3_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 d204af3a43c35e34817b4ca741397022abb15e0640b0246d51c84337c416a84e</div>
+    <a class="btn ghost" data-file="v5.1.3_full.bin" href="./v5.1.3_full.bin" download>v5.1.3_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 dd6fb59c50fae756148522263c96e1717230be5fb121c7660a54e343217a6874</div>
   </div>
 
   <div class="card">
@@ -91,10 +91,10 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@121171f78eccd65e902d8975e957f6b0c18947ab/v5.1.2_app.bin" download>v5.1.2_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,647,648 字节 · sha256 460ffff1…de6c7c9</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@121171f78eccd65e902d8975e957f6b0c18947ab/v5.1.2_full.bin" download>v5.1.2_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,713,184 字节 · sha256 406e9ac0…773852a</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.1.3_app.bin" download>v5.1.3_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,647,872 字节 · sha256 d204af3a…c416a84e</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.1.3_full.bin" download>v5.1.3_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,713,408 字节 · sha256 dd6fb59c…17a6874</div>
   </div>
 
   <div class="card">
@@ -102,7 +102,7 @@
       <div class="icon alt">旧</div>
       <div>
         <div class="name">固件 5.1.0（回退备用）</div>
-        <div class="meta">更老的版：移除熔断与看门狗，失败只记诊断、不拉黑不退避。注意此版仍用已关停的 ulist.np 接口，退回来会停更，仅在 5.1.2 出现兼容问题时临时排查用</div>
+        <div class="meta">更老的版：移除熔断与看门狗，失败只记诊断、不拉黑不退避。注意此版仍用已关停的 ulist.np 接口，退回来会停更，仅在 5.1.3 出现兼容问题时临时排查用</div>
       </div>
     </div>
     <a class="btn ghost" data-file="v5.1.0_app.bin" href="./v5.1.0_app.bin" download>v5.1.0_app.bin（1.57 MB）</a>
@@ -162,24 +162,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v5.1.2_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.1.3_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v5.1.2_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.1.3_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v5.1.2_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.1.3_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v5.1.2_full.bin</code>（1.63 MB）。</li>
+      <li>下 <code>v5.1.3_full.bin</code>（1.63 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.1.2_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.1.3_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -189,10 +189,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.1.2_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.1.3_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v5.1.2_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.1.3_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -217,12 +217,12 @@
   </div>
 
   <div class="card">
-    <h2>固件 5.1.2 改了什么（本次）—— 新增分段耗时埋点</h2>
-    <div class="kv"><span>新增字段</span><span><code>/api/v1/status</code> 新增 <code>phBody</code>（读 body 阶段毫秒数）。此前慢轮 96% 的时间卡在这里，只能用 fetchMs 减 phDns/phTcp/phHdr 反推；现在一眼可见到底是不是回包阶段在卡</span></div>
-    <div class="kv"><span>怎么用</span><span>盘中刷 <code>/status</code>：phBody 小（&lt;300）= 正常；phBody 大（&gt;1000）且 phDns/phTcp/phHdr 都小 = 回包阶段射频/链路卡住，下一步查 WiFi 省电是否真关掉（psReal 字段）</span></div>
-    <div class="kv"><span>行为不变</span><span>抓取、渲染、四道闸超时、固定节拍重试全部沿用 5.1.1；只多一个诊断字段，不影响出数</span></div>
-    <div class="kv"><span>承接 5.1.1</span><span>东财 <code>clist/get</code> 换接口修复停更、熔断/看门狗移除、失败只记诊断，全部保留</span></div>
-    <div class="kv"><span>体积</span><span>app 1,647,648 B（sha256 <code>460ffff1…de6c7c9</code>）· full 1,713,184 B（<code>406e9ac0…773852a</code>）</span></div>
+    <h2>固件 5.1.3 改了什么（本次）—— 临时验证版，排查慢抓取</h2>
+    <div class="kv"><span>背景</span><span>5.1.2 实测每次抓 80 只耗时稳定 ~4.3 秒（20 轮 3790–5453ms），慢在读 body 阶段。查历史注释发现：v4.9.17 曾把中文名 f14 移出主请求，让响应恒定 ~4.5KB 小于 TCP 窗口 5760B；v5.1.1 换 clist/get 时 f14 回归，主请求涨到 6.7KB 跨窗口 → 慢 4 秒。本版验证这个假说</span></div>
+    <div class="kv"><span>改了什么</span><span>① 主请求拆两批各 40 只（都带 f14），每批独立请求+解析；② 休市也按 5 秒抓（VERIFY_FAST_IDLE 宏），方便收盘后验证；③ 每批各打一条 <code>BATCH1/2 OK ... Xms</code> 日志</span></div>
+    <div class="kv"><span>怎么判断</span><span>刷完刷 <code>/api/v1/log</code> 看单批耗时：单批 &lt;1000ms = 跨窗口假说成立，正式版将改为去 f14 或固定分批；单批仍 2000ms+ = 是每请求固定开销，方案要换</span></div>
+    <div class="kv"><span>注意</span><span><b>此版只是验证用，续航会变差</b>（休市不停抓）。验证完会出正式版恢复原策略。不要长期当日常固件用</span></div>
+    <div class="kv"><span>体积</span><span>app 1,647,872 B（sha256 <code>d204af3a…c416a84e</code>）· full 1,713,408 B（<code>dd6fb59c…17a6874</code>）</span></div>
   </div>
 
   <div class="card">
