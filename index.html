@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.0.1<span class="tag">2026-11-23</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.1.0<span class="tag">2026-11-23</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.0.1 <span class="tag">最新 · 抖动包容</span></div>
-        <div class="meta">①<b>修半截分支缺陷</b>：5.0.0 里行情半截的 <code>brkFail()</code> 被注释吞掉，本版恢复；②<b>零回包宽恕</b>：实测失败是「连上、请求发全、服务器零字节就 RST」，同 host 60s 内首次不记账、第二次才记；③<b>换源前歇 700ms</b>：让抖动窗口过去，别一轮扫塌四口。承接 5.0.0 的股票名修复与看盘增强</div>
+        <div class="name">固件 5.1.0 <span class="tag">最新 · 去掉熔断与看门狗</span></div>
+        <div class="meta"><b>架构简化</b>：整块删除熔断表（按 host 连败拉黑/退避/半开探测）与抓取看门狗（连败清 DNS、强制重连、超时复位）。现在失败只记诊断、不拉黑不退避；恢复靠四道闸硬超时 + 固定节拍无条件重试，WiFi 断线仍由独立保活重连。四口同源时不再"一抖全锁死 5 分钟"，恢复更快。其余功能（股票名修复、看盘增强、快讯半截可用）全部保留</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.0.1_app.bin" href="./v5.0.1_app.bin" download>v5.0.1_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 148b5c8d6c3ab57c89c1da1548c68b8ad404b3506bd3c9715107243cdb93254f</div>
-    <a class="btn ghost" data-file="v5.0.1_full.bin" href="./v5.0.1_full.bin" download>v5.0.1_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 22b1aba12470aede769f14e65974977f702338484dbfb12b4374c6d635ca4199</div>
+    <a class="btn" data-file="v5.1.0_app.bin" href="./v5.1.0_app.bin" download>v5.1.0_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 123cd6faec77e3b9878646bda05da57f1f8552c4b9f25cd8a2960cc25de127b8</div>
+    <a class="btn ghost" data-file="v5.1.0_full.bin" href="./v5.1.0_full.bin" download>v5.1.0_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 56f9b85bc0c894817f96ccf8a2e2a4317b445d4b4de9f193cd6853e2d80835d1</div>
   </div>
 
   <div class="card">
@@ -91,24 +91,24 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@41a19e6c788ece267d8de66726b11835d0604438/v5.0.1_app.bin" download>v5.0.1_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,649,472 字节 · sha256 148b5c8d…3254f</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@41a19e6c788ece267d8de66726b11835d0604438/v5.0.1_full.bin" download>v5.0.1_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,715,008 字节 · sha256 22b1aba1…4199</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@__DL_SHA__/v5.1.0_app.bin" download>v5.1.0_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,647,232 字节 · sha256 123cd6fa…de127b8</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@__DL_SHA__/v5.1.0_full.bin" download>v5.1.0_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,712,768 字节 · sha256 56f9b85b…35d1</div>
   </div>
 
   <div class="card">
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 5.0.0（回退备用）</div>
-        <div class="meta">v5 批次1：股票名只显 600. 修复、A1 快讯半截豁免、B2 缩缓冲、F1/F2/F7/G2 看盘增强、观测字段。若 5.0.1 有兼容问题可退回此版</div>
+        <div class="name">固件 5.0.1（回退备用）</div>
+        <div class="meta">保留熔断与看门狗的上一稳定版。抖动包容：修半截分支缺陷、零回包宽恕（同 host 60s 首次不记账）、换源前歇 700ms。若 5.1.0 有兼容问题可退回此版</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v5.0.0_app.bin" href="./v5.0.0_app.bin" download>v5.0.0_app.bin（1.57 MB）</a>
-    <div class="hash">sha256 69534d9ce51805a318ed564b297c8df636a05c65ec08b6f0c8845d1b3b5d2424</div>
-    <a class="btn ghost" data-file="v5.0.0_full.bin" href="./v5.0.0_full.bin" download>v5.0.0_full.bin（1.64 MB）</a>
-    <div class="hash">sha256 97464f41087e031c2cafbb2320cac1c0b6e1abf2202d019dc71923d022d90e62</div>
+    <a class="btn ghost" data-file="v5.0.1_app.bin" href="./v5.0.1_app.bin" download>v5.0.1_app.bin（1.57 MB）</a>
+    <div class="hash">sha256 148b5c8d6c3ab57c89c1da1548c68b8ad404b3506bd3c9715107243cdb93254f</div>
+    <a class="btn ghost" data-file="v5.0.1_full.bin" href="./v5.0.1_full.bin" download>v5.0.1_full.bin（1.64 MB）</a>
+    <div class="hash">sha256 22b1aba12470aede769f14e65974977f702338484dbfb12b4374c6d635ca4199</div>
   </div>
 
   <div class="card">
@@ -162,24 +162,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v5.0.1_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.1.0_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v5.0.1_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.1.0_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v5.0.1_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.1.0_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v5.0.1_full.bin</code>（1.64 MB）。</li>
+      <li>下 <code>v5.1.0_full.bin</code>（1.64 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.0.1_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.1.0_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -189,10 +189,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.0.1_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.1.0_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v5.0.1_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.1.0_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -217,13 +217,14 @@
   </div>
 
   <div class="card">
-  <div class="card">
-    <h2>固件 5.0.1 改了什么（本次）—— 抖动包容</h2>
-    <div class="kv"><span>① 修半截分支缺陷</span><span>v5.0.0 里 <code>net.cpp</code> 半截分支的 <code>brkFail()</code> 被误写成注释，行情半截实际不记熔断，与本意相反。已恢复：行情照常记账，快讯/补名仍豁免</span></div>
-    <div class="kv"><span>② 零回包宽恕</span><span>实测失败是「TCP 连上、请求发全、服务器零字节就 RST」，不是慢回包——放宽超时无效。现同一 host 60 秒内第一次零回包只宽恕不记账，第二次才进失败账，避免一轮内四口全中招</span></div>
-    <div class="kv"><span>③ 换源前歇 700ms</span><span>快速失败原来立刻顺延下一个口，抖动窗口内四个口全扫一遍。现顺延前歇 700ms 让窗口过去；四口全歇只多 2.8 秒，不卡界面</span></div>
-    <div class="kv"><span>本版没做</span><span>超时参数没动（6s/6s/15s 一个都没触发过）；B1 三套退避合一、腾讯独立备源、深睡门禁实测、UI 批次仍留待后续</span></div>
-    <div class="kv"><span>体积</span><span>app 1,649,472 B（sha256 <code>148b5c8d…3254f</code>）· full 1,715,008 B（<code>22b1aba1…4199</code>）· 比 5.0.0 仅大 192 B</span></div>
+    <h2>固件 5.1.0 改了什么（本次）—— 去掉熔断与看门狗</h2>
+    <div class="kv"><span>删熔断</span><span>整块移除按 host 的连败计数 / OPEN 拉黑 / 30-60-120s 退避 / 半开探测 / 零回包宽恕。四口同源时"一抖四口全 OPEN 锁 5 分钟"不再发生</span></div>
+    <div class="kv"><span>删看门狗</span><span>移除主循环三段自愈：连败 2 次清 DNS、连败 6 次强制重连、超 6 拍无成功复位。失败只记诊断，不主动干预网络</span></div>
+    <div class="kv"><span>保留的保险</span><span>四道闸硬超时（TCP 握手 3s / 读头 6s / body 空闲 6s / 总闸 15s）不变；固定节拍无条件重试；单源单发四口分摊；WiFi 掉线仍由独立保活重连</span></div>
+    <div class="kv"><span>失败判定保留</span><span>零回包 / 半截 / 短写照样返回错误码并记进 <code>/status</code> <code>/diag</code>，只是不再拉黑 host。快讯和补名的半截仍可解析内容</span></div>
+    <div class="kv"><span>本版没做</span><span>没加独立备源（腾讯/新浪）、没加屏幕陈旧提示、没加低频 DNS 探测兜底——这三件是后续 P0。四口仍是单一故障域，东财整体 outage 时仍会停更，但不再被本机熔断锁死</span></div>
+    <div class="kv"><span>回退</span><span>若有兼容问题，下载页「回退备用」卡可退回 5.0.1</span></div>
+    <div class="kv"><span>体积</span><span>app 1,647,232 B（sha256 <code>123cd6fa…de127b8</code>）· full 1,712,768 B（<code>56f9b85b…35d1</code>）</span></div>
   </div>
 
   <div class="card">
