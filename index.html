@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.1.4-nof14 对照验证版<span class="tag">2026-11-23</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.1.5<span class="tag">2026-11-23</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.1.4-nof14 <span class="tag">对照验证版 · 去中文名单请求</span></div>
-        <div class="meta"><b>只用于验证</b>：与 5.1.3 分批版做对照。这版<b>不分批、单请求</b>，但主请求<b>去掉 f14 中文字段</b>（响应 6.7KB → 约 4.5KB，压回 TCP 窗口 5760B 以下），中文名靠独立补名请求慢慢填。<b>休市也按 5 秒抓</b>，续航会变差。看 <code>/log</code> 里 <code>[em1] OK xxxxB xxxms</code>：若 ~400ms，说明去 f14 单请求就够，分批非必需；若仍 4 秒，说明必须分批</div>
+        <div class="name">固件 5.1.5 <span class="tag">国证A指 + 新鲜度绿柱</span></div>
+        <div class="meta"><b>标题栏</b>：大盘指数从「上证 000001」换成<b>国证A指 399317</b>（覆盖沪深北全部 A 股，更贴合 80 只持仓），显示格式不变。<b>情绪条</b>：原来的大盘温度变色条改成<b>数据新鲜度绿柱</b>——抓完数据满绿，随抓取间隔逐渐变矮，归零那一刻下一轮刷新、瞬间回满。盘中 5 秒走完，休市按 60/300 秒慢走。<code>/status</code> 新增 <code>freshPct</code> 字段（0~100）方便观察。<b>注意</b>：本版抓取逻辑沿用 5.1.4-nof14 验证基础（去 f14 单请求 + 休市 5s 抓，续航会变差），UI 改动是本次重点</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.1.4-nof14_app.bin" href="./v5.1.4-nof14_app.bin" download>v5.1.4-nof14_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 4d2fd7870c3c413f4acf410bfcc51e146bd708597215f14c383b1151659c367c</div>
-    <a class="btn ghost" data-file="v5.1.4-nof14_full.bin" href="./v5.1.4-nof14_full.bin" download>v5.1.4-nof14_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 b3d406f449d078d91e2516ee9e92c147eda5bf8e9d5655dd34cb7baca9fc5064</div>
+    <a class="btn" data-file="v5.1.5_app.bin" href="./v5.1.5_app.bin" download>v5.1.5_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 30cd77fa3a27459c2cb859d0aa2bab008baa9d34d6592b62cbf524b75eecdadb</div>
+    <a class="btn ghost" data-file="v5.1.5_full.bin" href="./v5.1.5_full.bin" download>v5.1.5_full.bin（1.63 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 8f6745baa6c368b8cf78352748f62db4c8e93186ddf8ca98826ffc7019c2df1e</div>
   </div>
 
   <div class="card">
@@ -91,10 +91,10 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@2e24071ed0f3b606b5379cdc6ac8d153d986a684/v5.1.4-nof14_app.bin" download>v5.1.4-nof14_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,647,888 字节 · sha256 4d2fd787…59c367c</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@2e24071ed0f3b606b5379cdc6ac8d153d986a684/v5.1.4-nof14_full.bin" download>v5.1.4-nof14_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,713,424 字节 · sha256 b3d406f4…9fc5064</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.1.5_app.bin" download>v5.1.5_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,648,048 字节 · sha256 30cd77fa…dadb</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.1.5_full.bin" download>v5.1.5_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,713,584 字节 · sha256 8f6745ba…f7019c2df1e</div>
   </div>
 
   <div class="card">
@@ -102,7 +102,7 @@
       <div class="icon alt">旧</div>
       <div>
         <div class="name">固件 5.1.0（回退备用）</div>
-        <div class="meta">更老的版：移除熔断与看门狗，失败只记诊断、不拉黑不退避。注意此版仍用已关停的 ulist.np 接口，退回来会停更，仅在 5.1.4-nof14 出现兼容问题时临时排查用</div>
+        <div class="meta">更老的版：移除熔断与看门狗，失败只记诊断、不拉黑不退避。注意此版仍用已关停的 ulist.np 接口，退回来会停更，仅在 5.1.5 出现兼容问题时临时排查用</div>
       </div>
     </div>
     <a class="btn ghost" data-file="v5.1.0_app.bin" href="./v5.1.0_app.bin" download>v5.1.0_app.bin（1.57 MB）</a>
@@ -162,24 +162,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v5.1.4-nof14_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.1.5_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v5.1.4-nof14_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.1.5_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v5.1.4-nof14_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.1.5_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v5.1.4-nof14_full.bin</code>（1.63 MB）。</li>
+      <li>下 <code>v5.1.5_full.bin</code>（1.63 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.1.4-nof14_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.1.5_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -189,10 +189,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.1.4-nof14_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.1.5_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v5.1.4-nof14_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.1.5_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -217,13 +217,12 @@
   </div>
 
   <div class="card">
-    <h2>固件 5.1.4-nof14 改了什么（本次）—— 对照验证版</h2>
-    <div class="kv"><span>目的</span><span>和 5.1.3「分批版」做 A/B 对照，找出慢抓取的正解。两版都休市强制 5s 抓、都只用于验证</span></div>
-    <div class="kv"><span>5.1.3 分批版</span><span>不分批改成拆两批各 40 只，每批 ~3.3KB &lt; TCP 窗口，实测 <b>426ms</b>（原单请求 4356ms）—— 快 10 倍，但请求数翻倍</span></div>
-    <div class="kv"><span>本版做法</span><span>不分批、回到<b>单请求</b>，但主请求<b>去掉 f14 中文字段</b>（字段从 f2,f3,f4,f12,f13,f14,f22 减为无 f14），响应 6.7KB → 约 4.5KB，理论上压回窗口下。中文名靠独立补名请求（每次 12 只）慢慢填</span></div>
-    <div class="kv"><span>怎么判断</span><span>刷完看 <code>/api/v1/log</code> 的 <code>[em1] OK xxxxB xxxms</code>：<b>~400ms</b> = 去 f14 单请求就够，正式版走这条更简的路；<b>仍 4 秒</b> = 分批才是唯一解，正式版用 5.1.3 方案</span></div>
-    <div class="kv"><span>注意</span><span><b>此版只是验证用</b>：休市不停抓（续航变差）、中文名开机后要几分钟补齐。不要长期当日常固件用</span></div>
-    <div class="kv"><span>体积</span><span>app 1,647,888 B（sha256 <code>4d2fd787…59c367c</code>）· full 1,713,424 B（<code>b3d406f4…9fc5064</code>）</span></div>
+    <h2>固件 5.1.5 改了什么（本次）—— 标题栏 + 情绪条</h2>
+    <div class="kv"><span>标题栏换指数</span><span>大盘指数从「上证 000001」改成<b>国证A指 399317</b>（深市，覆盖沪深北全部 A 股）。国证A指比上证更能代表你 80 只持仓的整体表现，作为大盘温度输入也更准。显示格式不变，还是 <code>+1.44%</code></span></div>
+    <div class="kv"><span>情绪条→新鲜度</span><span>原来状态栏那根变色小竖条（大盘温度 5 档）改成<b>数据新鲜度绿柱</b>：刚抓完数据满绿 10px，随抓取间隔线性变矮，归零那一刻下一轮刷新、瞬间回满。盘中 5 秒走完（每秒掉一格），休市按 60/300 秒慢走</span></div>
+    <div class="kv"><span>为什么要改</span><span>温度是模糊信号（5 档），新鲜度是硬信息（数据新不新，一眼看出卡没卡）。温度信息没丢，仍在 <code>/status</code> 的 <code>temp</code> 字段；新增 <code>freshPct</code>（0~100）方便观察绿柱状态</span></div>
+    <div class="kv"><span>抓取逻辑</span><span>本版沿用 5.1.4-nof14 的验证基础（去 f14 单请求，实测 290ms；休市强制 5s 抓，<b>续航会变差</b>）。本次只动 UI + 指数，抓取策略的最终收尾（关休市快抓、补回退镜像）留待正式版</span></div>
+    <div class="kv"><span>体积</span><span>app 1,648,048 B（sha256 <code>30cd77fa…dadb</code>）· full 1,713,584 B（<code>8f6745ba…f7019c2df1e</code>）</span></div>
   </div>
 
   <div class="card">
