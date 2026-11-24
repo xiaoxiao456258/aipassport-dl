@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.0<span class="tag">2026-11-24</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.1<span class="tag">2026-11-24</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.2.0 <span class="tag">浅睡按键唤醒 + 续航优化</span></div>
-        <div class="meta"><b>浅睡</b>：替代原深睡，按键即可唤醒（不复位、不断网、秒恢复），无定时兜底；睡前关背光+面板，WiFi 连接保持。<b>续航</b>：关掉验证开关（休市恢复 60/300s 抓取）、默认亮度 120→80。<b>设置页重排</b>为 7 项：亮度 / 行情刷新 / WiFi省电 / 时钟 / CPU频率 / WiFi功率 / 开热点；删掉续航预设（冻结在最后一次设置）、刷新行情、深睡开关。新增 <b>CPU 频率 80↔160</b>、<b>WiFi 功率 20/14/11/8</b>、<b>WiFi 省电三档</b>（稳定/自动/省电，省电档有断连风险慎选）。<b>交易时段放宽</b> 9:10-11:35 / 12:55-15:05（自动迁移，不改你自定义值）。修 emFail 部分批失败被误清零的诊断 bug。<b>注意</b>：首次升级后请在设置页确认各项值符合你的习惯</div>
+        <div class="name">固件 5.2.1 <span class="tag">刷屏更快 + 省电微调</span></div>
+        <div class="meta"><b>刷屏提速（核心）</b>：行情格差分原本是"按格"判断变化，推屏却是"整行"推 —— 一格变就推 240×46 一整行。改为<b>只推真正变化的那一格</b>，单格刷新从约 22ms 降到约 7ms，盘中不再"刷一下卡一下"。<b>省电</b>：告警闪烁 400→800ms（推送减半）、防漂移全屏自检 30→60s。<b>内存</b>：行情/快讯共用一块缓冲省约 8KB，单笔配置上传上限 24K→16K（先实测大池不截断）。解析循环定期让出 CPU，防扩池后长时间独占单核。<b>兼容</b>：闪烁频率老设备自动迁移到 800ms，你手动调过的值保留</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.2.0_app.bin" href="./v5.2.0_app.bin" download>v5.2.0_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 e65328e803c6f2ff29f138872792c825a708cd29a6d73f124012aa184f2ca7a4</div>
-    <a class="btn ghost" data-file="v5.2.0_full.bin" href="./v5.2.0_full.bin" download>v5.2.0_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 767d84118fd54df705d2ef67e229beff1ede3cb178ddbad4f065a6a927b42e87</div>
+    <a class="btn" data-file="v5.2.1_app.bin" href="./v5.2.1_app.bin" download>v5.2.1_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 3bc157863abbfaf0a63458ea543bd7b673f8618a972a159e3c1b79ebecdac5e0</div>
+    <a class="btn ghost" data-file="v5.2.1_full.bin" href="./v5.2.1_full.bin" download>v5.2.1_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 fc5156db5768bfb288f272956b99de69760c795028bdb21a66fa503ff99e2ab9</div>
   </div>
 
   <div class="card">
@@ -91,24 +91,24 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@9f974adfe5a118a39623ebc18446894f121b9289/v5.2.0_app.bin" download>v5.2.0_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,650,160 字节 · sha256 e65328e8…ca7a4</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@9f974adfe5a118a39623ebc18446894f121b9289/v5.2.0_full.bin" download>v5.2.0_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,715,696 字节 · sha256 767d8411…42e87</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PIN_PLACEHOLDER/v5.2.1_app.bin" download>v5.2.1_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,650,336 字节 · sha256 3bc15786…dac5e0</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PIN_PLACEHOLDER/v5.2.1_full.bin" download>v5.2.1_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,715,872 字节 · sha256 fc5156db…f99e2ab9</div>
   </div>
 
   <div class="card">
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 5.1.5（回退备用）</div>
-        <div class="meta">上一版：国证A指 + 新鲜度绿柱，去 f14 单请求快速抓取。若 5.2.0 的浅睡/设置页有兼容问题，可临时退回本版（注意本版仍开着休市强制 5s 抓，续航较差）</div>
+        <div class="name">固件 5.2.0（回退备用）</div>
+        <div class="meta">上一版：浅睡按键唤醒 + 续航优化 + 设置页重排 + WiFi 省电三档 + 交易时段放宽。若 5.2.1 的格级刷屏有显示异常，可临时退回本版</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v5.1.5_app.bin" href="./v5.1.5_app.bin" download>v5.1.5_app.bin（1.57 MB）</a>
-    <div class="hash">sha256 30cd77fa3a27459c2cb859d0aa2bab008baa9d34d6592b62cbf524b75eecdadb</div>
-    <a class="btn ghost" data-file="v5.1.5_full.bin" href="./v5.1.5_full.bin" download>v5.1.5_full.bin（1.63 MB）</a>
-    <div class="hash">sha256 8f6745baa6c368b8cf78352748f62db4c8e93186ddf8ca98826ffc7019c2df1e</div>
+    <a class="btn ghost" data-file="v5.2.0_app.bin" href="./v5.2.0_app.bin" download>v5.2.0_app.bin（1.57 MB）</a>
+    <div class="hash">sha256 e65328e803c6f2ff29f138872792c825a708cd29a6d73f124012aa184f2ca7a4</div>
+    <a class="btn ghost" data-file="v5.2.0_full.bin" href="./v5.2.0_full.bin" download>v5.2.0_full.bin（1.64 MB）</a>
+    <div class="hash">sha256 767d84118fd54df705d2ef67e229beff1ede3cb178ddbad4f065a6a927b42e87</div>
   </div>
 
   <div class="card">
@@ -176,24 +176,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v5.2.0_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.2.1_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v5.2.0_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.2.1_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v5.2.0_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.2.1_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v5.2.0_full.bin</code>（1.64 MB）。</li>
+      <li>下 <code>v5.2.1_full.bin</code>（1.64 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.0_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.1_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -203,10 +203,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.0_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.1_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.0_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.1_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -231,7 +231,17 @@
   </div>
 
   <div class="card">
-    <h2>固件 5.2.0 改了什么（本次）—— 浅睡 + 续航 + 设置页</h2>
+    <h2>固件 5.2.1 改了什么（本次）—— 刷屏提速，四位专家评审后落地</h2>
+    <div class="kv"><span>① 格级刷屏（核心）</span><span>揪出真卡顿根因：程序判断"哪一格变了"是按格算的，但往屏幕送数据时是<b>整行 240×46 一起推</b> —— 15 格里只要一格变，就把三格全推一遍，白推 2/3。改成<b>只推真正变化的那几格</b>（复用现成的局部推屏接口）。单格刷新约 22ms→7ms，盘中每 5 秒抓一次行情时不再"刷一下顿一下"。这是四位专家一致认定的头号问题</span></div>
+    <div class="kv"><span>② 闪烁减半</span><span>有票异动时那个闪烁高亮，间隔 <b>400ms→800ms</b>，推送次数减半、省电省 CPU，肉眼仍清晰。老设备自动迁移到 800ms，但你如果手动调过这个值就保持不动</span></div>
+    <div class="kv"><span>③ 防漂移自检减半</span><span>为防止"时间走、股票空"的显示漂移，原本每 30 秒强制整屏重画一次，改成 <b>60 秒</b>。少一半无谓全屏刷新。抓取到新数据仍会立即刷新，不受影响</span></div>
+    <div class="kv"><span>④ 内存与稳定性</span><span>行情和快讯<b>共用一块接收缓冲</b>（两者本来就排队轮流抓，不会同时用），省约 8KB 内存；单笔配置上传上限 24K→16K（防止异常大包吃满内存，已加实际字节数日志）；解析循环定期让出 CPU，为以后扩到 80 只股票做准备</span></div>
+    <div class="kv"><span>⑤ 被否掉的提议</span><span>四位专家评审时否决了几条看着美好实则有害的改法：换静态 JSON 解析（新版库已无此接口）、删工作副本（会引发多任务抢数据的竞态）、把闪烁标志挪出差分（闪烁会失效）。这些都没做，避免开倒车</span></div>
+    <div class="kv"><span>体积</span><span>app 1,650,336 B（sha256 <code>3bc15786…dac5e0</code>）· full 1,715,872 B（<code>fc5156db…f99e2ab9</code>）</span></div>
+  </div>
+
+  <div class="card">
+    <h2>固件 5.2.0 改了什么 —— 浅睡 + 续航 + 设置页</h2>
     <div class="kv"><span>① 深睡改浅睡</span><span>原深睡断电重启、按键唤不醒（GPIO0 是 strapping 脚，按住唤醒有进下载模式风险）。改成<b>浅睡</b>：CPU 暂停但内存/WiFi 连接保留，按键（三键共用 GPIO0 低电平）即可唤醒，<b>不复位、秒恢复、不断网</b>。睡前关背光+面板 SLPIN，无定时兜底（只靠按键）。为守住"永不切 WiFi mode"红线（切一次掉一次线），浅睡不下 WIFI_OFF，改由 light sleep 自然降射频功耗 —— 省电不如深睡彻底，但换来稳定与秒醒</span></div>
     <div class="kv"><span>② 续航收尾</span><span>关掉验证开关 <code>VERIFY_FAST_IDLE</code>（休市曾强制 5s 抓，费电），恢复 60/300s 分级抓取；默认亮度 <b>120→80</b>（背光满档 40mA 是耗电大头）。老设备只在"亮度从未动过"时自动降到 80，手动调过的保持</span></div>
     <div class="kv"><span>③ 设置页重排（8→7 项）</span><span>顺序：亮度 / 行情刷新 / WiFi省电 / 时钟 / CPU频率 / WiFi功率 / 开热点。删掉<b>续航预设</b>（预设会和单项抢同一字段，设好 30s 再点省电被改回 15s；删除后各字段冻结在你最后一次设置）、<b>刷新行情</b>（和主站长按 OK 重复）、<b>深睡开关</b>（浅睡常开无需开关）。行高 28→37 撑满屏，提示改"OK改值·长按返回"</span></div>
