@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.2<span class="tag">2026-11-24</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.3<span class="tag">2026-11-24</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.2.2 <span class="tag">彻底关热点 + 零射频待机</span></div>
-        <div class="meta"><b>彻底关 AP 射频（核心）</b>：旧版开窗后只清配置、不清射频，会冒出一个无密码的默认热点 <code>ESP_&lt;MAC&gt;</code>（你实测的那个 ESP_2F1E79）。本版改为<b>开机纯 STA 启动，AP 接口根本不初始化</b> —— 平时手机热点列表里再也看不到任何设备热点，射频零发射、更省电更安全。<b>按需开热点</b>：设置页点「开热点」或主页超长按 OK 才临时开 <code>AIPASS-STOCK</code>，2 分钟自动关并切回纯 STA。<b>代价</b>：开/关热点各断网 15~25 秒后自动重连（单射频物理限制）；日常抓行情零切换、不受影响。<b>兜底</b>：从没配过网的新设备仍会自动开一次热点供配网，不会变砖。OTA 走 STA IP，不需要热点。</div>
+        <div class="name">固件 5.2.3 <span class="tag">修浅睡唤醒后 WiFi 连不上</span></div>
+        <div class="meta"><b>修浅睡唤醒断网（核心）</b>：5.2.2 让 WiFi 随浅睡"自然保持"，实测是<b>假连接</b> —— 驱动仍报已连接、断开计数不涨，但醒来后 TCP 建连一律 3 秒超时，覆盖率 0，永远抓不到数据也连不回去。本版改为<b>睡前主动断开关联、醒来立刻重连</b>（只断 STA，不切 WiFi 模式、不重启驱动），代价是醒后约 1~3 秒重连。<b>假连接自救</b>：驱动报已连接但连续两轮抓取失败，自动强制重关联（60 秒最多一次）。<b>休眠安全</b>：抓取在途时禁止进浅睡，避免睡断射频废掉本轮。<b>DNS</b>：唤醒即作废 DNS 缓存，防沿旧 IP 直连超时。<b>提示</b>：现在每次休眠会多一次"断开"记录（disc +1），是主动断的，不是故障。</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.2.2_app.bin" href="./v5.2.2_app.bin" download>v5.2.2_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 c016571ed5708839343d3fb20e87865ddbc5980a24d136bd63b8f9070caec806</div>
-    <a class="btn ghost" data-file="v5.2.2_full.bin" href="./v5.2.2_full.bin" download>v5.2.2_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 a00dcc975fc29aaa5bec10a385bfe2d240fd4d49a82672b8e63fe9fda644de20</div>
+    <a class="btn" data-file="v5.2.3_app.bin" href="./v5.2.3_app.bin" download>v5.2.3_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 b914f7cf966e76a5153c209af58020941e6a3fbcc422174a60280380b0ab4437</div>
+    <a class="btn ghost" data-file="v5.2.3_full.bin" href="./v5.2.3_full.bin" download>v5.2.3_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 fb0f00901c9ff22d09ca25a4b84e861cd573476b84012702f977d4af73eb7f37</div>
   </div>
 
   <div class="card">
@@ -91,24 +91,24 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@018c2236/v5.2.2_app.bin" download>v5.2.2_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,650,192 字节 · sha256 c016571e…c806</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@018c2236/v5.2.2_full.bin" download>v5.2.2_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,715,728 字节 · sha256 a00dcc97…de20</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PIN_PLACEHOLDER/v5.2.3_app.bin" download>v5.2.3_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,650,592 字节 · sha256 b914f7cf…b4437</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PIN_PLACEHOLDER/v5.2.3_full.bin" download>v5.2.3_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,716,128 字节 · sha256 fb0f0090…7f37</div>
   </div>
 
   <div class="card">
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 5.2.1（回退备用）</div>
-        <div class="meta">上一版：格级刷屏提速 + 闪烁 800ms + 自愈 60s。注意本版关热点后仍会回退到默认热点 ESP_&lt;MAC&gt;。若 5.2.2 的纯 STA 方案有兼容问题，可临时退回本版</div>
+        <div class="name">固件 5.2.2（回退备用）</div>
+        <div class="meta">上一版：彻底关 AP 射频（纯 STA 启动）。注意本版浅睡唤醒后会"假连接"——状态显示已连但抓不到数据，需按键/重启恢复。若 5.2.3 有兼容问题才退回本版</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v5.2.1_app.bin" href="./v5.2.1_app.bin" download>v5.2.1_app.bin（1.57 MB）</a>
-    <div class="hash">sha256 3bc157863abbfaf0a63458ea543bd7b673f8618a972a159e3c1b79ebecdac5e0</div>
-    <a class="btn ghost" data-file="v5.2.1_full.bin" href="./v5.2.1_full.bin" download>v5.2.1_full.bin（1.64 MB）</a>
-    <div class="hash">sha256 fc5156db5768bfb288f272956b99de69760c795028bdb21a66fa503ff99e2ab9</div>
+    <a class="btn ghost" data-file="v5.2.2_app.bin" href="./v5.2.2_app.bin" download>v5.2.2_app.bin（1.57 MB）</a>
+    <div class="hash">sha256 c016571ed5708839343d3fb20e87865ddbc5980a24d136bd63b8f9070caec806</div>
+    <a class="btn ghost" data-file="v5.2.2_full.bin" href="./v5.2.2_full.bin" download>v5.2.2_full.bin（1.64 MB）</a>
+    <div class="hash">sha256 a00dcc975fc29aaa5bec10a385bfe2d240fd4d49a82672b8e63fe9fda644de20</div>
   </div>
 
   <div class="card">
@@ -176,24 +176,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v5.2.2_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.2.3_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v5.2.2_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.2.3_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v5.2.2_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.2.3_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v5.2.2_full.bin</code>（1.64 MB）。</li>
+      <li>下 <code>v5.2.3_full.bin</code>（1.64 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.2_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.3_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -203,10 +203,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.2_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.3_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.2_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.3_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -231,7 +231,22 @@
   </div>
 
   <div class="card">
-    <h2>固件 5.2.2 改了什么（本次）—— 彻底关掉设备热点</h2>
+    <h2>固件 5.2.3 改了什么（本次）—— 修浅睡唤醒后 WiFi 假连接</h2>
+    <div class="meta" style="margin-bottom:14px">
+      <b>现象</b>：设备进浅睡、按键唤醒后，屏幕亮了、状态栏显示已连 WiFi，但行情一直不动，<code>/api/v1/status</code> 里覆盖率 <code>cov=0</code>、<code>emFail</code> 一路上涨，只能重启恢复。<br>
+      <b>根因</b>：5.2.2 的设计假设是"浅睡期间 WiFi 连接自然保持、醒来自动续收"。实测不成立 —— 唤醒后驱动仍报 <code>staState=3</code>、断开计数 <code>disc=0</code>（一个假象），实际关联早已被 AP 回收，任何 TCP 建连都 3 秒超时。而保活逻辑只在"驱动报告未连接"时才重连，于是永远不触发。<br>
+      <b>修法</b>：改成<b>睡前主动断关联、醒后立刻重连</b>。<br>
+      · 睡前 <code>WiFi.disconnect(false,false)</code> —— 只断 STA 关联，<b>不切 WiFi 模式、不重启驱动</b>（那是历史红线，会掉线 15~25 秒）<br>
+      · 醒来立即 <code>WiFi.begin()</code> 重关联（约 1~3 秒），不等 15 秒兜底<br>
+      · 醒来作废 DNS 缓存 —— 睡几小时后运营商解析结果常变，沿旧 IP 直连会一律超时<br>
+      · <b>假连接自救</b>：驱动报已连接但连续两轮抓取失败 → 强制重连（60 秒最多一次），兜住其它场景<br>
+      · <b>抓取在途禁止休眠</b> —— 原来抓取时没有置忙标志，可能在 netTask 读 socket 时进入浅睡，射频断电导致本轮抓废<br>
+      <b>你会看到的变化</b>：每次休眠醒来会断一下再自动重连（约 1~3 秒）；<code>disc</code> 计数每次休眠 +1，那是主动断的，不是故障。夜间续航同时略有改善（睡时射频完全断电）。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>固件 5.2.2 改了什么（上一版）—— 彻底关掉设备热点</h2>
     <div class="kv"><span>① 问题</span><span>你可能注意到：即便没开热点，手机 WiFi 列表里也有个 <code>ESP_2F1E79</code> 之类的无密码热点，能连上、费电又不安全。根因：旧版关热点时只清掉 SSID 配置，没真正关掉 AP 射频，芯片就回退到出厂默认名继续广播</span></div>
     <div class="kv"><span>② 彻底关（核心）</span><span>改成<b>开机纯 STA 模式</b> —— AP 接口压根不初始化，平时射频完全不广播任何热点，列表里干干净净。拨掉那个默认热点，也更省电。抓行情走原有的 WiFi 连接，一切照旧</span></div>
     <div class="kv"><span>③ 要用热点时</span><span>设置页点「开热点」，或主页<b>超长按 OK（3秒）</b>，才临时开 <code>AIPASS-STOCK</code>，<b>2 分钟自动关</b>并切回纯 STA。OTA 升级不需要开热点，手机连同一个路由器、用 App 直接刷就行</span></div>
