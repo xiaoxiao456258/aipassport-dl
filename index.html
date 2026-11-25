@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.7<span class="tag">2026-11-25</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.8<span class="tag">2026-11-25</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.2.7 <span class="tag">设备自愈 · 保内网 IP · 无冷却</span></div>
-        <div class="meta"><b>换思路</b>：5.2.6 走的是“被限流就少打”（退到 15/30/60 秒），代价是看板变慢，按你的意见不采用。<b>本版改成“设备自己把关开热点做一遍”</b> —— 你手动关开一次就恢复正常，说明该清的东西设备自己也能清。<br><b>关键事实</b>：关开热点时设备<b>内网 IP 并没有变</b>，网却好了 → 起作用的不是换 IP，而是关联 / DHCP 重跑 / 源端口 / DNS 缓存这几层重建，这些全在设备权限内。<b>本版硬约束就是“IP 不许变”</b>：全程不发 DHCPRELEASE、不切 WiFi 模式、不长时间停驱动（租约按 MAC 归还，重关联自然拿回同一个地址）。<br><b>六级阶梯，失败即升，无时间冷却</b>：①清 DNS 缓存+关旧连接 → ②钉公共 DNS（223.5.5.5/119.29.29.29）→ ③换接口 ulist⇄clist → ④换域名口 → ⑤断关联重连 → ⑥stop/start 驱动（≈0.6~1.5s，等同你自己的“关开热点”）。六轮约 30 秒走完全链，到顶后每轮重复第 ⑥ 级；成功一次立刻归零，节拍始终是设定的 5 秒。<br><b>不无脑爬梯</b>：每轮先花 200ms 判类型 —— 解析失败直接跳 ②；握手失败直接跳 ⑤；半截响应只做 ①。<br><b>唯一的闸门</b>（不是冷却）：手机正连着 AIPASS-STOCK 时，⑤⑥ 会连热点一起断，所以降到 ① 并挂起，等客户端走了立刻补做。<br><b>你会看到</b>：<code>[heal] L6 run=3 streak=7 act=wifistop ipSame=1</code>；<code>/status</code> 新增 <code>healLvl / healStreak / healRun / healAct / ipSame</code>；手动触发 <code>POST /api/v1/heal?level=1..6</code>（<code>&amp;force=1</code> 可在手机连着时强制执行）—— 不用关热点就能一级一级试出哪级有效。</div>
+        <div class="name">固件 5.2.8 <span class="tag">修 3 条真 bug · 低电真省电 · 重启不砖</span></div>
+        <div class="meta"><b>本版不添功能，只修三条一直在暗处生效的错误逻辑</b>，外加两条小保护。<br><b>① 没校时就永不入睡</b>（最耗电的一条）：<code>power.cpp</code> 里"未校时视为该醒"和"未校时不许睡"两句话一撞，结果是 NTP 拿不到时间的设备整天按 5 秒一轮抓取，白烧到关机。<b>现在改成没时间也能睡</b> —— 按你的要求<b>只认 GPIO0 按键唤醒，不加任何定时唤醒</b>。代价要说清：没校时又睡下后，开盘不会自己醒，需要人按一下。<br><b>② OTA 确认过早</b>：原来"跑满 60 秒"就认定新固件可用并写盘清零计数 —— 只证明能开机，证明不了能用。升级后 2 分钟崩、或一进抓取就死的固件，在第 60 秒已经算通过，所谓"连续 3 次未确认自动回滚"永远不触发。<b>现在改为跑满 180 秒且期间抓到过一次成功行情</b>；现场无 WiFi 时按 10 分钟兜底确认，避免能开机但没网被误判成坏固件来回回滚。<br><b>③ 低电只降背光</b>：原来电量 <code>&lt;20%</code> 只把背光压到 120，抓取照旧 5 秒一轮 —— 射频每 5 秒醒一次才是耗电大头。现在低电分级：<code>&lt;20%</code> 抓取间隔 ×2（上限 30 秒）、<code>&lt;10%</code> ×3（上限 60 秒），非交易时段的落睡门槛也从 2 分钟缩到 60/30 秒；电量回升立刻恢复原节拍。顺带修了"配置 2 比配置 1 更宽松"的反直觉问题。<br><b>两条小保护</b>：<br>· <b>点诊断不再把当轮行情打死</b>：<code>/diag</code> 原来只查"上一轮诊断跑没跑完"，不查"抓取是否在途"，会在 netTask 读 socket 时抢走共享连接，末尾还把抓取窗口的 <code>WIFI_PS_NONE</code> 改回省电档 —— 双杀。现在建连前先问一句，忙则直接回 409，一点不碰。<br>· <b>重启不会掉进下载模式</b>：GPIO0 是 strapping 脚，软件复位瞬间会被重新采样。四处 <code>ESP.restart()</code>（重启接口、App OTA、网页 OTA、OTA 回滚）都不查电平，用户正长按按键时碰上重启就黑屏变砖、只能拔电池。现在统一走重启守卫：按住就挂起，松开后自动补做。<br><b>你会看到</b>：<code>/status</code> 新增 <code>awakeHold</code>（强制清醒窗剩余秒，0 = 允许睡）与 <code>lowBat</code>（0/1/2）；日志里 <code>[ota] 启动确认 ... (good=1 182s)</code>、<code>[power] 重启挂起：GPIO0 按住...</code>。</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.2.7_app.bin" href="./v5.2.7_app.bin" download>v5.2.7_app.bin（1.58 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 b68567f8b042fb4a976fbf182627269bab314f646047fa919075b1265e910f99</div>
-    <a class="btn ghost" data-file="v5.2.7_full.bin" href="./v5.2.7_full.bin" download>v5.2.7_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 78f5ff3df5a2adc7f9f020c06a5840bb1ce21c195215d7d68f17b4ea644a9ecb</div>
+    <a class="btn" data-file="v5.2.8_app.bin" href="./v5.2.8_app.bin" download>v5.2.8_app.bin（1.58 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 1165e3a5f18d1d27ae5cb2f97f0dc2441d4186941fe5101036ea9dad2230b875</div>
+    <a class="btn ghost" data-file="v5.2.8_full.bin" href="./v5.2.8_full.bin" download>v5.2.8_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 86ee68feeece1252859abd7b765e81041251f2532b779bca759ca1500a549b1e</div>
   </div>
 
   <div class="card">
@@ -91,21 +91,25 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@f63d12f4/v5.2.7_app.bin" download>v5.2.7_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,656,720 字节 · sha256 b68567f8…0f99</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@f63d12f4/v5.2.7_full.bin" download>v5.2.7_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,722,256 字节 · sha256 78f5ff3d…9ecb</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.2.8_app.bin" download>v5.2.8_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,658,080 字节 · sha256 1165e3a5…b875</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.2.8_full.bin" download>v5.2.8_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,723,616 字节 · sha256 86ee68fe…9b1e</div>
   </div>
 
   <div class="card">
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 5.2.5（回退备用 · 上一版）</div>
-        <div class="meta">上一版：接口双通道（<code>ulist.np</code> ⇄ <code>clist</code>），没有自愈阶梯。若 5.2.7 的 ⑤⑥ 级在你环境里表现不对（例如 AP 频繁断），退这个。</div>
+        <div class="name">固件 5.2.7（回退备用 · 上一版）</div>
+        <div class="meta">上一版：设备侧六级自愈（保内网 IP、无冷却）。功能正常，只是三条 bug 没修（未校时永不入睡、OTA 60 秒就确认、低电只降背光）。若 5.2.8 的重启挂起或落睡时机不合口味，退这个。</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v5.2.5_app.bin" href="./v5.2.5_app.bin" download>v5.2.5_app.bin（1.58 MB）</a>
+    <a class="btn ghost" data-file="v5.2.8_app.bin" href="./v5.2.8_app.bin" download>v5.2.8_app.bin（1.58 MB）</a>
+    <div class="hash">sha256 b68567f8b042fb4a976fbf182627269bab314f646047fa919075b1265e910f99</div>
+    <a class="btn ghost" data-file="v5.2.8_full.bin" href="./v5.2.8_full.bin" download>v5.2.8_full.bin（1.64 MB）</a>
+    <div class="hash">sha256 78f5ff3df5a2adc7f9f020c06a5840bb1ce21c195215d7d68f17b4ea644a9ecb</div>
+    <a class="btn ghost" data-file="v5.2.5_app.bin" href="./v5.2.5_app.bin" download>更早：v5.2.5_app.bin（1.58 MB）</a>
     <div class="hash">sha256 98920cdd2a94b9fb2dacaa35412117d16efaee8751a483ef7b6e8e185dca9d27</div>
     <a class="btn ghost" data-file="v5.2.5_full.bin" href="./v5.2.5_full.bin" download>v5.2.5_full.bin（1.64 MB）</a>
     <div class="hash">sha256 16bbf87b601869fabbc2f91476767cabae4812756dfe8528c529b95a6f825933</div>
@@ -188,24 +192,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v5.2.7_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.2.8_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v5.2.7_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.2.8_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v5.2.7_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.2.8_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v5.2.7_full.bin</code>（1.64 MB）。</li>
+      <li>下 <code>v5.2.8_full.bin</code>（1.64 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.7_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.8_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -215,10 +219,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.7_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.8_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.7_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.8_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -243,22 +247,17 @@
   </div>
 
   <div class="card">
-    <h2>固件 5.2.7 改了什么（本次）—— 把关开热点这件事交给设备自己做</h2>
+    <h2>固件 5.2.8 改了什么（本次）—— 不添功能，修三条一直在暗处生效的错误逻辑</h2>
     <div class="meta" style="margin-bottom:14px">
-      <b>起点</b>：你手动关开手机热点一次，设备就恢复稳定；而且<b>设备内网 IP 一直没变</b>。这两条合起来说明 —— 恢复不靠换 IP，靠的是关联重置 / DHCP 重跑 / 源端口重建 / DNS 缓存清空，<b>这四层设备自己全做得到</b>。5.2.6 走的"少打几次、退到 15/30/60 秒"代价是看板变慢，本版不采用（代码里的退避已删掉）。<br>
-      <b>六级阶梯，失败即升，不设任何时间冷却</b>：<br>
-      · <b>H1</b> 清 DNS 缓存 + 关旧 socket + 丢掉当前域名的解析结果（&lt;5ms，最便宜）<br>
-      · <b>H2</b> 把解析器钉到公共 DNS（223.5.5.5 / 119.29.29.29），不再用热点下发的那套<br>
-      · <b>H3</b> 换批量接口 <code>ulist.np</code> ⇄ <code>clist</code><br>
-      · <b>H4</b> 换域名口（push2 / 33 / 23 / push2his）<br>
-      · <b>H5</b> <code>disconnect(false,false)</code> + <code>begin()</code>：只断关联重连，不动模式、不擦配置<br>
-      · <b>H6</b> <code>esp_wifi_stop()</code> → 30ms → <code>esp_wifi_start()</code> → 重连：等同你自己的"关开热点"，实测 0.6~1.5s<br>
-      <b>节奏</b>：6 轮 ≈ 30 秒走完全链；到顶后每轮重复 H6（不是每 3 轮、也不是等冷却）；任何一次"整批成功且覆盖达标"立刻归零，节拍回到设定的 5 秒。<br>
-      <b>为什么不无脑爬</b>：每轮先判失败类型 —— 解析失败直接跳 H2，握手失败直接跳 H5，半截响应只做 H1。<br>
-      <b>为什么 IP 不会变</b>：DHCP 租约按 MAC 归还，重关联<b>不发 RELEASE</b>；H6 停 30ms 就起来，远小于租约续期窗口。全程禁止 <code>WiFi.mode(WIFI_OFF)</code>、<code>dhcpc_stop</code>、静态 IP 覆写、<code>ESP.restart()</code>。每次重连还会比对 <code>staIp</code>，把结果写进 <code>/status</code> 的 <code>ipSame</code>（只记录，不强行改回 —— 硬改会和热点地址池抢地址）。<br>
-      <b>唯一闸门</b>：手机正连着 AIPASS-STOCK 时 H5/H6 会把热点一起断，所以降级做 H1 并挂起；客户端一走立刻补做。这是"别踢掉正在看网页/正在 OTA 的手机"，不是冷却。<br>
-      <b>手动入口</b>：<code>POST /api/v1/heal?level=1..6</code>，加 <code>&amp;force=1</code> 可在手机连着时强做。不用关热点，就能一级一级问"到底哪级管用"。
+      <b>① 没校时就永不入睡</b>（最耗电的一条）：<code>power.cpp</code> 里「未校时视为该醒」和「未校时不许睡」两句话互相顶，结果是 —— NTP 拿不到时间的设备<b>整天按 5 秒一轮抓取</b>，白烧电到关机。现在改成<b>没时间也能睡</b>，按你的要求<b>只认 GPIO0 按键唤醒，不加任何定时唤醒</b>。代价要说清：没校时又睡下后，开盘不会自己醒，需要人按一下。<br>
+      <b>② OTA 确认过早</b>：原来「跑满 60 秒」就认定新固件可用并写盘清零计数 —— 只证明能开机，证明不了能用。升级后 2 分钟崩、或一进抓取就死的固件，在第 60 秒已经算通过，所谓「连续 3 次未确认自动回滚」永远不触发。<b>现在改为跑满 180 秒且期间抓到过一次成功行情</b>；现场没 WiFi 时按 10 分钟兜底确认，避免「能开机但没网」被误判成坏固件来回回滚。<br>
+      <b>③ 低电只降背光</b>：原来电量 &lt;20% 只把背光压到 120，抓取照旧 5 秒一轮 —— 射频每 5 秒醒一次才是耗电大头。现在分级：&lt;20% 抓取间隔 ×2（上限 30 秒）、&lt;10% ×3（上限 60 秒），非交易时段落睡门槛从 2 分钟缩到 60 / 30 秒；电量回升立刻恢复原节拍。顺带修了「配置 2 比配置 1 更宽松」的反直觉问题。<br>
+      <b>④ 点诊断不再打死当轮行情</b>：<code>/diag</code> 原来只查「上一轮诊断跑没跑完」，不查「抓取是否在途」，会在 netTask 读 socket 时抢走共享连接，末尾还把抓取窗口的 <code>WIFI_PS_NONE</code> 改回省电档 —— 双杀。现在建连前先问一句，忙则直接回 409 并完全不动射频参数。<br>
+      <b>⑤ 重启不会掉进下载模式</b>：GPIO0 是 strapping 脚，软件复位瞬间会被重新采样。四处 <code>ESP.restart()</code>（重启接口、App OTA、网页 OTA、OTA 回滚）都不查电平，用户正长按按键时碰上重启就会黑屏、WiFi 不广播、只能拔电池重刷。现在统一走重启守卫：<b>按住就挂起，松开后自动补做</b>。<br>
+      <b>你会看到</b>：<code>/status</code> 新增 <code>awakeHold</code>（强制清醒窗剩余秒，0 = 允许睡）与 <code>lowBat</code>（0/1/2）；日志里 <code>[ota] 启动确认 ... (good=1 182s)</code>、<code>[power] 重启挂起：GPIO0 按住会进下载模式</code>、<code>[power] 进入浅睡(按键唤醒,无定时)</code>。<br>
+      <b>行为变化提醒</b>：非交易时段开机后，<b>5 分钟无操作才落睡</b>（3 分钟强制清醒窗 + 2 分钟空闲）；低电时提前到约 3.5 / 3 分钟。按键一次就重新给 3 分钟。
     </div>
+  </div>
   </div>
 
   <div class="card">
