@@ -83,14 +83,28 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.4.0 <span class="tag">排版重排 · 16 灰阶字 · 背景高级感</span></div>
-        <div class="meta"><b>显示大改版，功能与链路不动。</b><br><b>① 排版重排</b>：状态栏 20→34px 双行（上行 WiFi/电量/源标/时间左右对称内缩，下行上证/盈亏 13px 语义色），榜头三字缩两字，榜单行 46→45px，快讯 46→41px。严格 320px 守恒。<br><b>② F2 字库</b>：中文 2bpp 4 灰阶 → <b>4bpp 16 灰阶</b>，字边缘细腻度 ×4；一级 3755 字 + 财经常用二级兜底共 3864 字，零缺字（A 股名实测一级覆盖 97.6%，缺的 8 字已收进兜底）。<br><b>③ C1 混色查表</b>：每像素 mix565 → 16 档预生成 LUT，渲染更快。<br><b>④ C3/C4 + B1–B4</b>：状态栏/榜头/快讯渐变底、玻璃顶高光、微噪点、边缘暗角、斑马行卡阴影、涨闪改柔白字+暗红底（夜间不炸眼）。<br><b>你能感觉到的差别</b>：状态栏一眼可读、字更细、夜间更柔。行情/自愈/OTA 逻辑一行未动。</div>
+        <div class="name">固件 5.4.1 <span class="tag">真机显示修复 · 字实心 · 背景压暗</span></div>
+        <div class="meta"><b>专修 5.4.0 真机实测的显示问题，功能与链路仍不动。</b><br><b>① 字发虚 → 实心</b>：v5.4 调色板最亮档只到 86.7%，16 档里没有一档是纯色，整屏字发灰；现恢复 gamma 2.2 感知混色 + i=15 强制纯 fg；并改 inkOnly 只落墨迹，消除相邻字底块互相覆盖导致的数字糊。<br><b>② 发亮蓝 → 近黑</b>：渐变方向原来是反的（顶暗底亮），现翻正为顶亮底暗；C_CARD/C_LINE 回退暗值，斑马行不再发亮抢字；状态栏底 0x2167→0x10E4，玻璃高光降暗。<br><b>③ 红绿回正</b>：涨 0xEB4B→0xFA69（#FF4C4A 正红），跌 0x4DF1→0x2DEE（#29BE73 正绿），不再是珊瑚粉/青色。<br><b>④ 状态栏/快讯</b>：BAR_H 34→36 拉开两行间距，分区擦除跟随渐变不再留色块；快讯 41→44px，正文两行上移到 y=0/16、页码移到 y=33，避开底部圆角遮挡（真机第二行被切的根因）。<br><b>⑤ 缺字方框 → 短横线</b>：新闻生僻名的刺眼白方框改为底部弱化短横线。<br><b>你能感觉到的差别</b>：字清晰实心、背景压回深色、红绿正常、快讯不缺行。<b>建议从 5.4.0 直接 OTA 升级。</b>行情/自愈/OTA 逻辑一行未动。</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.4.0_app.bin" href="./v5.4.0_app.bin" download>v5.4.0_app.bin（1.59 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 d0c76e796c2d26a86ce8b6ac0425252678813fc51865f4d2654f6e80516fa34a</div>
-    <a class="btn ghost" data-file="v5.4.0_full.bin" href="./v5.4.0_full.bin" download>v5.4.0_full.bin（1.66 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 dd8cc0d1efaad59a235732662b74c73f5a6c77b46dfb01017ec44ef16ff2194e</div>
+    <a class="btn" data-file="v5.4.1_app.bin" href="./v5.4.1_app.bin" download>v5.4.1_app.bin（1.59 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 c2f58e0e4e22254d2ece8ee1e60732d86c7d493c15fd540fe745a5f25ae916f7</div>
+    <a class="btn ghost" data-file="v5.4.1_full.bin" href="./v5.4.1_full.bin" download>v5.4.1_full.bin（1.66 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 813ad09c74a043e975f009dbe0f5134b1f90512ade0d1cee1ae5f6c7186f0e50</div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon alt">旧</div>
+      <div>
+        <div class="name">固件 5.4.0 <span class="tag">回退备用 · 排版重排首版</span></div>
+        <div class="meta">真机显示发虚、发亮蓝，已由 5.4.1 修复。若 5.4.1 有兼容问题可回退到此版。</div>
+      </div>
+    </div>
+    <a class="btn ghost" data-file="v5.4.0_app.bin" href="./v5.4.0_app.bin" download>v5.4.0_app.bin（回退 · 1.59 MB）</a>
+    <div class="hash">sha256 d0c76e79…4a34a</div>
+    <a class="btn ghost" data-file="v5.4.0_full.bin" href="./v5.4.0_full.bin" download>v5.4.0_full.bin（回退 · 整片）</a>
+    <div class="hash">sha256 dd8cc0d1…194e</div>
   </div>
 
   <div class="card">
