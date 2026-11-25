@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.9<span class="tag">2026-11-25</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.3.0<span class="tag">2026-11-25</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.2.9 <span class="tag">OTA 只剩一条路 · 开机少白等 · 报错不再沉默</span></div>
-        <div class="meta"><b>① OTA 的两套实现合并成一套</b>（本版唯一有事故风险的一条）：<code>api.cpp</code>（App 推流）与 <code>portal.cpp</code>（网页表单）各写了一份 <code>Update.begin/write/end</code>，还各自维护一份 <code>s_otaOk</code> —— 同一台设备、同一个 bin，两条路径的收尾判断并不一样，这就是「网页刷成功、App 刷失败」这类鬼故事的来源。现在写入流水线只留 <code>ota.cpp</code> 一份，两个入口只负责回 JSON 或 HTML。<b>顺带修掉一个真隐患</b>：原来某一块写失败只打日志、收尾照样 <code>Update.end(true)</code>，等于把半截镜像标成有效并切分区；现在中途有失败就 <code>abort</code>，宁可这次升级失败也不让你刷成砖。<br><b>② 开机首抓延后 300 毫秒</b>：冷启动实测 <code>t=3744</code> 首抓 DNS 失败 → 隔 7.2 秒拿到 <code>body 不完整 got=4080/5675</code> → 第三次才成功，开机到出数 14.7 秒。原因是 DHCP 刚拿到 IP 就发请求，热点下发的 DNS 还没装进解析器（唤醒路径不撞这个坑，因为醒来是先作废 DNS 再连）。现在开机首抓等 300ms，抓取间隔本身不变。<br><b>③ BACKUP DNS 兜底</b>：热点常常只下发一个 DNS（<code>/status</code> 里 <code>dns2=0.0.0.0</code>），那台一抖整机就解析不了。现在每次拿到 IP 后检查备胎槽，空的就补 <code>223.5.5.5</code> —— <b>只动备胎，不碰主 DNS、网关和租约</b>，lwIP 只在主 DNS 超时后才会问它，主 DNS 正常时行为完全不变。<br><b>④ 报错不再沉默</b>：<code>platformio.ini</code> 里 <code>CORE_DEBUG_LEVEL=0</code> 会把全部 <code>log_i/log_e/log_w</code> 编译掉（省约 45KB Flash），代价是<b>现场一个错误都看不到</b> —— 之前判断"NVS 配置校验失败掉回默认池""OTA 写失败原因"全靠猜。现在把<b>错误/告警级日志与关键一次性事件</b>（开机、连上 WiFi、配置载入与迁移、存储读写、OTA 全程、按键、设置项）改走 <code>DBG_*</code> 直接进环形缓冲，<code>/api/v1/log</code> 就能读到。高频刷屏的那几条（每轮排名、每 30 秒栈水位）仍然编译掉，不污染缓冲。<br><b>你会看到</b>：<code>/api/v1/log</code> 里出现 <code>[cfg] 已载入 rc=…</code>、<code>[store] 载入 80 行</code>、<code>[ota] 开始/结束 ok=1 size=…</code>；出问题时把这段发出来就能定位，不必再接线读串口。</div>
+        <div class="name">固件 5.3.0 <span class="tag">共享缓冲加租约 · 换池只留一个入口</span></div>
+        <div class="meta"><b>本版不加任何功能，只还两块"现在不出事、以后必出事"的债。</b><br><b>① 共享响应缓冲从"注释约定"改成"租约"</b>（<code>netBufAcquire/Release</code>）：行情和快讯共用一块 9KB 接收缓冲，省了 8KB 内存 —— 但两者之间的规矩只写在 <code>net.h</code> 的一行注释里。哪天快讯被挪出网络任务、或者加第三个使用者，症状不是编译报错，而是<b>两路往同一块内存写、解析到对方那一半 JSON</b>：偶发覆盖率掉、快讯乱码、查三天查不出来。现在必须「借 → 用 → 还」，占用中再来借就返回空并打一行 <code>[net] 缓冲被 X 占用</code>，调方跳过本轮。代价 1 个指针，换来这类事故从"玄学"变成"日志里一眼看到"。<br><b>② 整池替换只留一个入口</b>（<code>appInstallPool</code>）：网页「恢复默认股票池」原来自己手写 <code>storageSave + memcpy + buildRanks</code>，<b>漏了 <code>onPoolChanged</code></b> —— 换池后告警冷却 <code>alertAt</code> 不清（新票被旧票的冷却压住，该闪的不闪）、屏幕不重画、不立刻重抓，要等下一轮 5 秒才动。现在所有"换整池"的入口都走同一个函数：写盘失败就<b>不换内存池</b>（避免 App 显示成功、掉电全丢），成功才换、才重算三榜、才触发回调。恢复默认页也补了写盘失败的报错页。<br><b>你能感觉到的差别</b>：几乎没有 —— 这两条都是防未来事故。唯一可见的是「恢复默认池」之后告警立刻正常、下一轮立刻出数。</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.2.9_app.bin" href="./v5.2.9_app.bin" download>v5.2.9_app.bin（1.59 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 d38b03adb1cec5d40342d17615cbea0db192d7a952e792cafa48f130f4c70977</div>
-    <a class="btn ghost" data-file="v5.2.9_full.bin" href="./v5.2.9_full.bin" download>v5.2.9_full.bin（1.65 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 d13faa9a79102f493f0fb4dc7849d13e6baf32746d5f7db3e264bb0683b2e3ce</div>
+    <a class="btn" data-file="v5.3.0_app.bin" href="./v5.3.0_app.bin" download>v5.3.0_app.bin（1.59 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 7a533d4580c1a0effe93f667f949375f9b082fdcef249c02d4b271692363e9eb</div>
+    <a class="btn ghost" data-file="v5.3.0_full.bin" href="./v5.3.0_full.bin" download>v5.3.0_full.bin（1.65 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 b216abbca5d12e4c53732aaf3ea5408b0db6bf56f351ae0c840ea68ab2664d52</div>
   </div>
 
   <div class="card">
@@ -91,20 +91,24 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@a3e4a7b4/v5.2.9_app.bin" download>v5.2.9_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,662,464 字节 · sha256 d38b03ad…0977</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@a3e4a7b4/v5.2.9_full.bin" download>v5.2.9_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,728,000 字节 · sha256 d13faa9a…e3ce</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@a3e4a7b4/v5.3.0_app.bin" download>v5.3.0_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,662,960 字节 · sha256 7a533d45…e9eb</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@a3e4a7b4/v5.3.0_full.bin" download>v5.3.0_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,728,496 字节 · sha256 b216abbc…4d52</div>
   </div>
 
   <div class="card">
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 5.2.8 / 5.2.7（回退备用）</div>
-        <div class="meta"><b>5.2.8（上一版）</b>：修三条真 bug（未校时永不入睡、OTA 60 秒就确认、低电只降背光）+ 两条保护。功能完整，只是还没合并 OTA 两套实现、开机首抓仍会白等一轮。<br><b>5.2.7</b>：设备侧六级自愈（保内网 IP、无冷却）落地版，没有 5.2.8 那三条修复。若新版落睡时机不合口味，退到 5.2.7。<br><b>注意</b>：回退时选与设备当前分区匹配的 <code>app.bin</code>，不要跨版本混用 <code>full.bin</code>。</div>
+        <div class="name">固件 5.2.9 / 5.2.8 / 5.2.7（回退备用）</div>
+        <div class="meta"><b>5.2.9（上一版）</b>：OTA 两套实现合一 + 开机首抓延后 300ms + BACKUP DNS 兜底 + 报错留痕（<code>/api/v1/log</code> 能读到 <code>[cfg]/[store]/[ota]</code>）。若 5.3.0 出任何异常，退这个。<br><b>5.2.8</b>：修三条真 bug（未校时永不入睡、OTA 60 秒就确认、低电只降背光）+ 两条保护。功能完整，只是还没合并 OTA 两套实现、开机首抓仍会白等一轮。<br><b>5.2.7</b>：设备侧六级自愈（保内网 IP、无冷却）落地版，没有 5.2.8 那三条修复。若新版落睡时机不合口味，退到 5.2.7。<br><b>注意</b>：回退时选与设备当前分区匹配的 <code>app.bin</code>，不要跨版本混用 <code>full.bin</code>。</div>
       </div>
     </div>
+    <a class="btn ghost" data-file="v5.2.9_app.bin" href="./v5.2.9_app.bin" download>v5.2.9_app.bin（1.59 MB）</a>
+    <div class="hash">sha256 d38b03adb1cec5d40342d17615cbea0db192d7a952e792cafa48f130f4c70977</div>
+    <a class="btn ghost" data-file="v5.2.9_full.bin" href="./v5.2.9_full.bin" download>v5.2.9_full.bin（1.65 MB）</a>
+    <div class="hash">sha256 d13faa9a79102f493f0fb4dc7849d13e6baf32746d5f7db3e264bb0683b2e3ce</div>
     <a class="btn ghost" data-file="v5.2.8_app.bin" href="./v5.2.8_app.bin" download>v5.2.8_app.bin（1.58 MB）</a>
     <div class="hash">sha256 1165e3a5f18d1d27ae5cb2f97f0dc2441d4186941fe5101036ea9dad2230b875</div>
     <a class="btn ghost" data-file="v5.2.8_full.bin" href="./v5.2.8_full.bin" download>v5.2.8_full.bin（1.64 MB）</a>
@@ -196,24 +200,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v5.2.9_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.3.0_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v5.2.9_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.3.0_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v5.2.9_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.3.0_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v5.2.9_full.bin</code>（1.64 MB）。</li>
+      <li>下 <code>v5.3.0_full.bin</code>（1.64 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.9_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.3.0_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -223,10 +227,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.9_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.3.0_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.9_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.3.0_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -251,7 +255,17 @@
   </div>
 
   <div class="card">
-    <h2>固件 5.2.9 改了什么（本次）—— 合掉两套 OTA、少白等一轮、把报错留下来</h2>
+    <h2>固件 5.3.0 改了什么（本次）—— 不加功能，只还两块「现在不出事、以后必出事」的债</h2>
+    <div class="meta" style="margin-bottom:14px">
+      <b>① 共享缓冲：从「注释约定」到「租约」</b>：行情与快讯共用一块 9KB 接收缓冲，靠的是 <code>net.h</code> 里一行注释「两者都由网络任务串行调用」。哪天快讯被挪出网络任务、或加第三个使用者，症状<b>不是编译报错</b>，而是两路往同一块内存写、解析到对方那一半 JSON —— 偶发覆盖率掉、快讯乱码，极难查。现在改成 <code>netBufAcquire("market")</code> / <code>netBufRelease()</code>：借不到就返回空、打一行 <code>[net] 缓冲被 news 占用，market 本轮跳过</code>，调方跳过本轮。代价一个指针，把「玄学」变成「日志里一眼看到」。<br>
+      <b>② 整池替换只留一个入口</b>：<code>appInstallPool()</code>。网页「恢复默认股票池」原来自己手写 <code>storageSave + memcpy + buildRanks</code>，<b>漏了 <code>onPoolChanged</code></b> —— 换池后告警冷却 <code>alertAt</code> 不清（新票被旧票冷却压住，该闪不闪）、屏幕不重画、不立刻重抓，得等下一轮 5 秒。现在写盘失败就<b>不换内存池</b>（防止「App 说成功、掉电全丢」），成功才换池、重算三榜、触发回调；恢复默认页也补了写盘失败的报错页。<br>
+      <b>你能感觉到的差别</b>：几乎没有。唯一可见的是「恢复默认池」之后告警立刻正常、下一轮立刻出数。<br>
+      <b>体积</b>：app 1,662,960 B（1.59 MB）· full 1,728,496 B（1.65 MB）· Flash 94.7%（余约 88 KB）。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>固件 5.2.9 改了什么（上一版）—— 合掉两套 OTA、少白等一轮、把报错留下来</h2>
     <div class="meta" style="margin-bottom:14px">
       <b>① OTA 两套实现合一</b>（唯一有事故风险的一条）：<code>api.cpp</code>（App 推流）和 <code>portal.cpp</code>（网页表单）各自写了一份 <code>Update.begin/write/end</code>，还各自维护一份 <code>s_otaOk</code> —— 同一个 bin、两条路径、两套收尾判断，「网页刷成功、App 刷失败」就是这么来的。现在写入流水线只剩 <code>ota.cpp</code> 一份，两个入口只负责回 JSON 或 HTML。<b>顺带堵了一个真隐患</b>：原来某一块写失败只打一行日志，收尾照样 <code>Update.end(true)</code>，等于把半截镜像标成有效并切分区；现在中途失败就 <code>abort</code>，宁可这次升级失败，也不让你刷成砖。网页升级成功页还会显示实际写入多少 KB。<br>
       <b>② 开机首抓延后 300ms</b>：冷启动实测 <code>t=3744</code> 首抓 DNS 失败 → 隔 7.2 秒拿到 <code>body 不完整 got=4080/5675</code> → 第三次才成功，开机到出数 14.7 秒。真因是 DHCP 刚拿到 IP 就发请求，热点下发的 DNS 还没装进解析器（唤醒路径不撞：醒来是先作废 DNS 再连）。现在开机首抓等 300ms，抓取间隔本身一点没变。<br>
@@ -260,7 +274,6 @@
       <b>你会看到</b>：<code>/api/v1/log</code> 出现 <code>[cfg] 已载入 rc=…</code>、<code>[store] 载入 80 行</code>、<code>[ota] 开始 web/form</code> / <code>[ota] 结束 ok=1 size=1662464</code>；出问题把这几十行发出来就能定位，不用再接线读串口。<br>
       <b>体积</b>：app 1,662,464 B（1.59 MB）· full 1,728,000 B（1.65 MB）· Flash 占用 94.7%（余约 88 KB）。
     </div>
-  </div>
   </div>
 
   <div class="card">
