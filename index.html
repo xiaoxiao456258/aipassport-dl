@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.5<span class="tag">2026-11-25</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.6<span class="tag">2026-11-25</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.2.5 <span class="tag">行情复活 · 接口双通道自动切</span></div>
-        <div class="meta"><b>现象</b>：5.2.4 刷着刷着全屏 <code>--</code>，日志 <code>ALL FAIL got=-1 cl=-1 d=0 t=117 h=78 w=1043 f=-1</code> 一路刷到 <code>emFail=16</code>。<b>根因不是 WiFi</b>：DNS 0ms 命中、TCP 117ms 握手成功、1043 字节请求全发出去，只是对端一个字节都不回 —— 东财 <code>clist/get</code> 这个接口挂了（实测 2026-11-25 该路径全线零回包/502，同域 <code>stock/get</code>、<code>push2his</code> 都 200 正常）。<b>修法</b>：批量接口回切 <code>ulist.np/get</code>，并把两条路都留着 —— 连续两次零回包自动切换，不再"押一条、坏了全瞎"。<b>为什么不带 f14 名字</b>：实测 70 只含 f14 = 4911B，离 TCP 窗口 5760 只剩 849B，池子加到 82 只就跨窗口（历史 6.4KB 抽奖的老坑）；不含 f14 只有 3775B，余量 1985B。名字继续由补名小请求拿。<b>排障</b>：<code>/status</code> 新增 <code>emApi</code> 字段，直接看你当前走哪条通道。</div>
+        <div class="name">固件 5.2.6 <span class="tag">限流退避 · 别再撞墙</span></div>
+        <div class="meta"><b>先说结论</b>：5.2.5 报的“接口挂了”只对了一半。5.2.5 刷上后日志变成“有时通、有时零回包”，两个接口、四个域名全都一半成功 —— 本机实测同一出口 IP：<code>baidu</code>／<code>qt.gtimg.cn</code>／<code>hq.sinajs.cn</code> 9/9 全通，东财两条接口、四个域名、80 和 443 端口一律 ~20% 成功率；<b>空闲冷静 60 秒后单发立刻 200，间隔 20 秒发三次成两次，连发三次全灭</b>。这是<b>对端按来源 IP 的速率限制</b>，不是接口下线、不是 WiFi、不是驱动。<b>所以本版不换源，改“别撞墙”</b>：连败 1/2/3 次依次退避到 15/30/60 秒，成功一次立刻回 5 秒节拍；换域名改为同口连败 3 次才换（四个域名同一批 IP、同一份配额，换来换去只是多打一次 DNS）；接口自动切换阈值 2 次 → 6 次，且两次切换至少隔 120 秒，不再在限流时反复横跳刷日志；“假连接自救”的强制重关联阈值 2 轮 → 5 轮（限流时拆 WiFi 纯自伤）。<b>你会看到</b>：<code>[fetch-bg]</code> 成功照旧 5 秒，连续失败时间隔拉长到 15/30/60 秒；<code>/status</code> 的 <code>gap</code> 能直接看到当前节拍。<b>还剩什么</b>：限流是网络出口的，固件只能降低触发频率，不能消除。真要即时，把设备换到别的网络出口（手机热点／别的 WiFi）立竿见影。</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.2.5_app.bin" href="./v5.2.5_app.bin" download>v5.2.5_app.bin（1.58 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 98920cdd2a94b9fb2dacaa35412117d16efaee8751a483ef7b6e8e185dca9d27</div>
-    <a class="btn ghost" data-file="v5.2.5_full.bin" href="./v5.2.5_full.bin" download>v5.2.5_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 16bbf87b601869fabbc2f91476767cabae4812756dfe8528c529b95a6f825933</div>
+    <a class="btn" data-file="v5.2.6_app.bin" href="./v5.2.6_app.bin" download>v5.2.6_app.bin（1.58 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 22464f42522930e952654590c7c2973f9d844ac64bf39ea08c262e89e34da1d6</div>
+    <a class="btn ghost" data-file="v5.2.6_full.bin" href="./v5.2.6_full.bin" download>v5.2.6_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 f58d05abfa132966cb436f2bb79c9a3f7d84d83f46ebe25d6760fb32eb9f02c7</div>
   </div>
 
   <div class="card">
@@ -91,21 +91,25 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@d15e9f8b/v5.2.5_app.bin" download>v5.2.5_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,652,288 字节 · sha256 98920cdd…9d27</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@d15e9f8b/v5.2.5_full.bin" download>v5.2.5_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,717,824 字节 · sha256 16bbf87b…5933</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.2.6_app.bin" download>v5.2.6_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,652,496 字节 · sha256 22464f42…a1d6</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.2.6_full.bin" download>v5.2.6_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,718,032 字节 · sha256 f58d05ab…02c7</div>
   </div>
 
   <div class="card">
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 5.2.4（回退备用 · 上一版）</div>
-        <div class="meta">上一版：浅睡期间用 <code>esp_wifi_stop()</code> 真关射频，唤醒 1.07s 重连，省电逻辑正常。<b>但这版用已失效的 <code>clist/get</code> 接口</b>，刷回去行情会全空（全屏 <code>--</code>），只能用来验证睡眠/按键逻辑，不要当日常版用。再往回 5.2.3 同样受此影响。</div>
+        <div class="name">固件 5.2.5（回退备用 · 上一版）</div>
+        <div class="meta">上一版：接口双通道（<code>ulist.np</code> ⇄ <code>clist</code>）。方向对，但缺退避 —— 一旦被限流就 5 秒一轮硬撞，成功率约 20%，表现就是这个版本刷完全屏 <code>--</code>。只在 5.2.6 的退避节拍不合口味时回退。</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v5.2.4_app.bin" href="./v5.2.4_app.bin" download>v5.2.4_app.bin（1.57 MB）</a>
+    <a class="btn ghost" data-file="v5.2.6_app.bin" href="./v5.2.6_app.bin" download>v5.2.6_app.bin（1.58 MB）</a>
+    <div class="hash">sha256 98920cdd2a94b9fb2dacaa35412117d16efaee8751a483ef7b6e8e185dca9d27</div>
+    <a class="btn ghost" data-file="v5.2.6_full.bin" href="./v5.2.6_full.bin" download>v5.2.6_full.bin（1.64 MB）</a>
+    <div class="hash">sha256 16bbf87b601869fabbc2f91476767cabae4812756dfe8528c529b95a6f825933</div>
+    <a class="btn ghost" data-file="v5.2.4_app.bin" href="./v5.2.4_app.bin" download>更早：v5.2.4_app.bin（1.57 MB）</a>
     <div class="hash">sha256 5120be9d36955fc5ae494d961c25cda362af6488fe44904a171fd1f2c837d608</div>
     <a class="btn ghost" data-file="v5.2.4_full.bin" href="./v5.2.4_full.bin" download>v5.2.4_full.bin（1.64 MB）</a>
     <div class="hash">sha256 b5808d24a9bac78ae3c969eb96e6ebd894e2e427e4fa3a05b1d0d4285ff58eba</div>
@@ -184,24 +188,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v5.2.5_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.2.6_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v5.2.5_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.2.6_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v5.2.5_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.2.6_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v5.2.5_full.bin</code>（1.64 MB）。</li>
+      <li>下 <code>v5.2.6_full.bin</code>（1.64 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.5_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.6_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -211,10 +215,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.5_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.6_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.5_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.6_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -239,15 +243,19 @@
   </div>
 
   <div class="card">
-    <h2>固件 5.2.5 改了什么（本次）—— 行情全灭的修复 + 接口双通道</h2>
+    <h2>固件 5.2.6 改了什么（本次）—— 确认是“出口 IP 被限流”，改成不硬撞</h2>
     <div class="meta" style="margin-bottom:14px">
-      <b>症状</b>：屏幕全 <code>--</code>，日志一路 <code>[em*] ALL FAIL</code> → <code>emFail</code> 从 10 涨到 16，中间还触发"连续 10 轮失败 → 强制重关联"，重连成功拿回 IP 照样全灭。<br>
-      <b>日志怎么读</b>：<code>ALL FAIL got=-1 cl=-1 <b>d=0 t=117 h=78 w=1043 f=-1</b></code> —— <code>d=0</code> DNS 缓存命中、<code>t=117</code> TCP 117ms 握手成功、<code>w=1043</code> 请求 1043 字节全部发出、<code>h=78</code> 读头 78ms 就结束、<code>f=-1</code> <b>一个响应字节都没收到</b>。TCP 通、请求发完、对端直接断 —— 不是 WiFi，不是信号，不是省电（<code>ps=2</code> 是抓取窗口的 <code>WIFI_PS_NONE</code>，射频本来就全开）。<br>
-      <b>根因</b>：东财 <code>clist/get</code> 接口失效。2026-11-25 实测：该路径不同参数、不同节点 IP、80/443 全部零回包或 502；同域名 <code>stock/get</code>、<code>push2his</code> 都 200 正常，<code>ulist.np</code> 也 200 且字段齐全。所以不是域名挂、不是网络挂，就是这一个路径挂了。<br>
-      <b>修法一（换回）</b>：批量接口改回 <code>ulist.np/get</code>。<code>data.diff</code> 在 ulist 是数组、在 clist 是对象，解析已改成两种都认。<br>
-      <b>修法二（不再押单条）</b>：两条路都留着，<b>连续两次零回包自动切</b>另一条；成功即清零，不来回横跳。<code>/status</code> 新增 <code>emApi</code> 字段直接显示当前走哪条。<b>为什么这么改</b>：11-23 ulist 报错被当成"永久关停"、整体切 clist；11-25 clist 就死了。免费公开接口没有 SLA，押单条等于每次变更全瞎。<br>
-      <b>为什么不把 f14 名字塞进主请求</b>：实测 70 只含 f14 = 4911B，离 TCP 窗口 5760 只剩 849B，池子加到 82 只就跨窗口（历史 6.4KB 抽奖的老坑）；不含 f14 只有 3775B，余量 1985B，满池 100 只也不破线。名字继续由补名小请求拿。<br>
-      <b>/diag 同步修正</b>：探测目标从死掉的 <code>clist</code> 换成 <code>ulist.np</code>，否则诊断页会长期报红，掩盖真实链路状况。
+      <b>5.2.5 的判断错了一半</b>：当时认定“东财 <code>clist/get</code> 这一条路径挂了”。刷上 5.2.5 后日志变成<b>有时通、有时零回包</b>，两个接口、四个域名全都一半成功 —— 说明不是某条路径坏了。<br>
+      <b>本机复测（同一出口 IP，绕本地代理直连）</b>：<code>baidu</code>、<code>qt.gtimg.cn</code>、<code>hq.sinajs.cn</code> 各 3 次 <b>9/9 全通</b>；东财 <code>ulist.np</code> 2/8、<code>clist</code> 1/6、<code>push2his</code> 0/3、<code>stock/get</code> 1/3，80 与 443 端口一个样。<br>
+      <b>决定性的一组</b>：空闲冷静 60 秒后单发 = <b>200</b>；间隔 20 秒连发 3 次 = <b>2 成 1 败</b>；同一时刻无间隔连发 3 次 = <b>全灭</b>。<br>
+      <b>结论</b>：对端按<b>来源 IP + 时间窗</b>做速率限制（令牌桶）。设备 5 秒一轮 = 长期超配额，成功率约 20%，日志表现就是 <code>f=-1</code> 零回包（TCP 通、请求发完、50~180ms 被断）。换接口、换域名、换 80/443、换节点 IP 全部无效 —— 因为同域名同 IP 同配额。<br>
+      <b>本版改四处</b>：<br>
+      · <b>失败退避</b>：连败 1/2/3 次 → 下轮间隔 15/30/60 秒；成一次立刻回 5 秒。看到 <code>[fetch-bg] FAIL</code> 后刷新变慢是正常的，不是卡死。<br>
+      · <b>换域名只在同口连败 3 次后触发</b>：原来快速失败就换口，实际只是多打一次 DNS，成功率毫无变化。<br>
+      · <b>接口切换阈值 2 → 6 次，两次切换至少隔 120 秒</b>：限流时零回包也符合“接口挂”的特征，2 次就切会在两个接口间反复横跳，日志刷满、毫无收益。<br>
+      · <b>“假连接自救”阈值 2 轮 → 5 轮</b>：限流时也会连败，2 轮就拆 WiFi 重连纯属自伤。<br>
+      <b>为什么不用“换厂商兜底”</b>：新浪 40 只一批要 8.7KB（缓冲 9216 极限，需 2 批）、腾讯 80 只要 26.5KB（需 6 批）；请求次数越多越容易触发限流，方向相反。先看退避效果。<br>
+      <b>应急手段（比退避更快）</b>：把设备换到另一个网络出口（手机热点、别的 WiFi）—— 出口 IP 一换，配额立刻归零，实测有效。这是网络侧的事，固件做不到。
     </div>
   </div>
 
