@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.4<span class="tag">2026-11-25</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.5<span class="tag">2026-11-25</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.2.4 <span class="tag">浅睡更省电 · 睡时真关射频</span></div>
-        <div class="meta"><b>核心</b>：5.2.3 睡前只断了关联，WiFi 驱动仍在供电，浅睡期间白白漏电。本版睡前加 <code>esp_wifi_stop()</code>，把 MAC/射频运行态一起停掉；醒来 <code>esp_wifi_start()</code> 复原后立刻重连。<b>为什么不用"关 WiFi 模式"</b>：那会 deinit 驱动 + 重建网络接口，醒来要 5~15 秒；只 stop/start 保留全部配置，唤醒只多 0.2~0.5 秒。<b>兜底</b>：start 失败自动重试 3 次，仍不行退回 15 秒保活重连。<b>你会看到</b>：唤醒后约 2~4 秒重新出数，<code>[wake] wifiStart=ESP_OK</code>。省多少电待万用表实测，逻辑上砍掉整段射频待机漏流。</div>
+        <div class="name">固件 5.2.5 <span class="tag">行情复活 · 接口双通道自动切</span></div>
+        <div class="meta"><b>现象</b>：5.2.4 刷着刷着全屏 <code>--</code>，日志 <code>ALL FAIL got=-1 cl=-1 d=0 t=117 h=78 w=1043 f=-1</code> 一路刷到 <code>emFail=16</code>。<b>根因不是 WiFi</b>：DNS 0ms 命中、TCP 117ms 握手成功、1043 字节请求全发出去，只是对端一个字节都不回 —— 东财 <code>clist/get</code> 这个接口挂了（实测 2026-11-25 该路径全线零回包/502，同域 <code>stock/get</code>、<code>push2his</code> 都 200 正常）。<b>修法</b>：批量接口回切 <code>ulist.np/get</code>，并把两条路都留着 —— 连续两次零回包自动切换，不再"押一条、坏了全瞎"。<b>为什么不带 f14 名字</b>：实测 70 只含 f14 = 4911B，离 TCP 窗口 5760 只剩 849B，池子加到 82 只就跨窗口（历史 6.4KB 抽奖的老坑）；不含 f14 只有 3775B，余量 1985B。名字继续由补名小请求拿。<b>排障</b>：<code>/status</code> 新增 <code>emApi</code> 字段，直接看你当前走哪条通道。</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.2.4_app.bin" href="./v5.2.4_app.bin" download>v5.2.4_app.bin（1.57 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 5120be9d36955fc5ae494d961c25cda362af6488fe44904a171fd1f2c837d608</div>
-    <a class="btn ghost" data-file="v5.2.4_full.bin" href="./v5.2.4_full.bin" download>v5.2.4_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 b5808d24a9bac78ae3c969eb96e6ebd894e2e427e4fa3a05b1d0d4285ff58eba</div>
+    <a class="btn" data-file="v5.2.5_app.bin" href="./v5.2.5_app.bin" download>v5.2.5_app.bin（1.58 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 98920cdd2a94b9fb2dacaa35412117d16efaee8751a483ef7b6e8e185dca9d27</div>
+    <a class="btn ghost" data-file="v5.2.5_full.bin" href="./v5.2.5_full.bin" download>v5.2.5_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 16bbf87b601869fabbc2f91476767cabae4812756dfe8528c529b95a6f825933</div>
   </div>
 
   <div class="card">
@@ -91,21 +91,25 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@ac7b7ab2/v5.2.4_app.bin" download>v5.2.4_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,650,816 字节 · sha256 5120be9d…d608</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@ac7b7ab2/v5.2.4_full.bin" download>v5.2.4_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,716,352 字节 · sha256 b5808d24…8eba</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.2.5_app.bin" download>v5.2.5_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,652,288 字节 · sha256 98920cdd…9d27</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.2.5_full.bin" download>v5.2.5_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,717,824 字节 · sha256 16bbf87b…5933</div>
   </div>
 
   <div class="card">
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 5.2.3（回退备用 · 上一版）</div>
-        <div class="meta">上一版：修浅睡唤醒后 WiFi 假连接（睡前断关联、醒后立刻重连 + 假连接自救 + 抓取中禁睡）。功能正常，只是睡时射频仍由驱动供电。若 5.2.4 唤醒重连异常就退回本版</div>
+        <div class="name">固件 5.2.4（回退备用 · 上一版）</div>
+        <div class="meta">上一版：浅睡期间用 <code>esp_wifi_stop()</code> 真关射频，唤醒 1.07s 重连，省电逻辑正常。<b>但这版用已失效的 <code>clist/get</code> 接口</b>，刷回去行情会全空（全屏 <code>--</code>），只能用来验证睡眠/按键逻辑，不要当日常版用。再往回 5.2.3 同样受此影响。</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v5.2.3_app.bin" href="./v5.2.3_app.bin" download>v5.2.3_app.bin（1.57 MB）</a>
+    <a class="btn ghost" data-file="v5.2.4_app.bin" href="./v5.2.4_app.bin" download>v5.2.4_app.bin（1.57 MB）</a>
+    <div class="hash">sha256 5120be9d36955fc5ae494d961c25cda362af6488fe44904a171fd1f2c837d608</div>
+    <a class="btn ghost" data-file="v5.2.4_full.bin" href="./v5.2.4_full.bin" download>v5.2.4_full.bin（1.64 MB）</a>
+    <div class="hash">sha256 b5808d24a9bac78ae3c969eb96e6ebd894e2e427e4fa3a05b1d0d4285ff58eba</div>
+    <a class="btn ghost" data-file="v5.2.3_app.bin" href="./v5.2.3_app.bin" download>更早：v5.2.3_app.bin（1.57 MB）</a>
     <div class="hash">sha256 b914f7cf966e76a5153c209af58020941e6a3fbcc422174a60280380b0ab4437</div>
     <a class="btn ghost" data-file="v5.2.3_full.bin" href="./v5.2.3_full.bin" download>v5.2.3_full.bin（1.64 MB）</a>
     <div class="hash">sha256 fb0f00901c9ff22d09ca25a4b84e861cd573476b84012702f977d4af73eb7f37</div>
@@ -120,7 +124,7 @@
       <div class="icon alt">旧</div>
       <div>
         <div class="name">固件 5.1.0（回退备用）</div>
-        <div class="meta">更老的版：移除熔断与看门狗，失败只记诊断、不拉黑不退避。注意此版仍用已关停的 ulist.np 接口，退回来会停更，仅在 5.2.0 出现兼容问题时临时排查用</div>
+        <div class="meta">更老的版：移除熔断与看门狗，失败只记诊断、不拉黑不退避。走 <code>ulist.np</code> 单接口（无自动切换），睡眠与唤醒逻辑比 5.2.x 弱，仅在新版出现兼容问题时临时排查用</div>
       </div>
     </div>
     <a class="btn ghost" data-file="v5.1.0_app.bin" href="./v5.1.0_app.bin" download>v5.1.0_app.bin（1.57 MB）</a>
@@ -180,24 +184,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v5.2.4_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.2.5_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v5.2.4_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.2.5_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v5.2.4_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.2.5_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v5.2.4_full.bin</code>（1.64 MB）。</li>
+      <li>下 <code>v5.2.5_full.bin</code>（1.64 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.4_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.5_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -207,10 +211,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.4_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.5_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.4_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.5_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -235,16 +239,15 @@
   </div>
 
   <div class="card">
-    <h2>固件 5.2.4 改了什么（本次）—— 浅睡期间把射频真正停掉</h2>
+    <h2>固件 5.2.5 改了什么（本次）—— 行情全灭的修复 + 接口双通道</h2>
     <div class="meta" style="margin-bottom:14px">
-      <b>上一版留下的浪费</b>：5.2.3 睡前只做了 <code>WiFi.disconnect()</code> —— 那是"不再收发"，但 WiFi 驱动、MAC、射频前端仍然供电，浅睡几个小时就白漏几个小时。<br>
-      <b>本版做法</b>：断开之后再加一条 <code>esp_wifi_stop()</code>，把驱动运行态停掉；醒来 <code>esp_wifi_start()</code> 复原，然后立刻重连。<br>
-      · <b>只 stop，不 deinit</b>：网络接口、STA 配置、驱动内存全保留，唤醒复原只要约 0.2 秒<br>
-      · <b>不用 <code>WiFi.mode(WIFI_OFF)</code></b>：那会 deinit 驱动 + 重建网络接口，醒来 5~15 秒起步（5.2.2 切模式掉线 15~25 秒就是这套机制）<br>
-      · <b>不碰 Arduino 的 <code>enableSTA(false)</code></b>：会把"驱动是否启动"的标志与本模块脱钩，醒来重连会被静默跳过 —— 这是本版最需要小心的一处，已确认走纯 IDF 接口<br>
-      · <b>兜底</b>：<code>esp_wifi_start()</code> 失败自动重试 3 次；仍失败就交给 15 秒保活重连（必要时整驱动重建）<br>
-      <b>你会看到</b>：唤醒后约 2~4 秒重新出数（比 5.2.3 多 0.2~0.5 秒），日志里有 <code>[wake] wifiStart=ESP_OK</code>。<br>
-      <b>耗电</b>：省掉的是浅睡期间整段射频待机与驱动漏流，量级待万用表串测确认（估算几十微安，相对整机 0.2~0.35 mA 是一部分）。不省功能、不影响盘中抓取。
+      <b>症状</b>：屏幕全 <code>--</code>，日志一路 <code>[em*] ALL FAIL</code> → <code>emFail</code> 从 10 涨到 16，中间还触发"连续 10 轮失败 → 强制重关联"，重连成功拿回 IP 照样全灭。<br>
+      <b>日志怎么读</b>：<code>ALL FAIL got=-1 cl=-1 <b>d=0 t=117 h=78 w=1043 f=-1</b></code> —— <code>d=0</code> DNS 缓存命中、<code>t=117</code> TCP 117ms 握手成功、<code>w=1043</code> 请求 1043 字节全部发出、<code>h=78</code> 读头 78ms 就结束、<code>f=-1</code> <b>一个响应字节都没收到</b>。TCP 通、请求发完、对端直接断 —— 不是 WiFi，不是信号，不是省电（<code>ps=2</code> 是抓取窗口的 <code>WIFI_PS_NONE</code>，射频本来就全开）。<br>
+      <b>根因</b>：东财 <code>clist/get</code> 接口失效。2026-11-25 实测：该路径不同参数、不同节点 IP、80/443 全部零回包或 502；同域名 <code>stock/get</code>、<code>push2his</code> 都 200 正常，<code>ulist.np</code> 也 200 且字段齐全。所以不是域名挂、不是网络挂，就是这一个路径挂了。<br>
+      <b>修法一（换回）</b>：批量接口改回 <code>ulist.np/get</code>。<code>data.diff</code> 在 ulist 是数组、在 clist 是对象，解析已改成两种都认。<br>
+      <b>修法二（不再押单条）</b>：两条路都留着，<b>连续两次零回包自动切</b>另一条；成功即清零，不来回横跳。<code>/status</code> 新增 <code>emApi</code> 字段直接显示当前走哪条。<b>为什么这么改</b>：11-23 ulist 报错被当成"永久关停"、整体切 clist；11-25 clist 就死了。免费公开接口没有 SLA，押单条等于每次变更全瞎。<br>
+      <b>为什么不把 f14 名字塞进主请求</b>：实测 70 只含 f14 = 4911B，离 TCP 窗口 5760 只剩 849B，池子加到 82 只就跨窗口（历史 6.4KB 抽奖的老坑）；不含 f14 只有 3775B，余量 1985B，满池 100 只也不破线。名字继续由补名小请求拿。<br>
+      <b>/diag 同步修正</b>：探测目标从死掉的 <code>clist</code> 换成 <code>ulist.np</code>，否则诊断页会长期报红，掩盖真实链路状况。
     </div>
   </div>
 
