@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.6<span class="tag">2026-11-25</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.2.7<span class="tag">2026-11-25</span></div>
 
   <div class="card">
     <div class="row">
@@ -73,14 +73,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.2.6 <span class="tag">限流退避 · 别再撞墙</span></div>
-        <div class="meta"><b>先说结论</b>：5.2.5 报的“接口挂了”只对了一半。5.2.5 刷上后日志变成“有时通、有时零回包”，两个接口、四个域名全都一半成功 —— 本机实测同一出口 IP：<code>baidu</code>／<code>qt.gtimg.cn</code>／<code>hq.sinajs.cn</code> 9/9 全通，东财两条接口、四个域名、80 和 443 端口一律 ~20% 成功率；<b>空闲冷静 60 秒后单发立刻 200，间隔 20 秒发三次成两次，连发三次全灭</b>。这是<b>对端按来源 IP 的速率限制</b>，不是接口下线、不是 WiFi、不是驱动。<b>所以本版不换源，改“别撞墙”</b>：连败 1/2/3 次依次退避到 15/30/60 秒，成功一次立刻回 5 秒节拍；换域名改为同口连败 3 次才换（四个域名同一批 IP、同一份配额，换来换去只是多打一次 DNS）；接口自动切换阈值 2 次 → 6 次，且两次切换至少隔 120 秒，不再在限流时反复横跳刷日志；“假连接自救”的强制重关联阈值 2 轮 → 5 轮（限流时拆 WiFi 纯自伤）。<b>你会看到</b>：<code>[fetch-bg]</code> 成功照旧 5 秒，连续失败时间隔拉长到 15/30/60 秒；<code>/status</code> 的 <code>gap</code> 能直接看到当前节拍。<b>还剩什么</b>：限流是网络出口的，固件只能降低触发频率，不能消除。真要即时，把设备换到别的网络出口（手机热点／别的 WiFi）立竿见影。</div>
+        <div class="name">固件 5.2.7 <span class="tag">设备自愈 · 保内网 IP · 无冷却</span></div>
+        <div class="meta"><b>换思路</b>：5.2.6 走的是“被限流就少打”（退到 15/30/60 秒），代价是看板变慢，按你的意见不采用。<b>本版改成“设备自己把关开热点做一遍”</b> —— 你手动关开一次就恢复正常，说明该清的东西设备自己也能清。<br><b>关键事实</b>：关开热点时设备<b>内网 IP 并没有变</b>，网却好了 → 起作用的不是换 IP，而是关联 / DHCP 重跑 / 源端口 / DNS 缓存这几层重建，这些全在设备权限内。<b>本版硬约束就是“IP 不许变”</b>：全程不发 DHCPRELEASE、不切 WiFi 模式、不长时间停驱动（租约按 MAC 归还，重关联自然拿回同一个地址）。<br><b>六级阶梯，失败即升，无时间冷却</b>：①清 DNS 缓存+关旧连接 → ②钉公共 DNS（223.5.5.5/119.29.29.29）→ ③换接口 ulist⇄clist → ④换域名口 → ⑤断关联重连 → ⑥stop/start 驱动（≈0.6~1.5s，等同你自己的“关开热点”）。六轮约 30 秒走完全链，到顶后每轮重复第 ⑥ 级；成功一次立刻归零，节拍始终是设定的 5 秒。<br><b>不无脑爬梯</b>：每轮先花 200ms 判类型 —— 解析失败直接跳 ②；握手失败直接跳 ⑤；半截响应只做 ①。<br><b>唯一的闸门</b>（不是冷却）：手机正连着 AIPASS-STOCK 时，⑤⑥ 会连热点一起断，所以降到 ① 并挂起，等客户端走了立刻补做。<br><b>你会看到</b>：<code>[heal] L6 run=3 streak=7 act=wifistop ipSame=1</code>；<code>/status</code> 新增 <code>healLvl / healStreak / healRun / healAct / ipSame</code>；手动触发 <code>POST /api/v1/heal?level=1..6</code>（<code>&amp;force=1</code> 可在手机连着时强制执行）—— 不用关热点就能一级一级试出哪级有效。</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.2.6_app.bin" href="./v5.2.6_app.bin" download>v5.2.6_app.bin（1.58 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 22464f42522930e952654590c7c2973f9d844ac64bf39ea08c262e89e34da1d6</div>
-    <a class="btn ghost" data-file="v5.2.6_full.bin" href="./v5.2.6_full.bin" download>v5.2.6_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 f58d05abfa132966cb436f2bb79c9a3f7d84d83f46ebe25d6760fb32eb9f02c7</div>
+    <a class="btn" data-file="v5.2.7_app.bin" href="./v5.2.7_app.bin" download>v5.2.7_app.bin（1.58 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 6459a993803b59f9c4dbbf07fa131d9e8d5d2903a42793ba969e4a1e0f402d51</div>
+    <a class="btn ghost" data-file="v5.2.7_full.bin" href="./v5.2.7_full.bin" download>v5.2.7_full.bin（1.64 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 ff798a1b3ff7a3e44914525b934b41b7f070b80d0dd5f6bd67141d92600b0ec8</div>
   </div>
 
   <div class="card">
@@ -91,10 +91,10 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@1b3e2952/v5.2.6_app.bin" download>v5.2.6_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,652,496 字节 · sha256 22464f42…a1d6</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@1b3e2952/v5.2.6_full.bin" download>v5.2.6_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,718,032 字节 · sha256 f58d05ab…02c7</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.2.7_app.bin" download>v5.2.7_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,656,624 字节 · sha256 6459a993…2d51</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@main/v5.2.7_full.bin" download>v5.2.7_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,722,160 字节 · sha256 ff798a1b…0ec8</div>
   </div>
 
   <div class="card">
@@ -102,12 +102,12 @@
       <div class="icon alt">旧</div>
       <div>
         <div class="name">固件 5.2.5（回退备用 · 上一版）</div>
-        <div class="meta">上一版：接口双通道（<code>ulist.np</code> ⇄ <code>clist</code>）。方向对，但缺退避 —— 一旦被限流就 5 秒一轮硬撞，成功率约 20%，表现就是这个版本刷完全屏 <code>--</code>。只在 5.2.6 的退避节拍不合口味时回退。</div>
+        <div class="meta">上一版：接口双通道（<code>ulist.np</code> ⇄ <code>clist</code>），没有自愈阶梯。若 5.2.7 的 ⑤⑥ 级在你环境里表现不对（例如 AP 频繁断），退这个。</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v5.2.6_app.bin" href="./v5.2.6_app.bin" download>v5.2.6_app.bin（1.58 MB）</a>
+    <a class="btn ghost" data-file="v5.2.5_app.bin" href="./v5.2.5_app.bin" download>v5.2.5_app.bin（1.58 MB）</a>
     <div class="hash">sha256 98920cdd2a94b9fb2dacaa35412117d16efaee8751a483ef7b6e8e185dca9d27</div>
-    <a class="btn ghost" data-file="v5.2.6_full.bin" href="./v5.2.6_full.bin" download>v5.2.6_full.bin（1.64 MB）</a>
+    <a class="btn ghost" data-file="v5.2.5_full.bin" href="./v5.2.5_full.bin" download>v5.2.5_full.bin（1.64 MB）</a>
     <div class="hash">sha256 16bbf87b601869fabbc2f91476767cabae4812756dfe8528c529b95a6f825933</div>
     <a class="btn ghost" data-file="v5.2.4_app.bin" href="./v5.2.4_app.bin" download>更早：v5.2.4_app.bin（1.57 MB）</a>
     <div class="hash">sha256 5120be9d36955fc5ae494d961c25cda362af6488fe44904a171fd1f2c837d608</div>
@@ -188,24 +188,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v5.2.6_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.2.7_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v5.2.6_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.2.7_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v5.2.6_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.2.7_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v5.2.6_full.bin</code>（1.64 MB）。</li>
+      <li>下 <code>v5.2.7_full.bin</code>（1.64 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.6_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.2.7_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -215,10 +215,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.6_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.2.7_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.6_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.2.7_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
@@ -243,19 +243,21 @@
   </div>
 
   <div class="card">
-    <h2>固件 5.2.6 改了什么（本次）—— 确认是“出口 IP 被限流”，改成不硬撞</h2>
+    <h2>固件 5.2.7 改了什么（本次）—— 把关开热点这件事交给设备自己做</h2>
     <div class="meta" style="margin-bottom:14px">
-      <b>5.2.5 的判断错了一半</b>：当时认定“东财 <code>clist/get</code> 这一条路径挂了”。刷上 5.2.5 后日志变成<b>有时通、有时零回包</b>，两个接口、四个域名全都一半成功 —— 说明不是某条路径坏了。<br>
-      <b>本机复测（同一出口 IP，绕本地代理直连）</b>：<code>baidu</code>、<code>qt.gtimg.cn</code>、<code>hq.sinajs.cn</code> 各 3 次 <b>9/9 全通</b>；东财 <code>ulist.np</code> 2/8、<code>clist</code> 1/6、<code>push2his</code> 0/3、<code>stock/get</code> 1/3，80 与 443 端口一个样。<br>
-      <b>决定性的一组</b>：空闲冷静 60 秒后单发 = <b>200</b>；间隔 20 秒连发 3 次 = <b>2 成 1 败</b>；同一时刻无间隔连发 3 次 = <b>全灭</b>。<br>
-      <b>结论</b>：对端按<b>来源 IP + 时间窗</b>做速率限制（令牌桶）。设备 5 秒一轮 = 长期超配额，成功率约 20%，日志表现就是 <code>f=-1</code> 零回包（TCP 通、请求发完、50~180ms 被断）。换接口、换域名、换 80/443、换节点 IP 全部无效 —— 因为同域名同 IP 同配额。<br>
-      <b>本版改四处</b>：<br>
-      · <b>失败退避</b>：连败 1/2/3 次 → 下轮间隔 15/30/60 秒；成一次立刻回 5 秒。看到 <code>[fetch-bg] FAIL</code> 后刷新变慢是正常的，不是卡死。<br>
-      · <b>换域名只在同口连败 3 次后触发</b>：原来快速失败就换口，实际只是多打一次 DNS，成功率毫无变化。<br>
-      · <b>接口切换阈值 2 → 6 次，两次切换至少隔 120 秒</b>：限流时零回包也符合“接口挂”的特征，2 次就切会在两个接口间反复横跳，日志刷满、毫无收益。<br>
-      · <b>“假连接自救”阈值 2 轮 → 5 轮</b>：限流时也会连败，2 轮就拆 WiFi 重连纯属自伤。<br>
-      <b>为什么不用“换厂商兜底”</b>：新浪 40 只一批要 8.7KB（缓冲 9216 极限，需 2 批）、腾讯 80 只要 26.5KB（需 6 批）；请求次数越多越容易触发限流，方向相反。先看退避效果。<br>
-      <b>应急手段（比退避更快）</b>：把设备换到另一个网络出口（手机热点、别的 WiFi）—— 出口 IP 一换，配额立刻归零，实测有效。这是网络侧的事，固件做不到。
+      <b>起点</b>：你手动关开手机热点一次，设备就恢复稳定；而且<b>设备内网 IP 一直没变</b>。这两条合起来说明 —— 恢复不靠换 IP，靠的是关联重置 / DHCP 重跑 / 源端口重建 / DNS 缓存清空，<b>这四层设备自己全做得到</b>。5.2.6 走的"少打几次、退到 15/30/60 秒"代价是看板变慢，本版不采用（代码里的退避已删掉）。<br>
+      <b>六级阶梯，失败即升，不设任何时间冷却</b>：<br>
+      · <b>H1</b> 清 DNS 缓存 + 关旧 socket + 丢掉当前域名的解析结果（&lt;5ms，最便宜）<br>
+      · <b>H2</b> 把解析器钉到公共 DNS（223.5.5.5 / 119.29.29.29），不再用热点下发的那套<br>
+      · <b>H3</b> 换批量接口 <code>ulist.np</code> ⇄ <code>clist</code><br>
+      · <b>H4</b> 换域名口（push2 / 33 / 23 / push2his）<br>
+      · <b>H5</b> <code>disconnect(false,false)</code> + <code>begin()</code>：只断关联重连，不动模式、不擦配置<br>
+      · <b>H6</b> <code>esp_wifi_stop()</code> → 30ms → <code>esp_wifi_start()</code> → 重连：等同你自己的"关开热点"，实测 0.6~1.5s<br>
+      <b>节奏</b>：6 轮 ≈ 30 秒走完全链；到顶后每轮重复 H6（不是每 3 轮、也不是等冷却）；任何一次"整批成功且覆盖达标"立刻归零，节拍回到设定的 5 秒。<br>
+      <b>为什么不无脑爬</b>：每轮先判失败类型 —— 解析失败直接跳 H2，握手失败直接跳 H5，半截响应只做 H1。<br>
+      <b>为什么 IP 不会变</b>：DHCP 租约按 MAC 归还，重关联<b>不发 RELEASE</b>；H6 停 30ms 就起来，远小于租约续期窗口。全程禁止 <code>WiFi.mode(WIFI_OFF)</code>、<code>dhcpc_stop</code>、静态 IP 覆写、<code>ESP.restart()</code>。每次重连还会比对 <code>staIp</code>，把结果写进 <code>/status</code> 的 <code>ipSame</code>（只记录，不强行改回 —— 硬改会和热点地址池抢地址）。<br>
+      <b>唯一闸门</b>：手机正连着 AIPASS-STOCK 时 H5/H6 会把热点一起断，所以降级做 H1 并挂起；客户端一走立刻补做。这是"别踢掉正在看网页/正在 OTA 的手机"，不是冷却。<br>
+      <b>手动入口</b>：<code>POST /api/v1/heal?level=1..6</code>，加 <code>&amp;force=1</code> 可在手机连着时强做。不用关热点，就能一级一级问"到底哪级管用"。
     </div>
   </div>
 
