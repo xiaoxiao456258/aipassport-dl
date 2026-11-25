@@ -83,13 +83,27 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.4.1 <span class="tag">真机显示修复 · 字实心 · 背景压暗</span></div>
-        <div class="meta"><b>专修 5.4.0 真机实测的显示问题，功能与链路仍不动。</b><br><b>① 字发虚 → 实心</b>：v5.4 调色板最亮档只到 86.7%，16 档里没有一档是纯色，整屏字发灰；现恢复 gamma 2.2 感知混色 + i=15 强制纯 fg；并改 inkOnly 只落墨迹，消除相邻字底块互相覆盖导致的数字糊。<br><b>② 发亮蓝 → 近黑</b>：渐变方向原来是反的（顶暗底亮），现翻正为顶亮底暗；C_CARD/C_LINE 回退暗值，斑马行不再发亮抢字；状态栏底 0x2167→0x10E4，玻璃高光降暗。<br><b>③ 红绿回正</b>：涨 0xEB4B→0xFA69（#FF4C4A 正红），跌 0x4DF1→0x2DEE（#29BE73 正绿），不再是珊瑚粉/青色。<br><b>④ 状态栏/快讯</b>：BAR_H 34→36 拉开两行间距，分区擦除跟随渐变不再留色块；快讯 41→44px，正文两行上移到 y=0/16、页码移到 y=33，避开底部圆角遮挡（真机第二行被切的根因）。<br><b>⑤ 缺字方框 → 短横线</b>：新闻生僻名的刺眼白方框改为底部弱化短横线。<br><b>你能感觉到的差别</b>：字清晰实心、背景压回深色、红绿正常、快讯不缺行。<b>建议从 5.4.0 直接 OTA 升级。</b>行情/自愈/OTA 逻辑一行未动。</div>
+        <div class="name">固件 5.4.2 <span class="tag">笔画粗细修复 · 字重回 Medium</span></div>
+        <div class="meta"><b>专修 5.4.1 字比原字体细一半的问题，功能与链路仍不动。</b><br><b>根因</b>：v5.4 字库改用 Noto Sans SC 可变字体（VF）重新栅格化时，代码没设字重轴，可变字体默认 <code>wght=100</code>（Thin），而注释写的是 Medium 500。实测同 38 字墨量：原字 3815 → 5.4.1 仅 1913（一半），修后 3749（98.3%）。<br><b>修复</b>：NT18/NT12 显式设 <code>Medium</code>、NT13 设 <code>Bold</code>，重生成 4bpp 字库；灰阶占用 0 档 70%+→46.6%、15 档 5%→20.5%。<br><b>你能感觉到的差别</b>：字笔画粗细回到原字体水平，同时保留 16 档灰阶的细腻过渡。行情/自愈/OTA/配色/排版一行未动。<b>建议从 5.4.1 直接 OTA 升级。</b></div>
       </div>
     </div>
-    <a class="btn" data-file="v5.4.1_app.bin" href="./v5.4.1_app.bin" download>v5.4.1_app.bin（1.59 MB · 手机网页 OTA 就用这个）</a>
+    <a class="btn" data-file="v5.4.2_app.bin" href="./v5.4.2_app.bin" download>v5.4.2_app.bin（1.63 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 b4f33d415e2e786c0583ca7b9f853c3062a2852fe97e2d910c16278eee8903b4</div>
+    <a class="btn ghost" data-file="v5.4.2_full.bin" href="./v5.4.2_full.bin" download>v5.4.2_full.bin（1.66 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 a7c7e06aed617d9c5d7ee69f2d648a890faeca5c30a2064a527e6def97674032</div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon alt">旧</div>
+      <div>
+        <div class="name">固件 5.4.1 <span class="tag">回退备用 · 真机显示修复版</span></div>
+        <div class="meta">字笔画偏细（字重 Thin），已由 5.4.2 修复。若 5.4.2 有兼容问题可回退到此版。</div>
+      </div>
+    </div>
+    <a class="btn ghost" data-file="v5.4.1_app.bin" href="./v5.4.1_app.bin" download>v5.4.1_app.bin（回退 · 1.59 MB）</a>
     <div class="hash">sha256 c2f58e0e4e22254d2ece8ee1e60732d86c7d493c15fd540fe745a5f25ae916f7</div>
-    <a class="btn ghost" data-file="v5.4.1_full.bin" href="./v5.4.1_full.bin" download>v5.4.1_full.bin（1.66 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <a class="btn ghost" data-file="v5.4.1_full.bin" href="./v5.4.1_full.bin" download>v5.4.1_full.bin（回退 · 整片）</a>
     <div class="hash">sha256 813ad09c74a043e975f009dbe0f5134b1f90512ade0d1cee1ae5f6c7186f0e50</div>
   </div>
 
@@ -115,10 +129,10 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@b3a20c64/v5.4.1_app.bin" download>v5.4.1_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,670,160 字节 · sha256 c2f58e0e…916f7</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@b3a20c64/v5.4.1_full.bin" download>v5.4.1_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,735,696 字节 · sha256 813ad09c…0e50</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PIN_542/v5.4.2_app.bin" download>v5.4.2_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,657,120 字节 · sha256 b4f33d415e2e786c0583ca7b9f853c3062a2852fe97e2d910c16278eee8903b4</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PIN_542/v5.4.2_full.bin" download>v5.4.2_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,722,656 字节 · sha256 a7c7e06aed617d9c5d7ee69f2d648a890faeca5c30a2064a527e6def97674032</div>
   </div>
 
   <div class="card">
