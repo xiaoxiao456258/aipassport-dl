@@ -83,28 +83,28 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.4.2 <span class="tag">笔画粗细修复 · 字重回 Medium</span></div>
-        <div class="meta"><b>专修 5.4.1 字比原字体细一半的问题，功能与链路仍不动。</b><br><b>根因</b>：v5.4 字库改用 Noto Sans SC 可变字体（VF）重新栅格化时，代码没设字重轴，可变字体默认 <code>wght=100</code>（Thin），而注释写的是 Medium 500。实测同 38 字墨量：原字 3815 → 5.4.1 仅 1913（一半），修后 3749（98.3%）。<br><b>修复</b>：NT18/NT12 显式设 <code>Medium</code>、NT13 设 <code>Bold</code>，重生成 4bpp 字库；灰阶占用 0 档 70%+→46.6%、15 档 5%→20.5%。<br><b>你能感觉到的差别</b>：字笔画粗细回到原字体水平，同时保留 16 档灰阶的细腻过渡。行情/自愈/OTA/配色/排版一行未动。<b>建议从 5.4.1 直接 OTA 升级。</b></div>
+        <div class="name">固件 5.4.3 <span class="tag">真机糊边修复 · 字重 Regular</span></div>
+        <div class="meta"><b>专修 5.4.2 真机字糊、笔画粘连的问题，功能与链路仍不动。</b><br><b>根因</b>：5.4.2 把字重从 Thin 直接拉到 Medium，墨量翻倍到 3749（原字 3815），16 档灰阶在真实 LCD 上相邻发亮像素串扰 → 糊边拖影。<br><b>修复</b>：NT18/NT12 改设 <code>Regular (400)</code>，NT13 保持 <code>Bold</code>；墨量落到 3026（原字的 79%），比 5.4.1 明显粗、比 5.4.2 细一档，留出 21% 余量抑制糊边。<br><b>字重阶梯</b>：5.4.1 Thin 1913 → <b>5.4.3 Regular 3026</b> → 5.4.2 Medium 3749 → 原字 3815。<br><b>你能感觉到的差别</b>：字清晰不粘连，笔画比 5.4.1 饱满。行情/自愈/OTA/配色/排版一行未动。<b>建议从 5.4.2 直接 OTA 升级。</b></div>
       </div>
     </div>
-    <a class="btn" data-file="v5.4.2_app.bin" href="./v5.4.2_app.bin" download>v5.4.2_app.bin（1.63 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 b4f33d415e2e786c0583ca7b9f853c3062a2852fe97e2d910c16278eee8903b4</div>
-    <a class="btn ghost" data-file="v5.4.2_full.bin" href="./v5.4.2_full.bin" download>v5.4.2_full.bin（1.66 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 a7c7e06aed617d9c5d7ee69f2d648a890faeca5c30a2064a527e6def97674032</div>
+    <a class="btn" data-file="v5.4.3_app.bin" href="./v5.4.3_app.bin" download>v5.4.3_app.bin（1.63 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 f28249e6b37e142c34f09afb3f1c612c22025c532b5527255a2dff56b55a059d</div>
+    <a class="btn ghost" data-file="v5.4.3_full.bin" href="./v5.4.3_full.bin" download>v5.4.3_full.bin（1.66 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 73b6c1f6d9411f2986a2fd531b0455d276687f333cd765c514eedf676e12eb5d</div>
   </div>
 
   <div class="card">
     <div class="row">
       <div class="icon alt">旧</div>
       <div>
-        <div class="name">固件 5.4.1 <span class="tag">回退备用 · 真机显示修复版</span></div>
-        <div class="meta">字笔画偏细（字重 Thin），已由 5.4.2 修复。若 5.4.2 有兼容问题可回退到此版。</div>
+        <div class="name">固件 5.4.2 <span class="tag">回退备用 · Medium 字重版</span></div>
+        <div class="meta">真机字糊、笔画粘连，已由 5.4.3 降到 Regular 修复。若 5.4.3 有兼容问题可回退到此版。</div>
       </div>
     </div>
-    <a class="btn ghost" data-file="v5.4.1_app.bin" href="./v5.4.1_app.bin" download>v5.4.1_app.bin（回退 · 1.59 MB）</a>
-    <div class="hash">sha256 c2f58e0e4e22254d2ece8ee1e60732d86c7d493c15fd540fe745a5f25ae916f7</div>
-    <a class="btn ghost" data-file="v5.4.1_full.bin" href="./v5.4.1_full.bin" download>v5.4.1_full.bin（回退 · 整片）</a>
-    <div class="hash">sha256 813ad09c74a043e975f009dbe0f5134b1f90512ade0d1cee1ae5f6c7186f0e50</div>
+    <a class="btn ghost" data-file="v5.4.2_app.bin" href="./v5.4.2_app.bin" download>v5.4.2_app.bin（回退 · 1.63 MB）</a>
+    <div class="hash">sha256 b4f33d415e2e786c0583ca7b9f853c3062a2852fe97e2d910c16278eee8903b4</div>
+    <a class="btn ghost" data-file="v5.4.2_full.bin" href="./v5.4.2_full.bin" download>v5.4.2_full.bin（回退 · 整片）</a>
+    <div class="hash">sha256 a7c7e06aed617d9c5d7ee69f2d648a890faeca5c30a2064a527e6def97674032</div>
   </div>
 
   <div class="card">
@@ -129,10 +129,10 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@bcd682d3/v5.4.2_app.bin" download>v5.4.2_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,657,120 字节 · sha256 b4f33d415e2e786c0583ca7b9f853c3062a2852fe97e2d910c16278eee8903b4</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@bcd682d3/v5.4.2_full.bin" download>v5.4.2_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,722,656 字节 · sha256 a7c7e06aed617d9c5d7ee69f2d648a890faeca5c30a2064a527e6def97674032</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PIN_543/v5.4.3_app.bin" download>v5.4.3_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,657,120 字节 · sha256 f28249e6b37e142c34f09afb3f1c612c22025c532b5527255a2dff56b55a059d</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PIN_543/v5.4.3_full.bin" download>v5.4.3_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,722,656 字节 · sha256 73b6c1f6d9411f2986a2fd531b0455d276687f333cd765c514eedf676e12eb5d</div>
   </div>
 
   <div class="card">
