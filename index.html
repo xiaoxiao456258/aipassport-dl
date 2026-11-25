@@ -55,17 +55,27 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.5.0 + 固件 5.3.0<span class="tag">2026-11-25</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.6.0 + 固件 5.3.0<span class="tag">2026-11-25</span></div>
 
   <div class="card">
     <div class="row">
       <div class="icon">A股</div>
       <div>
-        <div class="name">AipassBoard v0.5.0</div>
-        <div class="meta">20.9 MB · Android 10 及以上 · 双池粘贴 · 自动找设备 · 不静默切 WiFi</div>
+        <div class="name">AipassBoard v0.6.0 <span class="tag">自动连接 · 运行监控 · 日志 · 后台告警</span></div>
+        <div class="meta"><b>适配固件 5.3.0 的大版本，P1~P4 一次做完。</b><br>
+        <b>① 不用再输网址</b>：打开就自动探活上次地址与当前网关，找不到再扫 /24（网关优先、32 并发、有进度）。切设备热点前<b>必弹确认</b>，不静默切手机 WiFi。<br>
+        <b>② 运行监控页</b>：链路（emApi / cov / cl·gt / 截断 / 失败原因）、自愈阶梯 H1~H6（当前级高亮 + 连败 / 累计 / 保 IP）、WiFi 健康（disc+原因码 / up+复位原因 / 省电设定 vs 实际 / STA·AP 信道）、电源堆水位（batt / lowBat / awakeHold / heap），每 3 秒自动刷新。<br>
+        <b>③ 设备日志页</b>：拉 <code>/api/v1/log</code> 环形缓冲，按 heal/wifi/em/ota/power/net/cfg 标签过滤。<br>
+        <b>④ 手动自愈</b>：H1~H6 六个按钮 + force 开关，取代手输 <code>?level=6&amp;force=1</code>；另有一键诊断、立刻抓一轮。<br>
+        <b>⑤ 设置页对齐 5.3.0</b>：删「深睡」文案（固件已删）；浅睡明确「仅 GPIO0 按键唤醒、无定时自唤醒」；<b>wifiPs 改三态 AUTO/MIN/MAX</b>（旧版把 AUTO 读成 MAX 再写回，静默丢配置）；亮度拆交易/空闲两档；补高级参数折叠。<br>
+        <b>⑥ OTA 不再早报成功</b>：上传完成只说「已写入」，等满 180 秒确认门 + 回读 <code>fw</code> 才报成功；若回滚会明确提示。<br>
+        <b>⑦ 后台告警（默认关）</b>：设置页开启后常驻低优先级通知，每 30 秒查一次：自愈卡 H5/H6 超 1 分钟、5 分钟内断连 &gt;10 次、设备重启时发通知；同类 5 分钟节流。需 Android 13+ 通知权限。<br>
+        <b>兼容</b>：固件 &lt; 5.2.7 自动隐藏自愈/日志入口，所有新字段带默认值，不会因缺字段崩溃。</div>
       </div>
     </div>
-    <a class="btn" data-file="AipassBoard_v0.5.apk" href="./AipassBoard_v0.5.apk" download>AipassBoard_v0.5.apk</a>
+    <a class="btn" data-file="AipassBoard_v0.6.apk" href="./AipassBoard_v0.6.apk" download>AipassBoard_v0.6.apk（22 MB · Android 10+）</a>
+    <div class="hash">sha256 cbc31c21643779dfc276960c30a4aea7f158ebdedc6d182e249fe94c20312fa3</div>
+    <a class="btn ghost" data-file="AipassBoard_v0.5.apk" href="./AipassBoard_v0.5.apk" download>AipassBoard_v0.5.apk（回退备用）</a>
     <div class="hash">sha256 f10d708e610b94918a3b2166c6e7bbcb9eccb1fea40715fe393e3f723c96ba18</div>
   </div>
 
