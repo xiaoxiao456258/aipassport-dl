@@ -83,14 +83,14 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.3.0 <span class="tag">共享缓冲加租约 · 换池只留一个入口</span></div>
-        <div class="meta"><b>本版不加任何功能，只还两块"现在不出事、以后必出事"的债。</b><br><b>① 共享响应缓冲从"注释约定"改成"租约"</b>（<code>netBufAcquire/Release</code>）：行情和快讯共用一块 9KB 接收缓冲，省了 8KB 内存 —— 但两者之间的规矩只写在 <code>net.h</code> 的一行注释里。哪天快讯被挪出网络任务、或者加第三个使用者，症状不是编译报错，而是<b>两路往同一块内存写、解析到对方那一半 JSON</b>：偶发覆盖率掉、快讯乱码、查三天查不出来。现在必须「借 → 用 → 还」，占用中再来借就返回空并打一行 <code>[net] 缓冲被 X 占用</code>，调方跳过本轮。代价 1 个指针，换来这类事故从"玄学"变成"日志里一眼看到"。<br><b>② 整池替换只留一个入口</b>（<code>appInstallPool</code>）：网页「恢复默认股票池」原来自己手写 <code>storageSave + memcpy + buildRanks</code>，<b>漏了 <code>onPoolChanged</code></b> —— 换池后告警冷却 <code>alertAt</code> 不清（新票被旧票的冷却压住，该闪的不闪）、屏幕不重画、不立刻重抓，要等下一轮 5 秒才动。现在所有"换整池"的入口都走同一个函数：写盘失败就<b>不换内存池</b>（避免 App 显示成功、掉电全丢），成功才换、才重算三榜、才触发回调。恢复默认页也补了写盘失败的报错页。<br><b>你能感觉到的差别</b>：几乎没有 —— 这两条都是防未来事故。唯一可见的是「恢复默认池」之后告警立刻正常、下一轮立刻出数。</div>
+        <div class="name">固件 5.4.0 <span class="tag">排版重排 · 16 灰阶字 · 背景高级感</span></div>
+        <div class="meta"><b>显示大改版，功能与链路不动。</b><br><b>① 排版重排</b>：状态栏 20→34px 双行（上行 WiFi/电量/源标/时间左右对称内缩，下行上证/盈亏 13px 语义色），榜头三字缩两字，榜单行 46→45px，快讯 46→41px。严格 320px 守恒。<br><b>② F2 字库</b>：中文 2bpp 4 灰阶 → <b>4bpp 16 灰阶</b>，字边缘细腻度 ×4；一级 3755 字 + 财经常用二级兜底共 3864 字，零缺字（A 股名实测一级覆盖 97.6%，缺的 8 字已收进兜底）。<br><b>③ C1 混色查表</b>：每像素 mix565 → 16 档预生成 LUT，渲染更快。<br><b>④ C3/C4 + B1–B4</b>：状态栏/榜头/快讯渐变底、玻璃顶高光、微噪点、边缘暗角、斑马行卡阴影、涨闪改柔白字+暗红底（夜间不炸眼）。<br><b>你能感觉到的差别</b>：状态栏一眼可读、字更细、夜间更柔。行情/自愈/OTA 逻辑一行未动。</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.3.0_app.bin" href="./v5.3.0_app.bin" download>v5.3.0_app.bin（1.59 MB · 手机网页 OTA 就用这个）</a>
-    <div class="hash">sha256 7a533d4580c1a0effe93f667f949375f9b082fdcef249c02d4b271692363e9eb</div>
-    <a class="btn ghost" data-file="v5.3.0_full.bin" href="./v5.3.0_full.bin" download>v5.3.0_full.bin（1.65 MB · 整片，含分区表，OTG/电脑刷）</a>
-    <div class="hash">sha256 b216abbca5d12e4c53732aaf3ea5408b0db6bf56f351ae0c840ea68ab2664d52</div>
+    <a class="btn" data-file="v5.4.0_app.bin" href="./v5.4.0_app.bin" download>v5.4.0_app.bin（1.59 MB · 手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 d0c76e796c2d26a86ce8b6ac0425252678813fc51865f4d2654f6e80516fa34a</div>
+    <a class="btn ghost" data-file="v5.4.0_full.bin" href="./v5.4.0_full.bin" download>v5.4.0_full.bin（1.66 MB · 整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 dd8cc0d1efaad59a235732662b74c73f5a6c77b46dfb01017ec44ef16ff2194e</div>
   </div>
 
   <div class="card">
