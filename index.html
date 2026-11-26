@@ -83,13 +83,27 @@
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.4.5 <span class="tag">4bpp 试验版 · 只换字形 · 其余全不动</span></div>
-        <div class="meta"><b>试字体用：只把字形换回 4bpp（16 灰阶、Regular 400），其余一行未动。</b><br><b>和 5.4.4 的唯一差别</b>：字库 NT18 6865字 2bpp → 3864字 4bpp；ui.cpp 解码从 2bit 换回 4bit + 16 档调色板。<b>行情 / 自愈 / OTA / 配色 / 排版 / 快讯全部和 5.4.4 逐字节一致</b>。<br><b>为什么要这一版</b>：5.4.4 的 2bpp 字正常但偏硬；这版拿来真机对比 4bpp 的细腻度，验证「半亮像素串扰」是否在所有场景下都不可接受。<br><b>已知风险</b>：5.4.0~5.4.3 的 4bpp 真机出现字显宽发糊（中间档半亮像素 LCD 串扰，模拟器测不出）。<b>如果真机又糊，刷回 5.4.4 即可</b>——下载页已保留回退卡。<b>建议从 5.4.4 OTA 升级试用，不满意立刻刷回。</b></div>
+        <div class="name">固件 5.4.6 <span class="tag">4bpp 微调字重 · 只动 NT18 · 其余全不动</span></div>
+        <div class="meta"><b>5.4.5 真机显示正常、但略细；本版只把 NT18 字重从 400 提到 450（Regular / Medium 之间），墨量约 +12%。</b><br><b>和 5.4.5 的唯一差别</b>：NT18_PX 字模重生成；CP / ADV / 字数 / box / 4bpp 灰阶 / ui.cpp 解码 / 行情 / 自愈 / OTA / 排版 / 配色 / 快讯全部逐字节一致。NT12、NT13 未动。<br><b>为什么不直接上 Medium 500</b>：5.4.2 用 500 真机发糊；450 是轻微加粗，先真机试。仍偏细下版可试 470；若发糊，刷回 5.4.5 或 5.4.4。<br><b>预览对比图</b>：docs/ui/font_546_compare.png（400 / 450 / 500 三档）。</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.4.5_app.bin" href="./v5.4.5_app.bin" download>v5.4.5_app.bin（手机网页 OTA 就用这个）</a>
+    <a class="btn" data-file="v5.4.6_app.bin" href="./v5.4.6_app.bin" download>v5.4.6_app.bin（手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 0e4dbdbe293d715e71475ae7d9ac0fb00528cfb8f261400e4d6b8b7e9d80fa6d</div>
+    <a class="btn ghost" data-file="v5.4.6_full.bin" href="./v5.4.6_full.bin" download>v5.4.6_full.bin（整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 7442469af970b605f2d36d5ca244528c5e0c5b81ca360175f313dfb80ae4609b</div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon alt">旧</div>
+      <div>
+        <div class="name">固件 5.4.5 <span class="tag">回退备用 · 4bpp Regular 400（显示正常）</span></div>
+        <div class="meta"><b>真机显示正常但略细。若 5.4.6 加粗后发糊，刷回此版。</b><br><b>试字体用：只把字形换回 4bpp（16 灰阶、Regular 400），其余一行未动。</b><br><b>和 5.4.4 的唯一差别</b>：字库 NT18 6865字 2bpp → 3864字 4bpp；ui.cpp 解码从 2bit 换回 4bit + 16 档调色板。<b>行情 / 自愈 / OTA / 配色 / 排版 / 快讯全部和 5.4.4 逐字节一致</b>。<br><b>为什么要这一版</b>：5.4.4 的 2bpp 字正常但偏硬；这版拿来真机对比 4bpp 的细腻度，验证「半亮像素串扰」是否在所有场景下都不可接受。<br><b>已知风险</b>：5.4.0~5.4.3 的 4bpp 真机出现字显宽发糊（中间档半亮像素 LCD 串扰，模拟器测不出）。<b>如果真机又糊，刷回 5.4.4 即可</b>——下载页已保留回退卡。<b>建议从 5.4.4 OTA 升级试用，不满意立刻刷回。</b></div>
+      </div>
+    </div>
+    <a class="btn ghost" data-file="v5.4.5_app.bin" href="./v5.4.5_app.bin" download>v5.4.5_app.bin（回退 · 手机网页 OTA 可用）</a>
     <div class="hash">sha256 3cce7eda3123e8643758e2c7fd3b5d84af9a2a555df7126caadeb2ee33bd4c4a</div>
-    <a class="btn ghost" data-file="v5.4.5_full.bin" href="./v5.4.5_full.bin" download>v5.4.5_full.bin（整片，含分区表，OTG/电脑刷）</a>
+    <a class="btn ghost" data-file="v5.4.5_full.bin" href="./v5.4.5_full.bin" download>v5.4.5_full.bin（回退 · 整片）</a>
     <div class="hash">sha256 388e92234109a16282e7e9c6ce563a13afc710693b8bc539c3c54cd9c8a9c675</div>
   </div>
 
@@ -129,10 +143,10 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@b8b5e81a/v5.4.5_app.bin" download>v5.4.5_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,658,112 字节 · sha256 3cce7eda3123e8643758e2c7fd3b5d84af9a2a555df7126caadeb2ee33bd4c4a</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@b8b5e81a/v5.4.5_full.bin" download>v5.4.5_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,723,648 字节 · sha256 388e92234109a16282e7e9c6ce563a13afc710693b8bc539c3c54cd9c8a9c675</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PENDING/v5.4.6_app.bin" download>v5.4.6_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,658,112 字节 · sha256 0e4dbdbe293d715e71475ae7d9ac0fb00528cfb8f261400e4d6b8b7e9d80fa6d</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PENDING/v5.4.6_full.bin" download>v5.4.6_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,723,648 字节 · sha256 7442469af970b605f2d36d5ca244528c5e0c5b81ca360175f313dfb80ae4609b</div>
   </div>
 
   <div class="card">
