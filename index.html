@@ -79,17 +79,32 @@
     <div class="hash">sha256 f10d708e610b94918a3b2166c6e7bbcb9eccb1fea40715fe393e3f723c96ba18</div>
   </div>
 
+  <!-- ANCHOR:MAIN -->
   <div class="card">
     <div class="row">
       <div class="icon alt">FW</div>
       <div>
-        <div class="name">固件 5.4.6 <span class="tag">4bpp 微调字重 · 只动 NT18 · 其余全不动</span></div>
+        <div class="name">固件 5.4.7 <span class="tag">详见说明</span></div>
+        <div class="meta"><b>字库渲染完善版</b>：①补 36 缺字（泸/圳/浏/泓/淼/璟/甬/鑫/钯/莞/禅/焱等，全仓语料扫描）；②抗锯齿量化改四舍五入 (cov+8)&gt;&gt;4，边缘更平滑；③UTF-8 解码加续字节校验，截断串不越界读。<br><b>风险</b>：量化口径全字库级变化（72% 字节），若真机发糊刷回 5.4.6。字重维持 wght450、4bpp/16 灰阶不变。</div>
+      </div>
+    </div>
+    <a class="btn" data-file="v5.4.7_app.bin" href="./v5.4.7_app.bin" download>v5.4.7_app.bin（手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 a2da8fcbbde633fe6ec2adf1c6bcccd4035797d67aa59693288debadb778f62b</div>
+    <a class="btn ghost" data-file="v5.4.7_full.bin" href="./v5.4.7_full.bin" download>v5.4.7_full.bin（整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 ec11c888ebb8276ccaffa43c7187fb71e1e61cd1fb361098b43afa2e8f538327</div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon alt">旧</div>
+      <div>
+        <div class="name">固件 5.4.6 <span class="tag">回退备用 · 见说明</span></div>
         <div class="meta"><b>5.4.5 真机显示正常、但略细；本版只把 NT18 字重从 400 提到 450（Regular / Medium 之间），墨量约 +12%。</b><br><b>和 5.4.5 的唯一差别</b>：NT18_PX 字模重生成；CP / ADV / 字数 / box / 4bpp 灰阶 / ui.cpp 解码 / 行情 / 自愈 / OTA / 排版 / 配色 / 快讯全部逐字节一致。NT12、NT13 未动。<br><b>为什么不直接上 Medium 500</b>：5.4.2 用 500 真机发糊；450 是轻微加粗，先真机试。仍偏细下版可试 470；若发糊，刷回 5.4.5 或 5.4.4。<br><b>预览对比图</b>：docs/ui/font_546_compare.png（400 / 450 / 500 三档）。</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.4.6_app.bin" href="./v5.4.6_app.bin" download>v5.4.6_app.bin（手机网页 OTA 就用这个）</a>
+    <a class="btn ghost" data-file="v5.4.6_app.bin" href="./v5.4.6_app.bin" download>v5.4.6_app.bin（回退 · 手机网页 OTA 可用）</a>
     <div class="hash">sha256 0e4dbdbe293d715e71475ae7d9ac0fb00528cfb8f261400e4d6b8b7e9d80fa6d</div>
-    <a class="btn ghost" data-file="v5.4.6_full.bin" href="./v5.4.6_full.bin" download>v5.4.6_full.bin（整片，含分区表，OTG/电脑刷）</a>
+    <a class="btn ghost" data-file="v5.4.6_full.bin" href="./v5.4.6_full.bin" download>v5.4.6_full.bin（回退 · 整片）</a>
     <div class="hash">sha256 7442469af970b605f2d36d5ca244528c5e0c5b81ca360175f313dfb80ae4609b</div>
   </div>
 
@@ -135,6 +150,7 @@
     <div class="hash">sha256 dd8cc0d1…194e</div>
   </div>
 
+  <!-- ANCHOR:CDN -->
   <div class="card">
     <div class="row">
       <div class="icon alt">快</div>
@@ -143,10 +159,10 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@f93fe75b/v5.4.6_app.bin" download>v5.4.6_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,658,112 字节 · sha256 0e4dbdbe293d715e71475ae7d9ac0fb00528cfb8f261400e4d6b8b7e9d80fa6d</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@f93fe75b/v5.4.6_full.bin" download>v5.4.6_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,723,648 字节 · sha256 7442469af970b605f2d36d5ca244528c5e0c5b81ca360175f313dfb80ae4609b</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PENDING/v5.4.7_app.bin" download>v5.4.7_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,664,144 字节 · sha256 a2da8fcbbde633fe6ec2adf1c6bcccd4035797d67aa59693288debadb778f62b</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PENDING/v5.4.7_full.bin" download>v5.4.7_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,729,680 字节 · sha256 ec11c888ebb8276ccaffa43c7187fb71e1e61cd1fb361098b43afa2e8f538327</div>
   </div>
 
   <div class="card">
