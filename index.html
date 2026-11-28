@@ -82,9 +82,26 @@
   <!-- ANCHOR:MAIN -->
   <div class="card">
     <div class="row">
-      <div class="icon alt">FW</div>
+      <div class="icon alt">8M</div>
       <div>
-        <div class="name">固件 5.4.8 <span class="tag">详见说明</span></div>
+        <div class="name">固件 5.5.0 <span class="tag">8MB 字库外置 · 需先刷字库</span></div>
+        <div class="meta"><b>首次使用必须先刷字库！</b>本版把 NT18 中文字库移到 flash 后 4MB（app 从 95.5% 降到 57.8%，释放 644KB）。<strong>刷本版固件前，请先用电脑/OTG 把 v5.5.0_font.bin 写到 0x400000</strong>（下方"字库"按钮 + esptool 命令），否则中文名会空白。字库只需刷一次，之后 OTA 升级固件不受影响。<br><b>回退</b>：本版不改分区表 / efuse / bootloader，直接用电脑线刷 v5.4.8_full.bin 即回原版。<br><b>发布方式</b>：本地编译新框架产物（云端仓库是老框架，无法编译外置字库模块）。</div>
+      </div>
+    </div>
+    <a class="btn" data-file="v5.5.0_app.bin" href="./v5.5.0_app.bin" download>v5.5.0_app.bin（手机网页 OTA · 需已刷字库）</a>
+    <div class="hash">sha256 d0539c9303b728cecaae13434c98b76c841da06859bf5d745871328e412fe5d0 · 1,033,920 字节</div>
+    <a class="btn" data-file="v5.5.0_font.bin" href="./v5.5.0_font.bin" download>v5.5.0_font.bin（字库 · 首次必刷到 0x400000）</a>
+    <div class="hash">sha256 16c1304e96ceb02f08b069c424447ccc2866b09b51987ba4ba827e39b6acba97 · 643,500 字节</div>
+    <a class="btn ghost" data-file="v5.5.0_full.bin" href="./v5.5.0_full.bin" download>v5.5.0_full.bin（整片 · 含分区表，OTG/电脑刷，不含字库）</a>
+    <div class="hash">sha256 81e5f5e1261bf15484b85bde4e7637b1ccddf7df1ba0459ba455541ff44753cd · 1,099,456 字节</div>
+    <div class="hash">字库烧录命令：<code>esptool --port COM3 write-flash 0x400000 v5.5.0_font.bin</code></div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="icon alt">旧</div>
+      <div>
+        <div class="name">固件 5.4.8 <span class="tag">回退备用 · 详见说明</span></div>
         <div class="meta"><b>稳定性修复版</b>：①自愈去掉唤醒预置阶梯(streak=4→0)、到顶重复 1→3 轮，根治长期卡 H5/H6；②数字提亮魔法数移到生成期查表；③涨速降位阈值 100→10，涨停不再挤邻列；④AP 窗口活跃强制 1s 刷新倒计时；⑤开机 WiFi 等待 8s→4s；⑥net 任务栈高水位写进 [stack] 日志（8KB/prio1 复核后维持）；⑦唤醒后须抓到首轮成功数据才允许熄屏（60s 兜底）。<br><b>发布方式</b>：本地编译新框架产物（云端仓库是老框架，无法编译自愈模块）。</div>
       </div>
     </div>
@@ -173,6 +190,12 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PENDING/v5.5.0_app.bin" download>v5.5.0_app.bin（加速 · 手机 OTA 用 · 需已刷字库）</a>
+    <div class="hash">下完核对：1,033,920 字节 · sha256 d0539c9303b728cecaae13434c98b76c841da06859bf5d745871328e412fe5d0</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PENDING/v5.5.0_font.bin" download>v5.5.0_font.bin（加速 · 字库 · 首次必刷）</a>
+    <div class="hash">下完核对：643,500 字节 · sha256 16c1304e96ceb02f08b069c424447ccc2866b09b51987ba4ba827e39b6acba97</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PENDING/v5.5.0_full.bin" download>v5.5.0_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,099,456 字节 · sha256 81e5f5e1261bf15484b85bde4e7637b1ccddf7df1ba0459ba455541ff44753cd</div>
     <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@deb62a3e/v5.4.8_app.bin" download>v5.4.8_app.bin（加速 · 手机 OTA 用）</a>
     <div class="hash">下完核对：1,676,688 字节 · sha256 311376e0f811b6c469c690305c231fbb7f77a66126545c42f553a68e3f6e9139</div>
     <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@deb62a3e/v5.4.8_full.bin" download>v5.4.8_full.bin（加速 · 整片）</a>
