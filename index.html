@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
   <h1>A股看板 · App 与固件</h1>
-  <div class="sub">ESP32-C3 三榜看板 · App v0.6.0 + 固件 5.3.0<span class="tag">2026-11-25</span></div>
+  <div class="sub">ESP32-C3 三榜看板 · App v0.6.0 + 固件 5.6.0<span class="tag">2026-11-25</span></div>
 
   <div class="card">
     <div class="row">
@@ -82,13 +82,31 @@
   <!-- ANCHOR:MAIN -->
   <div class="card">
     <div class="row">
+      <div class="icon alt">FW</div>
+      <div>
+        <div class="name">固件 5.6.0 <span class="tag">详见说明</span></div>
+        <div class="meta">全新8MB版：字库迁址独立分区0x510000+原生8MB bootloader/app header+分区门禁+OTA加固</div>
+      </div>
+    </div>
+    <a class="btn" data-file="v5.6.0_app.bin" href="./v5.6.0_app.bin" download>v5.6.0_app.bin（手机网页 OTA 就用这个）</a>
+    <div class="hash">sha256 20104167a700dfd1d3164f49ade298a00c95c816a7ea7930aff1318b42f1da74</div>
+    <div class="warn" style="margin-top:10px">首次必刷到 <code>0x510000</code>；分区表 / bootloader 只能线刷，OTA 永不修改；5.5.0 老表用户需先线刷字库迁址再 OTA。</div>
+    <a class="btn" data-file="v5.6.0_font.bin" href="./v5.6.0_font.bin" download>v5.6.0_font.bin（字库 · 首次必刷到 0x510000）</a>
+    <div class="hash">sha256 16c1304e96ceb02f08b069c424447ccc2866b09b51987ba4ba827e39b6acba97 · 643,500 字节</div>
+    <div class="hash">烧录命令：<code>esptool --port COM3 write-flash 0x510000 v5.6.0_font.bin</code></div>
+    <a class="btn ghost" data-file="v5.6.0_full.bin" href="./v5.6.0_full.bin" download>v5.6.0_full.bin（整片，含分区表，OTG/电脑刷）</a>
+    <div class="hash">sha256 55f8cb4d6d3ad24c4f88702974947ebfec79593540f633a67119475d1a820b9a</div>
+  </div>
+
+  <div class="card">
+    <div class="row">
       <div class="icon alt">8M</div>
       <div>
-        <div class="name">固件 5.5.0 <span class="tag">8MB 字库外置 · 需先刷字库</span></div>
+        <div class="name">固件 5.5.0 <span class="tag">回退备用 · 见说明</span></div>
         <div class="meta"><b>首次使用必须先刷字库！</b>本版把 NT18 中文字库移到 flash 后 4MB（app 从 95.5% 降到 57.8%，释放 644KB）。<strong>刷本版固件前，请先用电脑/OTG 把 v5.5.0_font.bin 写到 0x400000</strong>（下方"字库"按钮 + esptool 命令），否则中文名会空白。字库只需刷一次，之后 OTA 升级固件不受影响。<br><b>回退</b>：本版不改分区表 / efuse / bootloader，直接用电脑线刷 v5.4.8_full.bin 即回原版。<br><b>发布方式</b>：本地编译新框架产物（云端仓库是老框架，无法编译外置字库模块）。</div>
       </div>
     </div>
-    <a class="btn" data-file="v5.5.0_app.bin" href="./v5.5.0_app.bin" download>v5.5.0_app.bin（手机网页 OTA · 需已刷字库）</a>
+    <a class="btn ghost" data-file="v5.5.0_app.bin" href="./v5.5.0_app.bin" download>v5.5.0_app.bin（手机网页 OTA · 需已刷字库）</a>
     <div class="hash">sha256 d0539c9303b728cecaae13434c98b76c841da06859bf5d745871328e412fe5d0 · 1,033,920 字节</div>
     <a class="btn" data-file="v5.5.0_font.bin" href="./v5.5.0_font.bin" download>v5.5.0_font.bin（字库 · 首次必刷到 0x400000）</a>
     <div class="hash">sha256 16c1304e96ceb02f08b069c424447ccc2866b09b51987ba4ba827e39b6acba97 · 643,500 字节</div>
@@ -190,16 +208,13 @@
         <div class="meta">上面是 GitHub Pages，国内实测约 38 KB/s，1.57 MB 经常下半截 —— 半截镜像能写入、但校验过不了，就是这个报错。下面走 jsDelivr 实测约 250 KB/s，与上面的文件<strong>逐字节相同</strong>。下完对一下大小，不对就别刷。</div>
       </div>
     </div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@e29b875c/v5.5.0_app.bin" download>v5.5.0_app.bin（加速 · 手机 OTA 用 · 需已刷字库）</a>
-    <div class="hash">下完核对：1,033,920 字节 · sha256 d0539c9303b728cecaae13434c98b76c841da06859bf5d745871328e412fe5d0</div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@e29b875c/v5.5.0_font.bin" download>v5.5.0_font.bin（加速 · 字库 · 首次必刷）</a>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PENDING/v5.6.0_app.bin" download>v5.6.0_app.bin（加速 · 手机 OTA 用）</a>
+    <div class="hash">下完核对：1,040,480 字节 · sha256 20104167a700dfd1d3164f49ade298a00c95c816a7ea7930aff1318b42f1da74</div>
+    <div class="hash">首次必刷到 <code>0x510000</code>；分区表 / bootloader 只能线刷，OTA 永不修改；5.5.0 老表用户需先线刷字库迁址再 OTA。</div>
+    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PENDING/v5.6.0_font.bin" download>v5.6.0_font.bin（加速 · 字库 · 首次必刷到 0x510000）</a>
     <div class="hash">下完核对：643,500 字节 · sha256 16c1304e96ceb02f08b069c424447ccc2866b09b51987ba4ba827e39b6acba97</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@e29b875c/v5.5.0_full.bin" download>v5.5.0_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,099,456 字节 · sha256 81e5f5e1261bf15484b85bde4e7637b1ccddf7df1ba0459ba455541ff44753cd</div>
-    <a class="btn" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@deb62a3e/v5.4.8_app.bin" download>v5.4.8_app.bin（加速 · 手机 OTA 用）</a>
-    <div class="hash">下完核对：1,676,688 字节 · sha256 311376e0f811b6c469c690305c231fbb7f77a66126545c42f553a68e3f6e9139</div>
-    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@deb62a3e/v5.4.8_full.bin" download>v5.4.8_full.bin（加速 · 整片）</a>
-    <div class="hash">下完核对：1,742,224 字节 · sha256 087d28a905a6d99a07eaa31889f2f663c8e0c1e269431a798d55ed2f5a5c2800</div>
+    <a class="btn ghost" href="https://cdn.jsdelivr.net/gh/xiaoxiao456258/aipassport-dl@PENDING/v5.6.0_full.bin" download>v5.6.0_full.bin（加速 · 整片）</a>
+    <div class="hash">下完核对：1,106,016 字节 · sha256 55f8cb4d6d3ad24c4f88702974947ebfec79593540f633a67119475d1a820b9a</div>
   </div>
 
   <div class="card">
@@ -305,24 +320,24 @@
   <div class="card">
     <h2>最简单的刷法：不用电脑、不用数据线</h2>
     <ol>
-      <li>先在上面下 <code>v5.3.0_app.bin</code>，存手机里。</li>
+      <li>先在上面下 <code>v5.6.0_app.bin</code>，存手机里。</li>
       <li>手机 WiFi 连设备热点 <code>AIPASS-STOCK</code>，密码 <code>xiaoxiao123</code>。</li>
       <li>浏览器打开 <code>http://192.168.4.1/ota</code>。</li>
-      <li>点「选择文件」→ 选 <code>v5.3.0_app.bin</code> → <b>上传并升级</b>。</li>
+      <li>点「选择文件」→ 选 <code>v5.6.0_app.bin</code> → <b>上传并升级</b>。</li>
       <li>等 1~2 分钟，<b>中途千万别断电</b>。成功后会提示升级成功，设备自动重启。</li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      选文件只能选 <code>v5.3.0_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
+      选文件只能选 <code>v5.6.0_app.bin</code>，<b>不要选 full.bin</b> —— 整片包会把 bootloader 和分区表一起覆盖，网页 OTA 通道只该送 app 镜像。
     </div>
   </div>
 
   <div class="card">
     <h2>OTG 线刷整片（设备变砖 / 想恢复新分区表时）</h2>
     <ol>
-      <li>下 <code>v5.3.0_full.bin</code>（1.64 MB）。</li>
+      <li>下 <code>v5.6.0_full.bin</code>（1.64 MB）。</li>
       <li>装烧录 App：<b>ESP32_Flasher</b>（com.esp_flash.esp_flash_app）或 <b>ESPFlash</b>（io.serialflow.espflash）。</li>
       <li>用 <b>C to C 数据线</b>连板子（纯充电线枚举不出来，最常见的坑）。</li>
-      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.3.0_full.bin</b>，波特率 460800（不稳降 115200）。</li>
+      <li>芯片选 <b>ESP32-C3</b>，先 Erase 整片擦除，再写 <b>偏移 0x0 = v5.6.0_full.bin</b>，波特率 460800（不稳降 115200）。</li>
       <li>连不上：接上的瞬间<b>按住板上键再上电</b>（GPIO9/BOOT 下载模式）。</li>
     </ol>
   </div>
@@ -332,10 +347,10 @@
     <ol>
       <li><code>pip install esptool</code></li>
       <li><code>esptool --chip esp32c3 -p COM3 -b 460800 erase_flash</code></li>
-      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.3.0_full.bin</code></li>
+      <li><code>esptool --chip esp32c3 -p COM3 -b 460800 write_flash 0x0 v5.6.0_full.bin</code></li>
     </ol>
     <div class="warn" style="margin-top:12px">
-      只想升 app、不动分区表：<code>write_flash 0x10000 v5.3.0_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
+      只想升 app、不动分区表：<code>write_flash 0x10000 v5.6.0_app.bin</code>。<b>偏移必须是 0x10000</b>，用 0x20000 会 <code>rst:0x3</code> 起不来；必须 DIO / 80M。
     </div>
   </div>
 
